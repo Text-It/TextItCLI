@@ -1,0 +1,35 @@
+So in method 1 we have made a InputHandler thread (Demon Thread) which runs after a specific interval of time
+
+so this Thread calls two other thread knows as liketracker and follow tracker and wait till this two thread execute
+
+* Like Tracker
+
+--> how it trackes likes so what we do is we have one table which stores (postid (foreign key) , likeid(primary key) , userid (who liked the post) ) ( add some more coloum which must be added)  and other table which stores previous most recent like record ( int rowid (which is always 1 (final)) , previouslikecount , previous followcount)
+
+
+so or query is
+
+Statement s = con.getstatement(select previous_like_count from previousrecord);
+Resultset rs= s.executequery();
+if(rs.next()){
+int i = rs.getInt(1);
+}
+
+//now after getting last liked we will do this
+
+s= con.getstatement(select userid from TABLENAME where likeid>i);
+
+resultset rs = s.executequery();
+
+while(rs.next()){
+
+inboxhandle.notification(rs.getint());
+
+call method of inboxhandler named notification(int userid);
+
+this method execute query --> select username from userinfo where userid = userid;
+}
+
+* follow tracker
+
+same method as like tracker
