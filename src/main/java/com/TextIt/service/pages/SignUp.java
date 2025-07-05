@@ -1,9 +1,8 @@
 package com.TextIt.service.pages;
 
-import database.DataBase;
-import model.auth.Authentication;
-import model.exceptions.*;
-
+import com.TextIt.database.DataBase;
+import com.TextIt.model.auth.Authentication;
+import com.TextIt.model.exceptions.*;
 import java.sql.SQLException;
 
 class SignUp implements Authentication {
@@ -11,6 +10,7 @@ class SignUp implements Authentication {
     //Object's Of class Database
     DataBase db = new DataBase();
     DataBase.Profile profile = new DataBase.Profile();
+    DataBase.OTP otp = new DataBase.OTP();
 
 
     /**
@@ -41,7 +41,7 @@ class SignUp implements Authentication {
             if (!profile.isAvailable("username", username)) {
                 throw new DataAlreadyUsedException("Username already exists");
             }
-        } catch (EmptyInputException | DataAlreadyUsedException | SQLException e) {
+        } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -130,7 +130,7 @@ class SignUp implements Authentication {
             if (!profile.isAvailable("email", email)) {
                 throw new DataAlreadyUsedException("email already exists");
             }
-        } catch (EmptyInputException | DataAlreadyUsedException | SQLException e) {
+        } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -174,8 +174,7 @@ class SignUp implements Authentication {
             if (!profile.isAvailable("phonenumber", phoneNumber)) {
                 throw new DataAlreadyUsedException("phonenumber already exists");
             }
-        } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException |
-                 SQLException e) {
+        } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
         }

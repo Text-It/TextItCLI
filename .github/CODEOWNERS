@@ -1,0 +1,25 @@
+# This file defines the code owners for the TextIt project
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies code they own
+#
+# Last Updated: July 7, 2025
+
+# Default owners for everything in the repo
+* @textit-admin
+
+# Authentication and security related files
+/src/model/auth/ @security-team
+/src/security/ @security-team
+
+# Database related files
+/src/database/ @database-team
+
+# User interface components
+/src/service/pages/ @ui-team
+
+# Documentation
+/docs/ @docs-team
+*.md @docs-team
+
+# GitHub specific files
+/.github/ @textit-admin
