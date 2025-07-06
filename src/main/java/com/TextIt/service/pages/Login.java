@@ -47,7 +47,7 @@ public class Login {
             } else {
                 throw new UserDetailNotMatchException("no such user with this username or mobile number or email");
             }
-        } catch (SQLException | UserDetailNotMatchException e) {
+        } catch (UserDetailNotMatchException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -80,7 +80,7 @@ public class Login {
             } else {
                 throw new PasswordNotMatchException("password does not match");
             }
-        } catch (SQLException | PasswordNotMatchException e) {
+        } catch (PasswordNotMatchException e) {
             System.out.println(e.getMessage());
             return false;
         }
