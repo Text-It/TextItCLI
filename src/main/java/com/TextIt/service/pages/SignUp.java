@@ -9,7 +9,7 @@ import com.TextIt.model.exceptions.*;
 
 import java.sql.SQLException;
 
-class SignUp implements Authentication {
+public class SignUp implements Authentication {
 
     //Object's Of class Database
     DataBase db = new DataBase();
