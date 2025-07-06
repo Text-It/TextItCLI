@@ -38,7 +38,7 @@ class SignUp implements Authentication {
                 throw new EmptyInputException("Username is empty");
             }
 
-            if (!profile.isAvailable("username", username)) {
+            if (profile.isAvailable("username", username)) {
                 throw new DataAlreadyUsedException("Username already exists");
             }
         } catch (EmptyInputException | DataAlreadyUsedException e) {
@@ -127,7 +127,7 @@ class SignUp implements Authentication {
             if (email.isEmpty()) {
                 throw new EmptyInputException("Email can't be empty");
             }
-            if (!profile.isAvailable("email", email)) {
+            if (profile.isAvailable("email", email)) {
                 throw new DataAlreadyUsedException("email already exists");
             }
         } catch (EmptyInputException | DataAlreadyUsedException e) {
@@ -171,7 +171,7 @@ class SignUp implements Authentication {
             if (phoneNumber.length() < 10 || phoneNumber.length() > 15) {
                 throw new IllegalLengthException("Phone Number must contain 10 to 15 digits");
             }
-            if (!profile.isAvailable("phonenumber", phoneNumber)) {
+            if (profile.isAvailable("phonenumber", phoneNumber)) {
                 throw new DataAlreadyUsedException("phonenumber already exists");
             }
         } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException e) {
