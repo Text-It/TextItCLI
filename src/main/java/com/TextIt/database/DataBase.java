@@ -36,7 +36,7 @@ public class DataBase {
             ) {
                 statement.setString(1, input);
                 try (ResultSet rs = statement.executeQuery()) {
-                    return !rs.next(); // true = available
+                    return rs.next(); // true = entry already made in database
                 }
             } catch (SQLException e) {
                 System.err.println("Failed to check availability: " + e.getMessage());
