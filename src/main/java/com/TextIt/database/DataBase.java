@@ -40,7 +40,7 @@ public class DataBase {
 
             ResultSet rs = statement.executeQuery();
 
-            return !rs.next();
+            return rs.next();
         }
     }
 }

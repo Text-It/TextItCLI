@@ -38,11 +38,11 @@ public class Login {
     public boolean verifyUserDetail(String input) throws SQLException {
 
         try {
-            if (!profile.isAvailable("username", input)) {
+            if (profile.isAvailable("username", input)) {
                 return true;
-            } else if (!profile.isAvailable("phonenumber", input)) {
+            } else if (profile.isAvailable("phonenumber", input)) {
                 return true;
-            } else if (!profile.isAvailable("email", input)) {
+            } else if (profile.isAvailable("email", input)) {
                 return true;
             } else {
                 throw new UserDetailNotMatchException("no such user with this username or mobile number or email");
@@ -72,10 +72,10 @@ public class Login {
      */
     public boolean verifyPassword(String password) throws SQLException {
 
-        String hashedPassword = Hashing.generateHashCode(password);
+         String hashedPassword = Hashing.generateHashCode(password);
 
         try {
-            if (!profile.isAvailable("password", hashedPassword)) {
+            if (profile.isAvailable("password", hashedPassword)) {
                 return true;
             } else {
                 throw new PasswordNotMatchException("password does not match");
