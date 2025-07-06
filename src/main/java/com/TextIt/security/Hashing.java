@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hashing {
 
-    public static String hash(String input) {
+    public static String generateHashCode(String input) {
         try {
 
             // Create MessageDigest instance for SHA-256

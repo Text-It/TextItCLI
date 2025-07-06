@@ -8,7 +8,7 @@ public class DataBase {
     private static final String password = "dhruv@1221";
     private static Connection conn;
 
-    static public class Profile {
+    public static class Profile {
 
         /**
          * <h1>Method to find is input already occupied</h1>

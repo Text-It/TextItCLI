@@ -1,8 +1,9 @@
 package com.TextIt.service.pages;
 
-import database.DataBase;
-import model.auth.Authentication;
-import model.exceptions.*;
+import com.TextIt.model.auth.Authentication;
+import com.TextIt.model.exceptions.*;
+import com.TextIt.database.*;
+
 
 import java.sql.SQLException;
 
