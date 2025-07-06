@@ -1,8 +1,10 @@
 package com.TextIt.service.pages;
 
+
+
+import com.TextIt.database.DataBase;
 import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
-import com.TextIt.database.*;
 
 
 import java.sql.SQLException;
@@ -42,9 +44,11 @@ class SignUp implements Authentication {
             if (!profile.isAvailable("username", username)) {
                 throw new DataAlreadyUsedException("Username already exists");
             }
-        } catch (EmptyInputException | DataAlreadyUsedException | SQLException e) {
+        } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return true;
     }
@@ -131,9 +135,11 @@ class SignUp implements Authentication {
             if (!profile.isAvailable("email", email)) {
                 throw new DataAlreadyUsedException("email already exists");
             }
-        } catch (EmptyInputException | DataAlreadyUsedException | SQLException e) {
+        } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return true;
     }
