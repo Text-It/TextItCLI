@@ -1,5 +1,7 @@
 package com.TextIt.security;
 
+import com.TextIt.database.DataBase;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -24,6 +26,7 @@ public class OTPHandler {
     // Sender credentials (replace with your Gmail app password)
     private static final String SENDER_EMAIL = "noreply.textit@gmail.com";
     private static final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
+    static DataBase db = new DataBase();
 
     /**
      * Sample usage for testing OTP generation and sending.
@@ -48,6 +51,7 @@ public class OTPHandler {
         } catch (Exception e) {
             System.err.println("❌ Unexpected error occurred: " + e.getMessage());
         }
+
     }
 
     /**
