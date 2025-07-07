@@ -47,8 +47,6 @@ public class SignUp implements Authentication {
         } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return true;
     }
@@ -138,8 +136,6 @@ public class SignUp implements Authentication {
         } catch (EmptyInputException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return true;
     }
@@ -181,8 +177,7 @@ public class SignUp implements Authentication {
             if (profile.isAvailable("phonenumber", phoneNumber)) {
                 throw new DataAlreadyUsedException("phonenumber already exists");
             }
-        } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException |
-                 SQLException e) {
+        } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException e) {
             System.out.println(e.getMessage());
             return false;
         }
