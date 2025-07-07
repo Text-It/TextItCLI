@@ -1,6 +1,9 @@
 package com.TextIt.database;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
@@ -10,10 +13,38 @@ import java.sql.*;
 public class DataBase {
 
     // Database credentials and URL
-    private static final String url = "jdbc:postgresql://localhost:5432/Local TextIT";
-    private static final String username = "postgres";
-    private static final String password = "dhruv@1221";
+    private static String url = "";
+    private static String username = "";
+    private static  String password = "";
 
+    /**
+     * The {@code load}method is used to load {@code url},{@code password},{@code uername} to
+     * Databse class
+     *
+     *
+     *
+     *
+     */
+    public void loadDB(){
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+
+            if (input == null) {
+                System.out.println("Sorry, unable to find database.properties");
+                return;
+            }
+            props.load(input);
+
+             url = props.getProperty("db.url");
+             username = props.getProperty("db.username");
+             password = props.getProperty("db.password");
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     /**
      * The {@code Profile} class handles verification of unique user details
      * such as email, username, or phone number.
