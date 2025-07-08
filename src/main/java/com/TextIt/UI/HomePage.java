@@ -26,7 +26,7 @@ public class HomePage {
 
             System.out.println(YELLOW + "Welcome, " + username + "!" + RESET);
             System.out.println(YELLOW + "1. " + GREEN + "View Feed");
-            System.out.println(YELLOW + "2. " + BLUE + "View Profile");
+            System.out.println(YELLOW + "2. " + BLUE + "Profile");
             System.out.println(YELLOW + "3. " + PURPLE + "Search Users");
             System.out.println(YELLOW + "4. " + CYAN + "Create Post");
             System.out.println(YELLOW + "5. " + RED + "Logout" + RESET);
@@ -64,28 +64,39 @@ public class HomePage {
 
     private static void viewFeed() {
         System.out.println(GREEN + BOLD + "Viewing Feed..." + RESET);
-        waitForEnter();
+        Enter();
     }
 
     private static void viewProfile(String username) {
         System.out.println(BLUE + BOLD + "Profile of " + username + RESET);
-        waitForEnter();
+        Enter();
     }
 
     private static void searchUsers() {
         System.out.println(PURPLE + BOLD + "User Search" + RESET);
-        waitForEnter();
+       Enter();
     }
 
     private static void createPost() {
         System.out.println(CYAN + BOLD + "New Post" + RESET);
-        waitForEnter();
+        Enter();
+    }
+    private static void goToNext() {
+        System.out.println(CYAN + "\n Going to the next screen..." + RESET);
+        Enter();
     }
 
-    private static void waitForEnter() {
+    private static void goToPrevious() {
+        System.out.println(CYAN + "\n Going back to the previous screen..." + RESET);
+        Enter();
+    }
+
+    private static void Enter() {
         System.out.print(PURPLE + "\n(Press Enter to continue)" + RESET);
         sc.nextLine();
     }
+
+
 }
 
 
