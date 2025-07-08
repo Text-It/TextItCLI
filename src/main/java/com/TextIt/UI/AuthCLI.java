@@ -20,9 +20,7 @@ public class AuthCLI {
     private static final String CYAN = "\u001B[36m";
     private static final String BOLD = "\u001B[1m";
 
-    public static void main(String[] args) {
-        showWelcomeScreen();
-    }
+
 
     private static void showWelcomeScreen() {
         while (true) {
