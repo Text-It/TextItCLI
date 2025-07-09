@@ -24,9 +24,9 @@ import java.util.Random;
 public class OTPHandler {
 
     // Sender credentials (replace with your Gmail app password)
-    private static final String SENDER_EMAIL = "noreply.textit@gmail.com";
-    private static final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
-    static DataBase db = new DataBase();
+    private  final String SENDER_EMAIL = "noreply.textit@gmail.com";
+    private  final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
+    DataBase db = new DataBase();
 
     /**
      * Sample usage for testing OTP generation and sending.
@@ -34,23 +34,6 @@ public class OTPHandler {
      * @param args not used
      */
     public static void main(String[] args) {
-        String recipientEmail = "dhruvharani8@gmail.com";
-        String otp = generateOTP(6);
-
-        try {
-            sendOTP(recipientEmail, otp);
-            System.out.println("✅ OTP sent successfully to " + recipientEmail);
-        } catch (AuthenticationFailedException e) {
-            System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
-        } catch (SendFailedException e) {
-            System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
-        } catch (MessagingException e) {
-            System.err.println("❌ Messaging error: " + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("❌ Encoding error while setting sender name.");
-        } catch (Exception e) {
-            System.err.println("❌ Unexpected error occurred: " + e.getMessage());
-        }
 
     }
 
@@ -60,7 +43,7 @@ public class OTPHandler {
      * @param otpLength the number of digits in the OTP (commonly 6)
      * @return a randomly generated numeric OTP as a string
      */
-    public static String generateOTP(int otpLength) {
+    public String generateOTP(int otpLength) {
         Random random = new Random();
         StringBuilder otp = new StringBuilder();
         for (int i = 0; i < otpLength; i++) {
@@ -77,7 +60,7 @@ public class OTPHandler {
      * @throws MessagingException            if the email fails to send
      * @throws UnsupportedEncodingException  if the sender name uses unsupported encoding
      */
-    public static void sendOTP(String email, String otp) throws MessagingException, UnsupportedEncodingException {
+    public  void sendOTP(String email, String otp) throws MessagingException, UnsupportedEncodingException {
         // Setup Gmail SMTP server properties
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -109,7 +92,7 @@ public class OTPHandler {
      * @param otp the One-Time Password to be sent
      * @return the formatted email message body as a string
      */
-    private static String emailBody(String otp) {
+    private  String emailBody(String otp) {
         return """
                 Hello,
 
