@@ -2,31 +2,31 @@ package com.TextIt.UI;
 
 import com.TextIt.service.pages.Login;
 import com.TextIt.service.pages.SignUp;
+
 import java.util.Scanner;
 
 public class AuthCLI {
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final SignUp signUp = new SignUp();
-    private static final Login login = new Login();
+    private final Scanner scanner = new Scanner(System.in);
+    private final SignUp signUp = new SignUp();
+    private final Login login = new Login();
 
     // ANSI color codes
-    private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String YELLOW = "\u001B[33m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String PURPLE = "\u001B[35m";
-    private static final String CYAN = "\u001B[36m";
-    private static final String BOLD = "\u001B[1m";
+    private final String RESET = "\u001B[0m";
+    private final String RED = "\u001B[31m";
+    private final String GREEN = "\u001B[32m";
+    private final String YELLOW = "\u001B[33m";
+    private final String BLUE = "\u001B[34m";
+    private final String PURPLE = "\u001B[35m";
+    private final String CYAN = "\u001B[36m";
+    private final String BOLD = "\u001B[1m";
 
 
-
-    private static void showWelcomeScreen() {
+    private void showWelcomeScreen() {
         System.out.println(CYAN + BOLD + """
-            ╔════════════════════════════════════════╗
-            ║           Welcome to TextIt            ║
-            ╚════════════════════════════════════════╝
-            """ + RESET);
+                ╔════════════════════════════════════════╗
+                ║           Welcome to TextIt            ║
+                ╚════════════════════════════════════════╝
+                """ + RESET);
         System.out.println(YELLOW + "1. " + GREEN + "Sign Up");
         System.out.println(YELLOW + "2. " + BLUE + "Login");
         System.out.println(YELLOW + "3. " + RED + "Exit");
@@ -37,13 +37,15 @@ public class AuthCLI {
         scanner.nextLine(); // Consume newline
 
         switch (choice) {
-            case 1 : showSignUpScreen();
-            case 2 : showLoginScreen();
-            case 3 : {
+            case 1:
+                showSignUpScreen();
+            case 2:
+                showLoginScreen();
+            case 3: {
                 System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
                 System.exit(0);
             }
-            default : {
+            default: {
                 System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
                 pressEnterToContinue();
                 showWelcomeScreen();
@@ -51,12 +53,12 @@ public class AuthCLI {
         }
     }
 
-    private static void showSignUpScreen() {
+    private void showSignUpScreen() {
         System.out.println(GREEN + BOLD + """
-            ╔════════════════════════════════════════╗
-            ║               Sign Up                  ║
-            ╚════════════════════════════════════════╝
-            """ + RESET);
+                ╔════════════════════════════════════════╗
+                ║               Sign Up                  ║
+                ╚════════════════════════════════════════╝
+                """ + RESET);
 
         String username, password, email, phoneNumber;
 
@@ -85,12 +87,12 @@ public class AuthCLI {
         showWelcomeScreen();
     }
 
-    private static void showLoginScreen() {
+    private void showLoginScreen() {
         System.out.println(BLUE + BOLD + """
-            ╔════════════════════════════════════════╗
-            ║                Login                   ║
-            ╚════════════════════════════════════════╝
-            """ + RESET);
+                ╔════════════════════════════════════════╗
+                ║                Login                   ║
+                ╚════════════════════════════════════════╝
+                """ + RESET);
 
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
         String userInput = scanner.nextLine();
@@ -100,12 +102,12 @@ public class AuthCLI {
 
         try {
             if (login.verifyUserDetail(userInput) && login.verifyPassword(password)) {
-                System.out.println(GREEN + BOLD + "\n✅ Login successful!" + RESET);
+                System.out.println(GREEN + BOLD + "\n Login successful!" + RESET);
             } else {
-                System.out.println(RED + BOLD + "\n❌ Login failed. Please check your credentials." + RESET);
+                System.out.println(RED + BOLD + "\n Login failed. Please check your credentials." + RESET);
             }
         } catch (Exception e) {
-            System.out.println(RED + BOLD + "\n❌ An error occurred: " + e.getMessage() + RESET);
+            System.out.println(RED + BOLD + "\n An error occurred: " + e.getMessage() + RESET);
         }
 
         pressEnterToContinue();
@@ -113,7 +115,7 @@ public class AuthCLI {
     }
 
 
-    private static void pressEnterToContinue() {
+    private void pressEnterToContinue() {
         System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);
         scanner.nextLine();
     }
