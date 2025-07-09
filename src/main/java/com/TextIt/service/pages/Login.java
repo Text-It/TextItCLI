@@ -12,7 +12,7 @@ public class Login {
 
     //Object of class DataBase
     private final DataBase dataBase = new DataBase();
-    private final DataBase.Profile profile = new DataBase.Profile();
+    private final DataBase.Profile profile =dataBase.new Profile();
 
 
     /**

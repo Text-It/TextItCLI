@@ -12,8 +12,15 @@ import java.sql.SQLException;
 public class SignUp implements Authentication {
 
     //Object's Of class Database
+
     DataBase db = new DataBase();
-    DataBase.Profile profile = new DataBase.Profile();
+    DataBase.Profile profile = db.new Profile();
+
+    public static void main(String[] args) {
+        SignUp signup = new SignUp();
+        System.out.println(signup.verifyUsername("dhruv"));
+        System.out.println(signup.verifyUsername("vraj"));
+    }
 
 
     /**
