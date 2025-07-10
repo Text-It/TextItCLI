@@ -40,7 +40,7 @@ public class Login {
         try {
             if (profile.isAvailable("username", input)) {
                 return true;
-            } else if (profile.isAvailable("phonenumber", input)) {
+            } else if (profile.isAvailable("mobile_number", input)) {
                 return true;
             } else if (profile.isAvailable("email", input)) {
                 return true;

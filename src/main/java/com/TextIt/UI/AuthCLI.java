@@ -56,8 +56,10 @@ public class AuthCLI {
             switch (choice) {
                 case 1:
                     showSignUpScreen();
+                    break;
                 case 2:
                     showLoginScreen();
+                    break;
                 case 3: {
                     System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
                     System.exit(0);
@@ -78,60 +80,67 @@ public class AuthCLI {
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
-        String username, password, email = "khanjanmaheshwari7@gmail.com", phoneNumber, generatedOtp;
+        String username, password, email, phoneNumber, generatedOtp , firstName, lastName;
 
-        do {
-            System.out.print(YELLOW + "Enter email: " + RESET);
-            email = scanner.nextLine();
-        } while (!newUser.verifyEmail(email));
+        while (true) {
+            do {
+                System.out.print(YELLOW + "Enter email: " + RESET);
+                email = scanner.nextLine();
+            } while (!newUser.verifyEmail(email));
 
-        System.out.println("🔐 To proceed, we need to verify your email address.");
-        System.out.println("📧 A one-time verification code will be sent to your email.");
-        System.out.println("✅ You have 3 attempts to enter the correct OTP.");
-        System.out.println("---------------------------------------------------\n");
+            System.out.println("🔐 To proceed, we need to verify your email address.");
+            System.out.println("📧 A one-time verification code will be sent to your email.");
+            System.out.println("✅ You have 3 attempts to enter the correct OTP.");
+            System.out.println("---------------------------------------------------\n");
 
-        generatedOtp = OTPHandler.generateOTP(6);
+            generatedOtp = OTPHandler.generateOTP(6);
 
-        // Show progress feedback while sending OTP
-        System.out.print("📤 Sending OTP");
-        for (int dots = 0; dots < 3; dots++) {
-            try {
-                Thread.sleep(800); // Simulate progress indicator (800ms delay for each dot)
-                System.out.print(".");
-            } catch (InterruptedException ignored) {
-            }
-        }
-        System.out.println(); // move to next line
-
-        try {
-            OTPHandler.sendOTP(email, generatedOtp);
-            System.out.println("✅ OTP sent successfully to " + email);
-        } catch (AuthenticationFailedException e) {
-            System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
-        } catch (SendFailedException e) {
-            System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
-        } catch (MessagingException e) {
-            System.err.println("❌ Messaging error: " + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("❌ Encoding error while setting sender name.");
-        } catch (Exception e) {
-            System.err.println("❌ Unexpected error occurred: " + e.getMessage());
-        }
-        for (int i = 1; i <= 3; i++) {
-
-            System.out.print("Enter OTP (" + i + "/3): ");
-            String userInputOtp = scanner.nextLine();
-
-            if (userInputOtp.equals(generatedOtp)) {
-                System.out.println("✅ Email verification successful.");
-                break;
-            } else {
-                System.out.println("❌ Incorrect OTP. Please try again.");
-                if (i < 3) {
-                    System.out.println("Remaining attempts: " + (3 - i));
+            // Show progress feedback while sending OTP
+            System.out.print("📤 Sending OTP");
+            for (int dots = 0; dots < 3; dots++) {
+                try {
+                    Thread.sleep(800); // Simulate progress indicator (800ms delay for each dot)
+                    System.out.print(".");
+                } catch (InterruptedException ignored) {
                 }
             }
+            System.out.println(); // move to next line
+
+            try {
+                OTPHandler.sendOTP(email, generatedOtp);
+                System.out.println("✅ OTP sent successfully to " + email);
+                break;
+            } catch (AuthenticationFailedException e) {
+                System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
+            } catch (SendFailedException e) {
+                System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
+            } catch (MessagingException e) {
+                System.err.println("❌ Messaging error: " + e.getMessage());
+            } catch (UnsupportedEncodingException e) {
+                System.err.println("❌ Encoding error while setting sender name.");
+            } catch (Exception e) {
+                System.err.println("❌ Unexpected error occurred: " + e.getMessage());
+            }
         }
+            for (int i = 1; i <= 3; i++) {
+
+                System.out.print("Enter OTP (" + i + "/3): ");
+                String userInputOtp = scanner.nextLine();
+
+                if (userInputOtp.equals(generatedOtp)) {
+                    System.out.println("✅ Email verification successful.");
+                    break;
+                } else {
+                    System.out.println("❌ Incorrect OTP. Please try again.");
+                    if (i==3){
+                        return;
+                    }
+                    if (i < 3) {
+                        System.out.println("Remaining attempts: " + (3 - i));
+                    }
+                }
+            }
+
 
         do {
             System.out.print(YELLOW + "Enter username: " + RESET);
@@ -148,6 +157,16 @@ public class AuthCLI {
             System.out.print(YELLOW + "Enter phone number: " + RESET);
             phoneNumber = scanner.nextLine();
         } while (!newUser.verifyPhoneNumber(phoneNumber));
+
+        do {
+            System.out.print(YELLOW + "Enter First Name: " + RESET);
+            firstName = scanner.nextLine();
+        } while (!newUser.verifyRealName(firstName));
+
+        do {
+            System.out.print(YELLOW + "Enter Last Name: " + RESET);
+            lastName = scanner.nextLine();
+        } while (!newUser.verifyRealName(lastName));
 
         do {
 
@@ -171,7 +190,6 @@ public class AuthCLI {
 
             if (!(agreement == 'y')) {
                 System.out.println("❌ Registration aborted. You must accept the Terms & Conditions to proceed.");
-                System.exit(0);
             } else {
                 System.out.println("✅ Terms accepted. Proceeding with account creation...");
                 break;
