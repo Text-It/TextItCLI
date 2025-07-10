@@ -182,10 +182,22 @@ public class SignUp implements Authentication {
             if (phoneNumber.length() < 10 || phoneNumber.length() > 15) {
                 throw new IllegalLengthException("Phone Number must contain 10 to 15 digits");
             }
-            if (profile.isAvailable("phonenumber", phoneNumber)) {
+            if (profile.isAvailable("mobile_number", phoneNumber)) {
                 throw new DataAlreadyUsedException("phonenumber already exists");
             }
         } catch (IllegalLengthException | EmptyInputException | NumberFormatException | DataAlreadyUsedException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean verifyRealName(String input){
+        try {
+            if (input.isEmpty()) {
+                throw new EmptyInputException("Real Name can't be empty");
+            }
+        } catch (EmptyInputException e) {
             System.out.println(e.getMessage());
             return false;
         }
