@@ -16,6 +16,7 @@ public class AuthCLI {
     private final Scanner scanner = new Scanner(System.in);
     private final SignUp newUser = new SignUp();
     private final Login oldUser = new Login();
+    private final OTPHandler  otpHandler = new OTPHandler();
 
     // ANSI color codes
     private final String RESET = "\u001B[0m";
@@ -33,7 +34,7 @@ public class AuthCLI {
     }
 
 
-    private void showWelcomeScreen() {
+    public void showWelcomeScreen() {
 
         while (true) {
             System.out.println(CYAN + BOLD + """
@@ -95,7 +96,7 @@ public class AuthCLI {
             System.out.println("✅ You have 3 attempts to enter the correct OTP.");
             System.out.println("---------------------------------------------------\n");
 
-            generatedOtp = OTPHandler.generateOTP(6);
+            generatedOtp = otpHandler.generateOTP(6);
 
             // Show progress feedback while sending OTP
             System.out.print("📤 Sending OTP");
@@ -109,7 +110,7 @@ public class AuthCLI {
             System.out.println(); // move to next line
 
             try {
-                OTPHandler.sendOTP(email, generatedOtp);
+                otpHandler.sendOTP(email, generatedOtp);
                 System.out.println("✅ OTP sent successfully to " + email);
                 break;
             } catch (AuthenticationFailedException e) {
@@ -213,10 +214,10 @@ public class AuthCLI {
 
 
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
-        String input = sc.nextLine();
+        String userInput = scanner.nextLine();
 
         System.out.print(YELLOW + "Enter password: " + RESET);
-        String password = sc.nextLine();
+        String password = scanner.nextLine();
 
         try {
 
