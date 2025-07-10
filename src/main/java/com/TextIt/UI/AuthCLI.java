@@ -12,6 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AuthCLI {
+
     private final Scanner scanner = new Scanner(System.in);
     private final SignUp newUser = new SignUp();
     private final Login oldUser = new Login();
@@ -56,22 +57,23 @@ public class AuthCLI {
             switch (choice) {
                 case 1:
                     showSignUpScreen();
+
                     break;
                 case 2:
                     showLoginScreen();
                     break;
-                case 3: {
+
+                case 3:
+
                     System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
-                    System.exit(0);
-                }
-                default: {
+                    return;
+                default:
                     System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
-                    pressEnterToContinue();
-                    showWelcomeScreen();
-                }
             }
         }
     }
+
+   
 
     private void showSignUpScreen() {
         System.out.println(GREEN + BOLD + """
@@ -209,19 +211,23 @@ public class AuthCLI {
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
+
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
-        String userInput = scanner.nextLine();
+        String input = sc.nextLine();
 
         System.out.print(YELLOW + "Enter password: " + RESET);
-        String password = scanner.nextLine();
+        String password = sc.nextLine();
 
         try {
+
             if (oldUser.verifyUserDetail(userInput) && oldUser.verifyPassword(password)) {
                 System.out.println(GREEN + BOLD + "\n Login successful!" + RESET);
+
             } else {
                 System.out.println(RED + BOLD + "\n Login failed. Please check your credentials." + RESET);
             }
         } catch (Exception e) {
+
             System.out.println(RED + BOLD + "\n An error occurred: " + e.getMessage() + RESET);
         }
         pressEnterToContinue();
@@ -232,6 +238,6 @@ public class AuthCLI {
     private void pressEnterToContinue() {
         System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);
         scanner.nextLine();
+
     }
 }
-
