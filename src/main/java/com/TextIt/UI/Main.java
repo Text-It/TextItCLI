@@ -1,17 +1,22 @@
 package com.TextIt.UI;
 
 import com.TextIt.security.OTPHandler;
+import com.TextIt.service.pages.Feed;
+
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
+
 
 public class Main {
    static OTPHandler a = new OTPHandler();
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         String recipientEmail = "dhruvharani8@gmail.com";
         String otp = a.generateOTP(6);
+        AuthCLI o = new AuthCLI();
 
         try {
             a.sendOTP(recipientEmail, otp);
@@ -27,6 +32,9 @@ public class Main {
         } catch (Exception e) {
             System.err.println("❌ Unexpected error occurred: " + e.getMessage());
         }
+        Feed f =new Feed();
+        o.showWelcomeScreen();
+        System.out.println(f.loadAllPost());
 
     }
 }
