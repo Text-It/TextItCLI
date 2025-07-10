@@ -1,19 +1,28 @@
 package com.TextIt.service.pages;
 
 
-
 import com.TextIt.database.DataBase;
 import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
+import com.TextIt.security.OTPHandler;
 
-
-import java.sql.SQLException;
+import javax.mail.AuthenticationFailedException;
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
+import java.io.UnsupportedEncodingException;
 
 public class SignUp implements Authentication {
 
     //Object's Of class Database
     DataBase db = new DataBase();
-    DataBase.Profile profile = new DataBase.Profile();
+    DataBase.Profile profile = db.new Profile();
+
+    //Test PSVM
+    public static void main(String[] args) {
+        SignUp signup = new SignUp();
+        System.out.println(signup.verifyUsername("dhruv"));
+        System.out.println(signup.verifyUsername("vraj"));
+    }
 
 
     /**
@@ -40,7 +49,6 @@ public class SignUp implements Authentication {
             if (username.isEmpty()) {
                 throw new EmptyInputException("Username is empty");
             }
-
             if (profile.isAvailable("username", username)) {
                 throw new DataAlreadyUsedException("Username already exists");
             }
@@ -210,7 +218,7 @@ public class SignUp implements Authentication {
 
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) >= starting && input.charAt(i) <= ending) {
-            return true;
+                return true;
             }
         }
         return false;
