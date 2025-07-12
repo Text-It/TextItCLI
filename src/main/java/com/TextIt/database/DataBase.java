@@ -1,6 +1,9 @@
 package com.TextIt.database;
 
+import com.TextIt.security.Hashing;
+
 import java.sql.*;
+import java.time.LocalDate;
 
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
@@ -19,9 +22,9 @@ public class DataBase {
     }
 
     // Database credentials and URL
-    private final String url = "jdbc:postgresql://192.168.52.81:5432/TextIt";
-    private final String username = "dhruv";
-    private final String password = "dhruv@1221";
+    private final String DB_URL = "jdbc:postgresql://localhost:5432/Local TextIT";
+    private final String DB_USERNAME = "postgres";
+    private final String DB_PASSWORD = "dhruv@1221";
 
 
     /**
@@ -69,15 +72,56 @@ public class DataBase {
          */
         public boolean isAvailable(String field, String input) {
             String query = "SELECT user_id FROM users WHERE " + field + " = ?";
-            try (Connection conn = DriverManager.getConnection(url, username, password); PreparedStatement statement = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+
+                PreparedStatement statement = conn.prepareStatement(query);
+
                 statement.setString(1, input);
                 try (ResultSet rs = statement.executeQuery()) {
                     return rs.next(); // true = available
                 }
             } catch (SQLException e) {
-                System.err.println("Failed to check availability: " + e.getMessage());
+                System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
                 return false;
             }
+        }
+
+        public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email) {
+            String hashedPassword = Hashing.generateHashCode(password); // Hash the password
+            LocalDate currentDate = LocalDate.now();                    // Account creation date
+
+            String query = "INSERT INTO users (first_name, last_name, username, password_hash, mobile_number, email, created_at) " + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL , DB_USERNAME , DB_PASSWORD)) {
+
+                PreparedStatement ps = conn.prepareStatement(query);
+
+                ps.setString(1, firstName);
+                ps.setString(2, lastName);
+                ps.setString(3, username);
+                ps.setString(4, hashedPassword);
+                ps.setString(5, mobileNumber);
+                ps.setString(6, email);
+                ps.setDate(7, java.sql.Date.valueOf(currentDate));
+
+                int rowsInserted = ps.executeUpdate();
+                System.out.println("User registered successfully.");
+                return true;
+
+            } catch (SQLException e) {
+                System.err.println("Error occurred while registering user: " + e.getMessage());
+                e.printStackTrace(); // Optional: useful during debugging
+                return false;
+            }
+        }
+    }
+
+    public boolean isServerReachable() {
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+            return true;
+        } catch (SQLException e) {
+            System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
+            return false;
         }
     }
 }
