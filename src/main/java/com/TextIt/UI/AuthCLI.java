@@ -1,5 +1,6 @@
 package com.TextIt.UI;
 
+import com.TextIt.database.DataBase;
 import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.Login;
 import com.TextIt.service.pages.SignUp;
@@ -13,10 +14,14 @@ import java.util.Scanner;
 
 public class AuthCLI {
 
+
+    //Objects Of Different Classes
     private final Scanner scanner = new Scanner(System.in);
     private final SignUp newUser = new SignUp();
     private final Login oldUser = new Login();
+    private final DataBase connectivity = new DataBase();
     private final OTPHandler  otpHandler = new OTPHandler();
+
 
     // ANSI color codes
     private final String RESET = "\u001B[0m";
@@ -86,6 +91,10 @@ public class AuthCLI {
         String username, password, email, phoneNumber, generatedOtp , firstName, lastName;
 
         while (true) {
+            if (!connectivity.isServerReachable()){
+                pressEnterToContinue();
+                return;
+            }
             do {
                 System.out.print(YELLOW + "Enter email: " + RESET);
                 email = scanner.nextLine();
@@ -193,16 +202,25 @@ public class AuthCLI {
 
             if (!(agreement == 'y')) {
                 System.out.println("❌ Registration aborted. You must accept the Terms & Conditions to proceed.");
+                pressEnterToContinue();
             } else {
                 System.out.println("✅ Terms accepted. Proceeding with account creation...");
                 break;
             }
 
         } while (true);
-
-        System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
-        pressEnterToContinue();
-        showWelcomeScreen();
+        {
+            DataBase db = new DataBase();
+            DataBase.Profile profile = db.new Profile();
+            if (profile.registerUser(firstName,lastName,username,password,phoneNumber,email))
+                System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
+            else {
+                System.out.println(RED + BOLD + "\nSign up failed. Please try again." + RESET);
+                System.out.println("If you have already registered, please login.");
+            }
+            pressEnterToContinue();
+            showWelcomeScreen();
+        }
     }
 
     private void showLoginScreen() {

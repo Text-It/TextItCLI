@@ -75,7 +75,7 @@ public class Login {
          String hashedPassword = Hashing.generateHashCode(password);
 
         try {
-            if (profile.isAvailable("password", hashedPassword)) {
+            if (profile.isAvailable("password_hash", hashedPassword)) {
                 return true;
             } else {
                 throw new PasswordNotMatchException("password does not match");

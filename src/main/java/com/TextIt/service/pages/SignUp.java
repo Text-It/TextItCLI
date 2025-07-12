@@ -10,6 +10,7 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 
 public class SignUp implements Authentication {
 
