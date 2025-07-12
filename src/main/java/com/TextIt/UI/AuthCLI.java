@@ -178,27 +178,20 @@ public class AuthCLI {
 
         do {
 
-            System.out.println("\n📄  Terms & Conditions");
-            System.out.println("==================================================");
-            System.out.println("By using TextIT, you agree to the following terms:\n");
-
-            System.out.println("1.  You are solely responsible for the messages and content you share.");
-            System.out.println("2.  Misuse, spamming, or abusive behavior on the platform is prohibited.");
-            System.out.println("3.  Sharing offensive, hateful, violent, or illegal content is strictly forbidden.");
-            System.out.println("4.  Your data may be securely stored and used to improve user experience.");
-            System.out.println("5.  OTP verification is mandatory to maintain account authenticity and security.");
-            System.out.println("6.  You consent to receive system and security-related communications via email.");
-            System.out.println("7.  TextIT is a student project; no guarantees are made regarding uptime, support, or data backups.");
-            System.out.println("8.  Reverse-engineering, unauthorized access, or redistribution of the app or its source code is not allowed.");
-            System.out.println("9.  The platform is not intended for commercial or high-security use.");
-            System.out.println("10. All activities are logged for security and abuse prevention.");
-            System.out.println("11. Violations may result in suspension or permanent ban of your account.");
-            System.out.println("12. We are not liable for data loss, misuse, or service disruption.");
-            System.out.println("13. Use of the platform implies acceptance of updates to these terms.");
-            System.out.println("14. All rights reserved by TextIT Corporation © 2025");
-
-            System.out.println("==================================================");
-
+            System.out.println("\n📄 Terms & Conditions");
+            System.out.println("--------------------------------------------------");
+            System.out.println("By using TextIT, you agree to the following:");
+            System.out.println("1. You are responsible for the content you share.");
+            System.out.println("2. Misuse or abuse of the platform is strictly prohibited.");
+            System.out.println("3. You will not share offensive, hateful, or illegal content.");
+            System.out.println("4. Your data may be stored securely for service enhancement.");
+            System.out.println("5. OTP verification ensures account authenticity and security.");
+            System.out.println("6. You consent to receive transactional emails related to security.");
+            System.out.println("7. TextIT is a student project and does not guarantee data backups.");
+            System.out.println("8. You agree not to reverse-engineer or distribute the source code.");
+            System.out.println("9. Violations may result in temporary or permanent account suspension.");
+            System.out.println("10. All rights reserved by TextIT Corporation © 2025");
+            System.out.println("--------------------------------------------------");
 
             System.out.print("🔒 Do you accept the Terms & Conditions? (Y/N): ");
             char agreement = scanner.nextLine().toLowerCase().charAt(0);
