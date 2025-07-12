@@ -22,12 +22,24 @@ public class DataBase {
     }
 
     // Database credentials and URL
+
     private final String DB_URL = "jdbc:postgresql://localhost:5432/Local TextIT";
     private final String DB_USERNAME = "postgres";
     private final String DB_PASSWORD = "dhruv@1221";
 
 
-    /**
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+/**
      * The {@code load}method is used to load {@code url},{@code password},{@code uername} to
      * Databse class
      *
