@@ -4,9 +4,12 @@ package com.TextIt.service.pages;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.model.exceptions.*;
+import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
+import com.TextIt.security.OTPHandler;
+import java.util.Scanner;
 
-import java.sql.SQLException;
+import static com.TextIt.model.utils.CommonMethods.*;
 
 public class Login {
 
@@ -17,7 +20,7 @@ public class Login {
 
     /**
      * <h1>User Details</h1>
-     * <p>This method is used to check whether a user with the following detail is signed in simple terms does a user exist with this details
+     * <p>This method is used to check whether a user with the following detail is signed in simple terms does a user exist with this detail
      * <br>
      * These details are checked
      * <br>
@@ -27,15 +30,14 @@ public class Login {
      * <br>
      * 3)Email
      * <br>
-     * Atleast one out of the above three conditions must be satisfied
+     * At least one out of the above three conditions must be satisfied
      * <br>
      * </p>
      *
      * @param input user provided detail(name , phone number , email)
-     * @return true, if one out of three conditions satisfies else it returns false
-     * @throws SQLException if server crashes or poor connection
+     * @return true, if one out of three conditions satisfies else, it returns false
      */
-    public boolean verifyUserDetail(String input) throws SQLException {
+    public boolean verifyUserDetail(String input){
 
         try {
             if (profile.isAvailable("username", input)) {
@@ -45,7 +47,7 @@ public class Login {
             } else if (profile.isAvailable("email", input)) {
                 return true;
             } else {
-                throw new UserDetailNotMatchException("no such user with this username or mobile number or email");
+                throw new UserDetailNotMatchException("no such user exists with the given detail");
             }
         } catch (UserDetailNotMatchException e) {
             System.out.println(e.getMessage());
@@ -53,24 +55,64 @@ public class Login {
         }
     }
 
+    public void handleForgotPassword(Scanner scanner){
+
+        //Object of Signup
+        SignUp signup = new SignUp();
+
+        //Variables
+        String email;
+        String newPassword;
+
+        System.out.println(CYAN + "\nVerifying your identity..." + RESET);
+
+        System.out.print(YELLOW + "Enter your registered email for verification: " + RESET);
+        email = scanner.nextLine();
+
+        if(!verifyUserDetail(email)){
+            return;
+        }
+
+        String generatedOtp = OTPHandler.generateOTP(6);       // generate a 6 digit otp
+
+        if (!OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
+            return;
+        }
+
+        if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by a user is right or wrong
+            return;
+        }
+
+        do {
+            System.out.print(YELLOW + "Enter your new password: " + RESET);
+            newPassword = scanner.nextLine();
+        } while (!signup.verifyPassword(newPassword));
+
+        String hashedPassword = Hashing.generateHashCode(newPassword);
+
+        if(profile.updateProfile("password_hash" , hashedPassword , "email" , email )){
+            System.out.println(GREEN + "\nPassword updated successfully" + RESET);
+            CommonMethods.pressEnterToContinue();
+        }
+    }
+
     /**
      * <h1>Password Validator</h1>
      * <p>
-     * This method is used to check if the input password matches with the password provided at time of account creation
+     * This method is used to check if the input password matches with the password provided at the time of account creation
      * <br>
      * Steps
      * <br>
-     * 1) First user provided password is converted to hash because in database password is stored in hashcode because of security purpose
+     * 1) First user-provided password is converted to hash because in database password is stored in hashcode because of security purpose
      * <br>
      * 2) Then this converted hashed password is checked if it is correct or not
      * <br>
      * </p>
      *
      * @param password user provided password
-     * @return true, if password matches else false
-     * @throws SQLException if server crashes or poor connection
+     * @return true, if the password matches else false
      */
-    public boolean verifyPassword(String password) throws SQLException {
+    public boolean verifyPassword(String password){
 
          String hashedPassword = Hashing.generateHashCode(password);
 
@@ -85,4 +127,4 @@ public class Login {
             return false;
         }
     }
-}
+    }

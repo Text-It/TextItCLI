@@ -4,13 +4,7 @@ package com.TextIt.service.pages;
 import com.TextIt.database.DataBase;
 import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
-import com.TextIt.security.OTPHandler;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 
 public class SignUp implements Authentication {
 
@@ -40,7 +34,7 @@ public class SignUp implements Authentication {
      * On fulfilling the above conditions, a username is assigned to an account
      * <br>
      *
-     * @param username user provided username
+     * @param username user-provided username
      * @return true if the username is validly else false
      */
     @Override
@@ -80,7 +74,7 @@ public class SignUp implements Authentication {
      * On fulfilling the above condition, a password is set for an account
      *
      * @param password user provided password
-     * @return true if the password is validly else false
+     * @return true if the password is valid else false
      */
     @Override
     public boolean verifyPassword(String password) {
@@ -130,7 +124,7 @@ public class SignUp implements Authentication {
      * <br>
      *
      * @param email user provided email
-     * @return true if the email is validly else false
+     * @return true if the email is valid else false
      */
     @Override
     public boolean verifyEmail(String email) {
@@ -150,7 +144,7 @@ public class SignUp implements Authentication {
     }
 
     /**
-     * This Method is to validate phone number
+     * This Method is to validate a phone number
      *
      * <p>
      * Factors for a valid phone number
@@ -163,11 +157,11 @@ public class SignUp implements Authentication {
      * <br>
      * 4) Should not be associated with another account.
      * <br>
-     * On fulfilling the above conditions, phone number is assigned to an account
+     * On fulfilling the above conditions, a phone number is assigned to an account
      * </p>
      *
      * @param phoneNumber user provided phone number
-     * @return true if the above conditions are satisfied else returns false
+     * @return true if the above conditions are satisfied, else returns false
      */
     @Override
     public boolean verifyPhoneNumber(String phoneNumber) {
@@ -205,6 +199,13 @@ public class SignUp implements Authentication {
         return true;
     }
 
+    public boolean verifyAddress(String input){
+
+        return true;
+    }
+
+
+
     /**
      * This method is used to find whether a character is found in the provided input field
      * <br>
@@ -223,9 +224,9 @@ public class SignUp implements Authentication {
      * <br>
      *
      * @param input    user provided input
-     * @param starting is the start point of range of characters
-     * @param ending   is the ending character of range of characters
-     * @return true, if a character is found in the field else returns false
+     * @param starting is the start point of a range of characters
+     * @param ending   is the ending character of a range of characters
+     * @return true, if a character is found in the field, else returns false
      */
     private boolean isCharFound(String input, char starting, char ending) {
 
