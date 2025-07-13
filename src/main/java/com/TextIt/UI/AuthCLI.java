@@ -1,56 +1,44 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
+import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.Login;
 import com.TextIt.service.pages.SignUp;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
-import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class AuthCLI {
+import static com.TextIt.model.utils.CommonMethods.*;
 
+public class AuthCLI {
 
     //Objects Of Different Classes
     private final Scanner scanner = new Scanner(System.in);
     private final SignUp newUser = new SignUp();
     private final Login oldUser = new Login();
     private final DataBase connectivity = new DataBase();
-    private final OTPHandler  otpHandler = new OTPHandler();
 
 
-    // ANSI color codes
-    private final String RESET = "\u001B[0m";
-    private final String RED = "\u001B[31m";
-    private final String GREEN = "\u001B[32m";
-    private final String YELLOW = "\u001B[33m";
-    private final String BLUE = "\u001B[34m";
-    private final String PURPLE = "\u001B[35m";
-    private final String CYAN = "\u001B[36m";
-    private final String BOLD = "\u001B[1m";
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         AuthCLI start = new AuthCLI();
         start.showWelcomeScreen();
     }
 
 
-    public void showWelcomeScreen() {
+    private void showWelcomeScreen() throws SQLException {
 
         while (true) {
-            System.out.println(CYAN + BOLD + """
+            System.out.println(CommonMethods.CYAN + CommonMethods.BOLD + """
                     ╔════════════════════════════════════════╗
                     ║           Welcome to TextIt            ║
                     ╚════════════════════════════════════════╝
                     """ + RESET);
-            System.out.println(YELLOW + "1. " + GREEN + "Sign Up");
-            System.out.println(YELLOW + "2. " + BLUE + "Login");
-            System.out.println(YELLOW + "3. " + RED + "Exit");
-            System.out.print("\n" + PURPLE + "Enter your choice: " + RESET);
+            System.out.println(CommonMethods.YELLOW + "1. " + GREEN + "Sign Up");
+            System.out.println(CommonMethods.YELLOW + "2. " + CommonMethods.BLUE + "Login");
+            System.out.println(CommonMethods.YELLOW + "3. " + RED + "Exit");
+            System.out.print("\n" + CommonMethods.PURPLE + "Enter your choice: " + RESET);
 
 
             int choice = 0;
@@ -63,96 +51,52 @@ public class AuthCLI {
             switch (choice) {
                 case 1:
                     showSignUpScreen();
-
                     break;
                 case 2:
                     showLoginScreen();
                     break;
-
-                case 3:
-
+                case 3: {
                     System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
-                    return;
-                default:
+                    System.exit(0);
+                }
+                default: {
                     System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
+                    pressEnterToContinue();
+                    showWelcomeScreen();
+                }
             }
         }
     }
 
-   
-
-    private void showSignUpScreen() {
+    private void showSignUpScreen() throws SQLException {
         System.out.println(GREEN + BOLD + """
                 ╔════════════════════════════════════════╗
                 ║               Sign Up                  ║
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
-        String username, password, email, phoneNumber, generatedOtp , firstName, lastName;
+        String username, password, email, phoneNumber, generatedOtp, firstName, lastName;
 
         while (true) {
-            if (!connectivity.isServerReachable()){
+            if (!connectivity.isServerReachable()) {        //check if server is reachable
                 pressEnterToContinue();
                 return;
             }
-            do {
+            do {                                                // valid if email is valid or not
                 System.out.print(YELLOW + "Enter email: " + RESET);
                 email = scanner.nextLine();
             } while (!newUser.verifyEmail(email));
 
-            System.out.println("🔐 To proceed, we need to verify your email address.");
-            System.out.println("📧 A one-time verification code will be sent to your email.");
-            System.out.println("✅ You have 3 attempts to enter the correct OTP.");
-            System.out.println("---------------------------------------------------\n");
+            generatedOtp = OTPHandler.generateOTP(6);       // generate a 6 digit otp
 
-            generatedOtp = otpHandler.generateOTP(6);
-
-            // Show progress feedback while sending OTP
-            System.out.print("📤 Sending OTP");
-            for (int dots = 0; dots < 3; dots++) {
-                try {
-                    Thread.sleep(800); // Simulate progress indicator (800ms delay for each dot)
-                    System.out.print(".");
-                } catch (InterruptedException ignored) {
-                }
-            }
-            System.out.println(); // move to next line
-
-            try {
-                otpHandler.sendOTP(email, generatedOtp);
-                System.out.println("✅ OTP sent successfully to " + email);
+            if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
                 break;
-            } catch (AuthenticationFailedException e) {
-                System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
-            } catch (SendFailedException e) {
-                System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
-            } catch (MessagingException e) {
-                System.err.println("❌ Messaging error: " + e.getMessage());
-            } catch (UnsupportedEncodingException e) {
-                System.err.println("❌ Encoding error while setting sender name.");
-            } catch (Exception e) {
-                System.err.println("❌ Unexpected error occurred: " + e.getMessage());
             }
         }
-            for (int i = 1; i <= 3; i++) {
 
-                System.out.print("Enter OTP (" + i + "/3): ");
-                String userInputOtp = scanner.nextLine();
-
-                if (userInputOtp.equals(generatedOtp)) {
-                    System.out.println("✅ Email verification successful.");
-                    break;
-                } else {
-                    System.out.println("❌ Incorrect OTP. Please try again.");
-                    if (i==3){
-                        return;
-                    }
-                    if (i < 3) {
-                        System.out.println("Remaining attempts: " + (3 - i));
-                    }
-                }
-            }
-
+        if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
+            return;
+        }
 
         do {
             System.out.print(YELLOW + "Enter username: " + RESET);
@@ -212,7 +156,7 @@ public class AuthCLI {
         {
             DataBase db = new DataBase();
             DataBase.Profile profile = db.new Profile();
-            if (profile.registerUser(firstName,lastName,username,password,phoneNumber,email))
+            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email))
                 System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
             else {
                 System.out.println(RED + BOLD + "\nSign up failed. Please try again." + RESET);
@@ -223,40 +167,34 @@ public class AuthCLI {
         }
     }
 
-    private void showLoginScreen() {
+    private void showLoginScreen() throws SQLException {
+
         System.out.println(BLUE + BOLD + """
                 ╔════════════════════════════════════════╗
                 ║                Login                   ║
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
-
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
         String userInput = scanner.nextLine();
 
-        System.out.print(YELLOW + "Enter password: " + RESET);
+        System.out.print(YELLOW + "Enter password (or type 'forgot' to reset): " + RESET);
         String password = scanner.nextLine();
 
+        if (password.equalsIgnoreCase("forgot")) {
+            oldUser.handleForgotPassword(scanner);
+        }else{
         try {
-
             if (oldUser.verifyUserDetail(userInput) && oldUser.verifyPassword(password)) {
                 System.out.println(GREEN + BOLD + "\n Login successful!" + RESET);
-
             } else {
                 System.out.println(RED + BOLD + "\n Login failed. Please check your credentials." + RESET);
             }
         } catch (Exception e) {
-
             System.out.println(RED + BOLD + "\n An error occurred: " + e.getMessage() + RESET);
         }
         pressEnterToContinue();
         showWelcomeScreen();
-    }
-
-
-    private void pressEnterToContinue() {
-        System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);
-        scanner.nextLine();
-
-    }
+    }}
 }
+
