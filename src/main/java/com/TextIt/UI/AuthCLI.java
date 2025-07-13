@@ -97,7 +97,6 @@ public class AuthCLI {
             generatedOtp = OTPHandler.generateOTP(6);       // generate a 6 digit otp
 
             if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
-
                 break;
             }
         }

@@ -1,5 +1,7 @@
 package com.TextIt.security;
 
+import com.TextIt.database.DataBase;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -23,8 +25,8 @@ import java.util.Scanner;
 public class OTPHandler {
 
     // Sender credentials (replace with your Gmail app password)
-    private  final String SENDER_EMAIL = "noreply.textit@gmail.com";
-    private  final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
+    private static final String SENDER_EMAIL = "noreply.textit@gmail.com";
+    private static final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
     DataBase db = new DataBase();
 
     /**
@@ -42,7 +44,7 @@ public class OTPHandler {
      * @param otpLength the number of digits in the OTP (commonly 6)
      * @return a randomly generated numeric OTP as a string
      */
-    public String generateOTP(int otpLength) {
+    public static String generateOTP(int otpLength) {
         Random random = new Random();
         StringBuilder otp = new StringBuilder();
         for (int i = 0; i < otpLength; i++) {
@@ -155,7 +157,7 @@ public class OTPHandler {
      * @param otp the One-Time Password to be sent
      * @return the formatted email message body as a string
      */
-    private  String emailBody(String otp) {
+    private static String emailBody(String otp) {
         return """
                 Hello,
 
