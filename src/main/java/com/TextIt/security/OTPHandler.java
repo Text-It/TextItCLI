@@ -1,5 +1,7 @@
 package com.TextIt.security;
 
+import com.TextIt.database.DataBase;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -25,6 +27,7 @@ public class OTPHandler {
     // Sender credentials (replace with your Gmail app password)
     private static final String SENDER_EMAIL = "noreply.textit@gmail.com";
     private static final String SENDER_PASSWORD = "oocl xmrx huva cpbc";
+    DataBase db = new DataBase();
 
     /**
      * Sample usage for testing OTP generation and sending.
@@ -32,23 +35,6 @@ public class OTPHandler {
      * @param args not used
      */
     public static void main(String[] args) {
-        String recipientEmail = "dhruvharani5@gmail.com";
-        String otp = generateOTP(6);
-
-        try {
-            sendOTP(recipientEmail, otp);
-            System.out.println("✅ OTP sent successfully to " + recipientEmail);
-        } catch (AuthenticationFailedException e) {
-            System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
-        } catch (SendFailedException e) {
-            System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
-        } catch (MessagingException e) {
-            System.err.println("❌ Messaging error: " + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            System.err.println("❌ Encoding error while setting sender name.");
-        } catch (Exception e) {
-            System.err.println("❌ Unexpected error occurred: " + e.getMessage());
-        }
 
     }
 
@@ -75,6 +61,7 @@ public class OTPHandler {
      * @throws MessagingException            if the email fails to send
      * @throws UnsupportedEncodingException  if the sender name uses unsupported encoding
      */
+
     public static void sendOTP(String email, String otp) throws MessagingException, UnsupportedEncodingException {
         // Set up Gmail SMTP server properties
         Properties props = new Properties();
@@ -96,7 +83,6 @@ public class OTPHandler {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
         message.setSubject("Your TextIT Verification Code");
         message.setText(emailBody(otp));
-        //message.setContent(emailBody2(otp), "text/html");
 
         // Send the email
         Transport.send(message);
@@ -188,80 +174,4 @@ public class OTPHandler {
                 TextIT Corporation | Secure & Simple Text Networking
                 """.formatted(otp);
     }
-
-    private static String emailBody2(String otp) {
-        return """
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f9f9f9;
-                    padding: 20px;
-                    color: #333;
-                }
-                .container {
-                    background-color: #ffffff;
-                    border-radius: 10px;
-                    padding: 30px;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                    max-width: 600px;
-                    margin: auto;
-                }
-                .header {
-                    text-align: center;
-                }
-                .logo {
-                    height: 60px;
-                    margin-bottom: 10px;
-                }
-                .otp-box {
-                    background-color: #2b6777;
-                    color: #ffffff;
-                    font-size: 28px;
-                    font-weight: bold;
-                    padding: 15px;
-                    text-align: center;
-                    margin: 20px 0;
-                    border-radius: 8px;
-                    letter-spacing: 5px;
-                }
-                .footer {
-                    font-size: 13px;
-                    color: #999;
-                    text-align: center;
-                    margin-top: 30px;
-                }
-                .brand {
-                    color: #52ab98;
-                    font-weight: bold;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <img src="https://ibb.co/Rp6FWgNc" class="logo" alt="TextIT Logo"/>
-                    <h2>Your TextIT OTP Code</h2>
-                </div>
-                <p>Hello,</p>
-                <p>To complete your verification on <span class="brand">TextIT</span>, please use the following One-Time Password (OTP):</p>
-
-                <div class="otp-box">%s</div>
-
-                <p>This OTP is valid for <strong>10 minutes</strong>. Do not share it with anyone for your account’s security.</p>
-
-                <p>If you did not request this OTP, please ignore this email or contact support.</p>
-
-                <p>Thank you,<br><strong>Team TextIT</strong></p>
-
-                <div class="footer">
-                    TextIT Corporation | Secure & Simple Text Networking
-                </div>
-            </div>
-        </body>
-        </html>
-        """.formatted(otp);
-    }
-
 }
