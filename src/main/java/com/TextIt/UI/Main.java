@@ -17,6 +17,7 @@ public class Main {
         String recipientEmail = "dhruvharani8@gmail.com";
         String otp = a.generateOTP(6);
         AuthCLI o = new AuthCLI();
+        Feed f =new Feed();
 
         try {
             a.sendOTP(recipientEmail, otp);
@@ -32,9 +33,9 @@ public class Main {
         } catch (Exception e) {
             System.err.println("❌ Unexpected error occurred: " + e.getMessage());
         }
-        Feed f =new Feed();
+
         o.showWelcomeScreen();
-        System.out.println(f.loadAllPost());
+
 
     }
 }

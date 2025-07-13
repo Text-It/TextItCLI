@@ -102,7 +102,7 @@ public class AuthCLI {
             System.out.print("📤 Sending OTP");
             for (int dots = 0; dots < 3; dots++) {
                 try {
-                    Thread.sleep(800); // Simulate progress indicator (800ms delay for each dot)
+                    Thread.sleep(500); // Simulate progress indicator (800ms delay for each dot)
                     System.out.print(".");
                 } catch (InterruptedException ignored) {
                 }
