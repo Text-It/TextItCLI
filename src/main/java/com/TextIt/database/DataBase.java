@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
- * and OTP-related operations using PostgreSQL. This class serves as the low-level
+ * and OTP-related operations using PostgresSQL. This class serves as the low-level
  * database access layer for the TextIT application.
  */
 public class DataBase {
@@ -16,7 +16,7 @@ public class DataBase {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            System.err.println("PostgreSQL JDBC Driver not found.");
+            System.err.println("PostgresSQL JDBC Driver not found.");
             e.printStackTrace();
         }
     }
@@ -27,15 +27,7 @@ public class DataBase {
     private final String DB_PASSWORD = "dhruv@1221";
 
 
-    /**
-     * The {@code load}method is used to load {@code url},{@code password},{@code uername} to
-     * Databse class
-     *
-     *
-     *
-     *
-     */
-//    public void loadDB(){
+    //    public void loadDB(){
 //        Properties props = new Properties();
 //        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
 //
@@ -104,7 +96,7 @@ public class DataBase {
                 ps.setString(6, email);
                 ps.setDate(7, java.sql.Date.valueOf(currentDate));
 
-                int rowsInserted = ps.executeUpdate();
+                ps.executeUpdate();
                 System.out.println("User registered successfully.");
                 return true;
 
@@ -114,10 +106,28 @@ public class DataBase {
                 return false;
             }
         }
+
+        public boolean updateProfile(String toUpdate, String updatedValue, String fromUpdate, String identifyingFactor) {
+            String query = "UPDATE users SET " + toUpdate + " = ? WHERE " + fromUpdate + " = ?";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, updatedValue);
+                statement.setString(2, identifyingFactor);
+
+                int rowsUpdated = statement.executeUpdate(); // Use executeUpdate for UPDATE queries
+                return rowsUpdated > 0; // return true if at least one row was updated
+
+            } catch (SQLException e) {
+                System.out.println("⚠️ Unable to update profile: " + e.getMessage());
+                return false;
+            }
+        }
+
     }
 
     public boolean isServerReachable() {
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+        try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             return true;
         } catch (SQLException e) {
             System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");

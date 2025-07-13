@@ -14,7 +14,7 @@ public class DoublyLinkedList<T> {
             Node<T> n = new Node<>(data);
             if (head == null) {
                 head = n;
-                tail = head;// tail  points to where head is
+                tail = head;// tail points to where head is
 
             } else {
                 n.next = head;
