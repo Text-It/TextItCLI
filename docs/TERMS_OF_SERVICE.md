@@ -1,6 +1,6 @@
 # TextIt Terms of Service
 
-*Last Updated: July 7, 2025*
+*Last Updated: July 14, 2025*
 
 ## 1. Acceptance of Terms
 
@@ -18,15 +18,32 @@ You must be at least 13 years old to use the Service. By using the Service, you 
 
 ### 4.1 Registration
 
-To use certain features of the Service, you must register for an account. When registering, you agree to provide accurate, current, and complete information and to update this information to maintain its accuracy.
+To use certain features of the Service, you must register for an account. When registering, you agree to:
+- Provide accurate, current, and complete information
+- Update your information to maintain accuracy
+- Complete multi-factor authentication
+- Follow all security requirements
 
 ### 4.2 Account Security
 
-You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to notify TextIt immediately of any unauthorized use of your account or any other breach of security.
+You are responsible for:
+- Maintaining the confidentiality of your account credentials
+- Using strong, unique passwords
+- Enabling multi-factor authentication
+- Regularly updating your security settings
+- Not sharing your credentials with others
+- Not using automated tools to access your account
+- Immediately reporting any unauthorized access
 
 ### 4.3 Account Termination
 
-TextIt reserves the right to suspend or terminate your account at any time for any reason, including but not limited to violation of these Terms.
+TextIt reserves the right to suspend or terminate your account at any time for any reason, including but not limited to:
+- Violation of these Terms
+- Security breaches
+- Unauthorized access attempts
+- Violation of security protocols
+- Misuse of the Service
+- Violation of user privacy
 
 ## 5. User Content
 
@@ -44,10 +61,20 @@ You agree not to post User Content that:
 - Constitutes unsolicited or unauthorized advertising or promotional materials
 - Impersonates any person or entity
 - Interferes with the proper functioning of the Service
+- Violates user privacy
+- Contains unauthorized personal data
+- Violates security protocols
+- Contains automated or bot-generated content
 
 ### 5.3 Content Monitoring
 
-TextIt does not actively monitor User Content but reserves the right to review and remove any User Content that violates these Terms or is otherwise objectionable.
+TextIt:
+- Does not actively monitor User Content
+- Reserves the right to review and remove any User Content that violates these Terms
+- May use automated tools to detect security threats
+- May remove content that poses security risks
+- May terminate accounts for repeated violations
+- May report security violations to appropriate authorities
 
 ## 6. Prohibited Activities
 

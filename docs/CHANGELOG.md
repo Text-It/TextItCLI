@@ -8,7 +8,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Future features in development
+- Real-time notification system for likes and follows
+- Enhanced security features with multi-factor authentication
+- Improved database integration with optimized queries
+- Thread-safe operations throughout the application
+- Structured logging system
+
+### Changed
+- Updated security badge to reflect improved security posture
+- Enhanced project architecture documentation
+- Improved error handling and user feedback
+- Optimized database connection management
+
+## [1.5.0] - 2025-07-14
+
+### Added
+- Complete social features implementation:
+  - Like tracking with real-time notifications
+  - Follow system with notifications
+  - Threaded notification system
+- Advanced security features:
+  - Multi-factor authentication
+  - Enhanced password hashing
+  - Improved encryption implementation
+  - Thread-safe operations
+- Modular architecture improvements:
+  - Clean separation of concerns
+  - Better package organization
+  - Improved code maintainability
+
+### Changed
+- Updated project architecture to follow enterprise patterns
+- Enhanced security implementation
+- Improved database integration
+- Better error handling and user feedback
+- Optimized performance
+
+### Fixed
+- Various security vulnerabilities
+- Database connection issues
+- Race conditions in notification system
+- Memory leaks in long-running processes
 
 ## [1.1.0] - 2025-07-07
 

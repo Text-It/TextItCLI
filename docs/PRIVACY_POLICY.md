@@ -1,6 +1,6 @@
 # TextIt Privacy Policy
 
-*Last Updated: July 7, 2025*
+*Last Updated: July 14, 2025*
 
 ## Introduction
 
@@ -14,11 +14,13 @@ Please read this Privacy Policy carefully. By using the Service, you agree to th
 
 We may collect personal information that you voluntarily provide when using our Service, including:
 
-- **Account Information**: Username, email address, phone number, and password (stored in encrypted form)
+- **Account Information**: Username, email address, phone number, and password (stored using SHA-256 with salt)
 - **Profile Information**: Name, profile picture, bio, and other information you choose to provide
 - **Content**: Posts, comments, likes, and other content you create or share on the Service
 - **Communications**: Messages you send to other users through the Service
 - **Contact Information**: Information about your contacts if you choose to connect with them
+- **Security Information**: Two-factor authentication settings and recovery information
+- **Encryption Keys**: Encrypted copies of your encryption keys for secure data storage
 
 ### Automatically Collected Information
 
@@ -27,6 +29,8 @@ When you access or use our Service, we may automatically collect certain informa
 - **Device Information**: Device type, operating system, unique device identifiers
 - **Log Data**: IP address, browser type, pages visited, time and date of visits, time spent on pages
 - **Usage Information**: How you use the Service, including features you use and actions you take
+- **Security Logs**: Authentication attempts, security events, and security-related activities
+- **Performance Data**: Service performance metrics and optimization data
 
 ## How We Use Your Information
 
@@ -41,6 +45,9 @@ We may use the information we collect for various purposes, including to:
 - Monitor and analyze trends, usage, and activities in connection with our Service
 - Detect, investigate, and prevent fraudulent transactions and other illegal activities
 - Personalize your experience by providing content and features that match your profile and interests
+- Maintain security of your account and the Service
+- Protect against unauthorized access and security breaches
+- Ensure compliance with security protocols
 
 ## How We Share Your Information
 
@@ -48,6 +55,8 @@ We may share your information in the following circumstances:
 
 - **With Your Consent**: We may share your information when you give us permission to do so
 - **Service Providers**: We may share information with third-party vendors who provide services on our behalf
+- **Security Providers**: We may share security-related information with security service providers
+- **Legal Requirements**: We may share information when required by law or to protect our rights
 - **Legal Requirements**: We may disclose information if required to do so by law or in response to valid requests by public authorities
 - **Business Transfers**: If we are involved in a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction
 - **Safety and Security**: We may share information to protect the safety and security of our users and the Service

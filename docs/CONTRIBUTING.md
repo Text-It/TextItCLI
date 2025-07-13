@@ -2,7 +2,7 @@
 
 Thank you for considering contributing to TextIt! This document outlines the process for contributing to the project and helps to ensure a smooth collaboration experience for everyone involved.
 
-*Last updated: July 7, 2025*
+*Last updated: July 14, 2025*
 
 ## Code of Conduct
 
@@ -33,6 +33,9 @@ Bugs are tracked as [GitHub issues](https://github.com/yourusername/textit/issue
 * **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem.
 * **If the problem is related to performance or memory**, include a CPU profile capture with your report.
 * **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
+* **Specify the version of TextIt you're using (1.5.0)**
+* **Specify your Java version (Java 8)**
+* **Specify your PostgreSQL version if relevant**
 
 ### Suggesting Enhancements
 
@@ -54,8 +57,10 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/yourus
 * **Include screenshots and animated GIFs** which help you demonstrate the steps or point out the part of TextIt which the suggestion is related to.
 * **Explain why this enhancement would be useful** to most TextIt users.
 * **List some other applications where this enhancement exists.**
-* **Specify which version of TextIt you're using.**
+* **Specify which version of TextIt you're using (1.5.0)**
 * **Specify the name and version of the OS you're using.**
+* **Specify your Java version (Java 8)**
+* **Specify your PostgreSQL version if relevant**
 
 ### Pull Requests
 
@@ -71,6 +76,12 @@ Please follow these steps to have your contribution considered by the maintainer
 1. Follow all instructions in [the template](PULL_REQUEST_TEMPLATE.md)
 2. Follow the [styleguides](#styleguides)
 3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing
+4. Ensure your code follows our security guidelines:
+   - No hardcoded credentials
+   - Proper input validation
+   - Secure database operations
+   - Thread-safe operations
+5. Include appropriate test cases for new features
 
 While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
 
@@ -82,15 +93,9 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
-* Consider starting the commit message with an applicable emoji:
-    * 🎨 `:art:` when improving the format/structure of the code
-    * 🐎 `:racehorse:` when improving performance
-    * 🚱 `:non-potable_water:` when plugging memory leaks
-    * 📝 `:memo:` when writing docs
-    * 🐛 `:bug:` when fixing a bug
-    * 🔥 `:fire:` when removing code or files
-    * 💚 `:green_heart:` when fixing the CI build
-    * ✅ `:white_check_mark:` when adding tests
+* Include security implications if relevant
+* Reference any security fixes
+* Follow semantic versioning guidelines
     * 🔒 `:lock:` when dealing with security
     * ⬆️ `:arrow_up:` when upgrading dependencies
     * ⬇️ `:arrow_down:` when downgrading dependencies
@@ -98,6 +103,17 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ### Java Styleguide
 
+* Follow Java 8 best practices
+* Use proper exception handling
+* Implement thread-safe operations
+* Follow security guidelines
+* Use meaningful variable and method names
+* Include proper Javadoc documentation
+* Follow package organization conventions
+* Implement proper resource cleanup
+* Use constants for magic numbers
+* Follow SOLID principles
+* Implement proper error handling
 * Use 4 spaces for indentation
 * Use camelCase for variables and methods
 * Use PascalCase for class names

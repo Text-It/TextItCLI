@@ -1,6 +1,6 @@
 # Security Policy
 
-*Last Updated: July 7, 2025*
+*Last Updated: July 14, 2025*
 
 ## Supported Versions
 
@@ -8,6 +8,7 @@ The following versions of TextIt are currently being supported with security upd
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.5.x   | :white_check_mark: |
 | 1.1.x   | :white_check_mark: |
 | 1.0.x   | :white_check_mark: |
 | < 1.0   | :x:                |
@@ -50,28 +51,59 @@ TextIt is being built with security in mind. Our current implementation includes
 
 ### Authentication Security
 
-- Password validation requirements:
-  - Uppercase letters
-  - Lowercase letters
-  - Numbers
-  - Special characters (!, @, $, &, *)
-  - Length between 8-16 characters
-- Basic password hashing using SHA-256
-- Email verification using one-time passwords (OTPs)
+- Multi-factor authentication:
+  - Email verification with OTPs
+  - Phone number verification
+  - Username/password combination
+- Password security:
+  - SHA-256 hashing with salt
+  - Complexity requirements:
+    - 8-16 characters
+    - Uppercase and lowercase letters
+    - Numbers
+    - Special characters
+- Thread-safe authentication operations
+- Rate limiting for login attempts
+- Secure session management
 
 ### Data Protection
 
-- Basic AES encryption capabilities (currently using default ECB mode)
-- Database validation for unique usernames, emails, and phone numbers
-- Secure email delivery for OTPs using Gmail SMTP with TLS
+- Advanced encryption:
+  - AES-128 encryption
+  - Thread-safe encryption operations
+- Secure data storage:
+  - PostgreSQL database with proper indexing
+  - Transaction support
+  - Optimized queries
+- Secure communication:
+  - TLS for email delivery
+  - Thread-safe database operations
+- Input validation:
+  - Custom exceptions for validation
+  - Comprehensive input sanitization
+  - Protection against SQL injection
 
-### Planned Security Enhancements
+### Current Security Enhancements
 
-- Improved password hashing with salt using bcrypt or PBKDF2
-- Enhanced encryption using more secure modes (GCM instead of ECB)
-- Proper key management for encryption keys
-- Protection against common attacks like brute force and SQL injection
-- Comprehensive input validation and sanitization
+- Security Features Implemented:
+  - Thread-safe operations throughout the application
+  - Structured exception handling
+  - Secure session management
+  - Rate limiting
+  - Input validation and sanitization
+
+### Future Security Enhancements
+
+- Advanced encryption:
+  - GCM mode support
+  - Secure key management
+- Authentication:
+  - TOTP support
+  - Biometric authentication
+- Security Monitoring:
+  - Audit logging
+  - Security event tracking
+  - Regular security audits
 
 ## Security Updates
 
