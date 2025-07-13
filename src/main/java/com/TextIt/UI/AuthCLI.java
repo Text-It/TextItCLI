@@ -14,11 +14,14 @@ import static com.TextIt.model.utils.CommonMethods.*;
 
 public class AuthCLI {
 
+
     //Objects Of Different Classes
     private final Scanner scanner = new Scanner(System.in);
     private final SignUp newUser = new SignUp();
     private final Login oldUser = new Login();
     private final DataBase connectivity = new DataBase();
+    private final OTPHandler  otpHandler = new OTPHandler();
+
 
 
     public static void main(String[] args) throws SQLException {
@@ -27,7 +30,9 @@ public class AuthCLI {
     }
 
 
+
     private void showWelcomeScreen() throws SQLException {
+
 
         while (true) {
             System.out.println(CommonMethods.CYAN + CommonMethods.BOLD + """
@@ -51,24 +56,25 @@ public class AuthCLI {
             switch (choice) {
                 case 1:
                     showSignUpScreen();
+
                     break;
                 case 2:
                     showLoginScreen();
                     break;
-                case 3: {
+
+                case 3:
+
                     System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
-                    System.exit(0);
-                }
-                default: {
+                    return;
+                default:
                     System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
-                    pressEnterToContinue();
-                    showWelcomeScreen();
-                }
             }
         }
     }
 
+
     private void showSignUpScreen() throws SQLException {
+
         System.out.println(GREEN + BOLD + """
                 ╔════════════════════════════════════════╗
                 ║               Sign Up                  ║
@@ -87,9 +93,11 @@ public class AuthCLI {
                 email = scanner.nextLine();
             } while (!newUser.verifyEmail(email));
 
+
             generatedOtp = OTPHandler.generateOTP(6);       // generate a 6 digit otp
 
             if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
+
                 break;
             }
         }
@@ -175,6 +183,7 @@ public class AuthCLI {
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
+
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
         String userInput = scanner.nextLine();
 
@@ -185,16 +194,19 @@ public class AuthCLI {
             oldUser.handleForgotPassword(scanner);
         }else{
         try {
+
             if (oldUser.verifyUserDetail(userInput) && oldUser.verifyPassword(password)) {
                 System.out.println(GREEN + BOLD + "\n Login successful!" + RESET);
+
             } else {
                 System.out.println(RED + BOLD + "\n Login failed. Please check your credentials." + RESET);
             }
         } catch (Exception e) {
+
             System.out.println(RED + BOLD + "\n An error occurred: " + e.getMessage() + RESET);
         }
         pressEnterToContinue();
         showWelcomeScreen();
     }}
-}
 
+}

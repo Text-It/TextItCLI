@@ -22,12 +22,14 @@ public class DataBase {
     }
 
     // Database credentials and URL
+
     private final String DB_URL = "jdbc:postgresql://localhost:5432/Local TextIT";
     private final String DB_USERNAME = "postgres";
     private final String DB_PASSWORD = "dhruv@1221";
 
 
-    //    public void loadDB(){
+
+ //    public void loadDB(){
 //        Properties props = new Properties();
 //        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
 //
