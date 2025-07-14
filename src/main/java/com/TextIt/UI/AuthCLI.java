@@ -21,13 +21,10 @@ public class AuthCLI {
     private final DataBase connectivity = new DataBase();
 
 
-    public static void main(String[] args) throws SQLException {
-        AuthCLI start = new AuthCLI();
-        start.showWelcomeScreen();
-    }
 
 
-    private void showWelcomeScreen() throws SQLException {
+
+    public void showWelcomeScreen() throws SQLException {
 
         while (true) {
             System.out.println(CommonMethods.CYAN + CommonMethods.BOLD + """
