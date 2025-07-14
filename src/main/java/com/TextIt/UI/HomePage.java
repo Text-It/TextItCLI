@@ -2,99 +2,153 @@ package com.TextIt.UI;
 
 import java.util.Scanner;
 
+
+
 public class HomePage {
 
-    private static final Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
 
 
-    private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String YELLOW = "\u001B[33m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String PURPLE = "\u001B[35m";
-    private static final String CYAN = "\u001B[36m";
-    private static final String BOLD = "\u001B[1m";
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String BOLD = "\u001B[1m";
 
-    public static void showHomePage(String username) {
+    public static void home(String username) {
         while (true) {
             System.out.println(CYAN + BOLD);
-            System.out.println("╔════════════════════════════════════════╗");
-            System.out.println("║               TextIt Home              ║");
-            System.out.println("╚════════════════════════════════════════╝");
+            System.out.println("==============================================");
+            System.out.println("             Welcome to TextIT                ");
+            System.out.println("==============================================");
             System.out.print(RESET);
+            System.out.println(color("Hello, " + username + "!", YELLOW));
+            System.out.println(color("Select option to explore the world of TextIT", GREEN));
+            System.out.println(YELLOW + "1. " + color("Profile", BLUE));
+            System.out.println(YELLOW + "2. " + color("Reel", BLUE));
+            System.out.println(YELLOW + "3. " + color("Search", BLUE));
+            System.out.println(YELLOW + "4. " + color("Inbox", BLUE));
+            System.out.println(YELLOW + "5. " + color("Refresh Feed", BLUE));
+            System.out.println(YELLOW + "6. " + color("Career at TextIT", BLUE));
+            System.out.println(YELLOW + "7. " + color("Logout", BLUE));
+            System.out.println(YELLOW + "8. " + color("Setting", BLUE));
+            System.out.println(YELLOW + "9. " + color("Help", BLUE));
+            System.out.println(YELLOW + "10. " + color("Exit", RED));
 
-            System.out.println(YELLOW + "Welcome, " + username + "!" + RESET);
-            System.out.println(YELLOW + "1. " + GREEN + "View Feed");
-            System.out.println(YELLOW + "2. " + BLUE + "Profile");
-            System.out.println(YELLOW + "3. " + PURPLE + "Search Users");
-            System.out.println(YELLOW + "4. " + CYAN + "Create Post");
-            System.out.println(YELLOW + "5. " + RED + "Logout" + RESET);
-            System.out.print(PURPLE + "\nEnter your choice: " + RESET);
-
-            int choice;
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println(RED + "Please enter a valid number!" + RESET);
-                continue;
-            }
-
+            System.out.println(color("Enter your choice: ", GREEN));
+            int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    viewFeed();
+                    profile(username);
                     break;
                 case 2:
-                    viewProfile(username);
+                    reel();
                     break;
                 case 3:
-                    searchUsers();
+                    search();
                     break;
                 case 4:
-                    createPost();
+                    inbox();
                     break;
                 case 5:
-                    System.out.println(RED + "Logging out..." + RESET);
-                    return;
+                    refreshFeed();
+                    break;
+                case 6:
+                    career();
+                    break;
+                case 7:
+                    logout();
+                    break;
+                case 8:
+                    settings();
+                    break;
+                case 9:
+                    help();
+                    break;
+                case 10:
+                    System.out.println(RED + "Exiting TextIT..." + RESET);
+                    System.exit(0);
+                    break;
                 default:
                     System.out.println(RED + "Invalid choice. Try again." + RESET);
             }
         }
     }
 
-    private static void viewFeed() {
-        System.out.println(GREEN + BOLD + "Viewing Feed..." + RESET);
+    private static void help() {
+        System.out.println(color("TextIT is a social media platform for texting, sharing, and connecting with others.", GREEN));
+        System.out.println(color("To use TextIT, follow these steps:", GREEN));
+        System.out.println("1. Sign up for an account.");
+        System.out.println("2. Connect with friends, family, and colleagues.");
+        System.out.println("3. Send and receive messages.");
+        System.out.println("4. Share your thoughts, experiences, and ideas.");
+        System.out.println("5. Connect with other users based on their interests and skills.");
         Enter();
     }
 
-    private static void viewProfile(String username) {
-        System.out.println(BLUE + BOLD + "Profile of " + username + RESET);
+    private static void settings() {
+    }
+
+    private static void logout() {
+        System.out.println(RED + "Logging out..." + RESET);
+        System.exit(0);
+    }
+
+    private static void career() {
+        System.out.println(color("Career Opportunities at TextIT", PURPLE));
+        System.out.println("1. Software Developer");
+        System.out.println("2. UI/UX Designer");
+        System.out.println("3. Product Manager");
         Enter();
     }
 
-    private static void searchUsers() {
-        System.out.println(PURPLE + BOLD + "User Search" + RESET);
-       Enter();
+    private static void refreshFeed() {
+        System.out.println(CYAN + BOLD);
+        System.out.println("Refreshing feed..........");
+        System.out.print(RESET);
+        System.out.println(color("Feed has been refreshed successfully.", GREEN));
     }
 
-    private static void createPost() {
-        System.out.println(CYAN + BOLD + "New Post" + RESET);
-        Enter();
+    private static void inbox() {
     }
+
+    private static void search() {
+        System.out.println(color("Enter person name to search: ", GREEN));
+        String query = sc.nextLine();
+        System.out.println(YELLOW + "Search results for " + query + " :");
+        goToNext();
+    }
+
+    private static void reel() {
+
+    }
+
+    private static void profile(String username) {
+    }
+
+    private static String color(String text, String color) {
+        return color + text + RESET;
+    }
+
+
     private static void goToNext() {
-        System.out.println(CYAN + "\n Going to the next screen..." + RESET);
+        System.out.println(CYAN + " Going to the next screen..." + RESET);
         Enter();
     }
 
     private static void goToPrevious() {
-        System.out.println(CYAN + "\n Going back to the previous screen..." + RESET);
+        System.out.println(CYAN + "Going back to the previous screen..." + RESET);
         Enter();
     }
 
     private static void Enter() {
-        System.out.print(PURPLE + "\n(Press Enter to continue)" + RESET);
+        System.out.print(PURPLE + "(Press Enter to continue)" + RESET);
         sc.nextLine();
     }
+
 
 
 }
