@@ -2,8 +2,11 @@ package com.TextIt.database;
 
 import com.TextIt.security.Hashing;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Properties;
 
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
@@ -12,41 +15,55 @@ import java.time.LocalDate;
  */
 public class DataBase {
 
-    static {
+     {
         try {
             Class.forName("org.postgresql.Driver");
+            loadDB();
         } catch (ClassNotFoundException e) {
             System.err.println("PostgresSQL JDBC Driver not found.");
             e.printStackTrace();
         }
     }
 
+    public String getUrl() {
+        return DB_URL;
+    }
+
+    public String getUsername() {
+        return DB_USERNAME;
+    }
+
+    public String getPassword() {
+        return DB_PASSWORD;
+    }
+
     // Database credentials and URL
-    private final String DB_URL = "jdbc:postgresql://localhost:5432/Local TextIT";
-    private final String DB_USERNAME = "postgres";
-    private final String DB_PASSWORD = "dhruv@1221";
+    private String DB_URL ;
+    private String DB_USERNAME ;
+    private String DB_PASSWORD ;
 
 
-    //    public void loadDB(){
-//        Properties props = new Properties();
-//        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
-//
-//            if (input == null) {
-//                System.out.println("Sorry, unable to find database.properties");
-//                return;
-//            }
-//            props.load(input);
-//
-//             url = props.getProperty("db.url");
-//             username = props.getProperty("db.username");
-//             password = props.getProperty("db.password");
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+        public void loadDB(){
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+
+            if (input == null) {
+                System.out.println("Sorry, unable to find database.properties");
+                return;
+            }
+            props.load(input);
+
+            DB_URL = props.getProperty("db.url");
+            DB_USERNAME = props.getProperty("db.username");
+            DB_PASSWORD = props.getProperty("db.password");
+
+
+        } catch (IOException e) {
+            System.err.println("Problem in loading database.properties file");
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * The {@code Profile} class handles verification of unique user details

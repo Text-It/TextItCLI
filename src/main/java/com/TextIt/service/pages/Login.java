@@ -7,6 +7,7 @@ import com.TextIt.model.exceptions.*;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
 import com.TextIt.security.OTPHandler;
+
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -61,13 +62,12 @@ public class Login {
         SignUp signup = new SignUp();
 
         //Variables
-        String email;
-        String newPassword;
+        String email, newPassword , conformPassword;
 
         System.out.println(CYAN + "\nVerifying your identity..." + RESET);
 
         System.out.print(YELLOW + "Enter your registered email for verification: " + RESET);
-        email = scanner.nextLine();
+        email = scanner.nextLine().toLowerCase();
 
         if(!verifyUserDetail(email)){
             return;
@@ -86,7 +86,13 @@ public class Login {
         do {
             System.out.print(YELLOW + "Enter your new password: " + RESET);
             newPassword = scanner.nextLine();
-        } while (!signup.verifyPassword(newPassword));
+            System.out.print(YELLOW + "Enter conformed password: " + RESET);
+            conformPassword = scanner.nextLine();
+            if(!newPassword.equals(conformPassword)){
+                System.out.println("New password and confirm password must be the same.");
+            }
+
+        } while (!(signup.verifyPassword(newPassword) && newPassword.equals(conformPassword)));
 
         String hashedPassword = Hashing.generateHashCode(newPassword);
 
@@ -127,4 +133,13 @@ public class Login {
             return false;
         }
     }
+
+    /**
+     * Return{@code True}  When Object is different (Like String)
+     */
+    public boolean isDifferent(Object s){
+        return !(this==s);
     }
+
+
+}

@@ -3,7 +3,7 @@ package com.TextIt.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Hashing {
+public class  Hashing {
 
     public static String generateHashCode(String input) {
         try {
