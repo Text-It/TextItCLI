@@ -1,6 +1,6 @@
 # TextIt Project Governance
 
-*Last updated: July 7, 2025*
+*Last updated: July 14, 2025*
 
 ## Overview
 
@@ -23,6 +23,10 @@ Contributors are community members who contribute to the project in various ways
 - Issue triage
 - Answering questions in forums or chat
 - Organizing events
+- Security reviews
+- Performance optimization
+- Database optimization
+- Security testing
 
 Anyone can become a contributor by submitting a pull request, helping with documentation, or participating in discussions.
 
@@ -34,6 +38,10 @@ Maintainers are contributors who have shown dedication to the project and have b
 - Triaging issues
 - Guiding the technical direction of their components
 - Ensuring the quality of the codebase
+- Maintaining security standards
+- Ensuring thread safety
+- Optimizing database operations
+- Implementing security features
 
 #### Becoming a Maintainer
 
@@ -42,12 +50,17 @@ Contributors who have made significant and valuable contributions to the project
 1. A contributor is nominated by an existing maintainer
 2. The nomination is discussed by the existing maintainers
 3. The nomination is approved if there is consensus among the maintainers
+4. The new maintainer undergoes a security training program
 
 ### Core Team
 
 The Core Team consists of maintainers who have demonstrated long-term commitment to the project and have taken on additional responsibilities for the overall health and direction of the project. The Core Team:
 
 - Sets the overall technical direction of the project
+- Maintains security standards and practices
+- Oversees performance optimization
+- Ensures database integrity
+- Manages security vulnerabilities
 - Makes decisions when maintainer consensus cannot be reached
 - Manages the TextIt brand
 - Manages project resources

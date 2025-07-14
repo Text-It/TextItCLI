@@ -8,13 +8,13 @@ public class Hashing {
     public static String generateHashCode(String input) {
         try {
 
-            // Create MessageDigest instance for SHA-256
+            // Create a MessageDigest instance for SHA-256
             MessageDigest md = MessageDigest.getInstance("SHA-256");
 
             // Perform the hash
             byte[] hashBytes = md.digest(input.getBytes());
 
-            // Convert byte array into hex string
+            // Convert a byte array into hex string
             StringBuilder hexString = new StringBuilder();
             for (byte b : hashBytes) {
                 String hex = Integer.toHexString(0xff & b);

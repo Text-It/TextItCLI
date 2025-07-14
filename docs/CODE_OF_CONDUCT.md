@@ -24,6 +24,11 @@ community include:
   and learning from the experience
 * Focusing on what is best not just for us as individuals, but for the
   overall community
+* Maintaining security and privacy of project information
+* Reporting security vulnerabilities responsibly
+* Following security protocols and guidelines
+* Respecting user data privacy
+* Protecting against unauthorized access
 
 Examples of unacceptable behavior include:
 
@@ -35,18 +40,29 @@ Examples of unacceptable behavior include:
   address, without their explicit permission
 * Other conduct which could reasonably be considered inappropriate in a
   professional setting
+* Violating security protocols
+* Sharing security vulnerabilities publicly without permission
+* Attempting unauthorized access to systems
+* Compromising user data privacy
 
 ## Enforcement Responsibilities
 
-Project maintainers are responsible for clarifying and enforcing our standards of
-acceptable behavior and will take appropriate and fair corrective action in
-response to any behavior that they deem inappropriate, threatening, offensive,
-or harmful.
+Project maintainers are responsible for:
 
-Project maintainers have the right and responsibility to remove, edit, or reject
-comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for moderation
-decisions when appropriate.
+- Clarifying and enforcing our standards of acceptable behavior
+- Taking appropriate and fair corrective action for inappropriate behavior
+- Protecting the security and privacy of the project
+- Ensuring compliance with security protocols
+- Handling security-related issues responsibly
+- Maintaining a safe and inclusive environment
+
+Project maintainers have the right and responsibility to:
+
+- Remove, edit, or reject contributions that violate this Code of Conduct
+- Take action against security violations
+- Protect user data privacy
+- Communicate reasons for moderation decisions
+- Ensure compliance with security guidelines
 
 ## Scope
 
