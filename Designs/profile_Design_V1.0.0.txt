@@ -1,0 +1,53 @@
+      ╔════════════════════════════════════════════╗
+      ║                   🌟 YOUR PROFILE             		      ║
+      ╚════════════════════════════════════════════╝
+
+		real_name       	   @username
+
+		gender(if provided)        @ location(provided)
+
+		BIO -> "Healing hearts, one smile at a time."
+
+
+ 		Member since: 2024
+
+ 		Posts: 182    following: 2415    Followers: 950
+
+ 		XP: 200 	       Level: 3 "PRO"
+
+		🧠 Mood: Feeling Grateful 🌈(current mood)
+
+
+		OPTIONS
+		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+		[1] View Posts   [2] Edit Profile   [3] My Circles
+		[4] Settings     [5] Privacy Mode   [6] Exit
+		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 		Contact details are hidden by default.(email and phone number)
+ 		Tip: Type ‘mood’ to update your feeling!
+
+
+
+NOTE:
+
+1) real name ---> the first and last name
+2) username --> unique names
+3) gender --> male/female/other/rather not to say
+4) location --> user provided city
+5) bio --> anything under 30 words
+6) member --> id created year
+7)post --> total number of posts
+8) following --> to whom user follows
+9) followers --> who follows the user
+10) XP --> more the post more the XP
+11) level --> depends on factors like follower , following , post , account create time etc
+12) mood --> current mood like whatapp (example --> At work , busy , available etc)
+13) some options 
+	1 view post --> view all your post
+	2) edit profile --> edit name username etc
+	3) my circle --> close friends
+	4) settings --> seeting page
+	5) privacy mode --> private or public account (in future updates not now)
+	6) exit --> exit profile page
+	7) if typed mood then change mood.

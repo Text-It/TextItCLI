@@ -1,13 +1,6 @@
 package com.TextIt.UI;
 
 import com.TextIt.security.OTPHandler;
-import com.TextIt.service.pages.Feed;
-
-
-import javax.mail.AuthenticationFailedException;
-import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 
