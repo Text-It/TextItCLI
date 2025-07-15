@@ -172,6 +172,11 @@ public class AuthCLI {
                 ╚════════════════════════════════════════╝
                 """ + RESET);
 
+        if (!connectivity.isServerReachable()) {        //check if server is reachable
+            pressEnterToContinue();
+            return;
+        }
+
         System.out.print(YELLOW + "Enter username/email/phone: " + RESET);
         String userInput = scanner.nextLine();
 
