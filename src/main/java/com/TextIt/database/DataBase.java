@@ -70,7 +70,7 @@ public class DataBase {
      * such as email, username, or phone number.
      */
     public class Profile {
-
+     
         /**
          * Checks if a value for a specific field (like email, username, or phone number)
          * already exists in the database.

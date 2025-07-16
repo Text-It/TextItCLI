@@ -24,6 +24,7 @@ public class AuthCLI {
 
 
 
+
     public void showWelcomeScreen() throws SQLException {
 
         while (true) {
@@ -196,6 +197,7 @@ public class AuthCLI {
             System.out.println(RED + BOLD + "\n An error occurred: " + e.getMessage() + RESET);
         }
         pressEnterToContinue();
+
         showWelcomeScreen();
     }}
 }
