@@ -1,6 +1,7 @@
 package com.TextIt.database;
 
 import com.TextIt.security.Hashing;
+import com.TextIt.service.user.UserData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,13 +65,21 @@ public class DataBase {
         }
 
     }
+    public boolean isServerReachable() {
+        try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+            return true;
+        } catch (SQLException e) {
+            System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
+            return false;
+        }
+    }
 
     /**
      * The {@code Profile} class handles verification of unique user details
      * such as email, username, or phone number.
      */
     public class Profile {
-     
+
         /**
          * Checks if a value for a specific field (like email, username, or phone number)
          * already exists in the database.
@@ -89,6 +98,15 @@ public class DataBase {
                 try (ResultSet rs = statement.executeQuery()) {
                     return rs.next(); // true = available
                 }
+            } catch (SQLException e) {
+                System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
+                return false;
+            }
+        }
+
+        public boolean isServerReachable() {
+            try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                return true;
             } catch (SQLException e) {
                 System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
                 return false;
@@ -143,12 +161,29 @@ public class DataBase {
 
     }
 
-    public boolean isServerReachable() {
-        try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-            return true;
-        } catch (SQLException e) {
-            System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
-            return false;
+    // fetch User_details byUser_id
+    public UserData getUserData(int userId) {
+
+        UserData user = new UserData();
+        String query = "SELECT * FROM users WHERE user_id = ?";
+        try (Connection con= DriverManager.getConnection(DB_URL , DB_USERNAME , DB_PASSWORD)) {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()) {
+               return new UserData(rs.getString(3),rs.getString(1)+rs.getString(2),rs.getString(7));
+            }else{
+                System.out.println("User not found.");
+                return null;
+            }
+        }catch (SQLException e) {
+            System.err.println("Error occurred while registering user: " + e.getMessage());
+            e.printStackTrace(); // Optional: useful during debugging
+
         }
+        return null;
     }
+
+
+
 }
