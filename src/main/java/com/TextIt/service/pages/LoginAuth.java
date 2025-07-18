@@ -59,7 +59,7 @@ public class LoginAuth {
     public void handleForgotPassword(Scanner scanner){
 
         //Object of Signup
-        SignUpAuth signup = new SignUpAuth();
+        SignUp signup = new SignUp();
 
         //Variables
         String email, newPassword , conformPassword;
