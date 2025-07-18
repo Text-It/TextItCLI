@@ -6,7 +6,7 @@ import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
 
 
-public class SignUp implements Authentication {
+public class SignUpAuth implements Authentication {
 
     //Object's Of class Database
     DataBase db = new DataBase();
@@ -14,7 +14,7 @@ public class SignUp implements Authentication {
 
     //Test PSVM
     public static void main(String[] args) {
-        SignUp signup = new SignUp();
+        SignUpAuth signup = new SignUpAuth();
         System.out.println(signup.verifyUsername("dhruv"));
         System.out.println(signup.verifyUsername("vraj"));
     }

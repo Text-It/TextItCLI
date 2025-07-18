@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
 
-public class Login {
+public class LoginAuth {
 
     //Object of class DataBase
     private final DataBase dataBase = new DataBase();
@@ -59,7 +59,7 @@ public class Login {
     public void handleForgotPassword(Scanner scanner){
 
         //Object of Signup
-        SignUp signup = new SignUp();
+        SignUpAuth signup = new SignUpAuth();
 
         //Variables
         String email, newPassword , conformPassword;
