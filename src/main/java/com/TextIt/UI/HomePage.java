@@ -1,7 +1,10 @@
 package com.TextIt.UI;
 
+import com.TextIt.model.utils.CommonMethods;
+
 import java.util.Scanner;
 
+import static com.TextIt.model.utils.CommonMethods.*;
 
 
 public class HomePage {
@@ -9,16 +12,9 @@ public class HomePage {
     static Scanner sc = new Scanner(System.in);
 
 
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
-    public static final String BOLD = "\u001B[1m";
-
-    public static void home(String username) {
+    public static void main(String[] args) {
+        //String username = args[0];
+        String username = "TextIt";
         while (true) {
             System.out.println(CYAN + BOLD);
             System.out.println("==============================================");
@@ -42,7 +38,7 @@ public class HomePage {
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    profile(username);
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + username);
                     break;
                 case 2:
                     reel();
@@ -86,7 +82,7 @@ public class HomePage {
         System.out.println("3. Send and receive messages.");
         System.out.println("4. Share your thoughts, experiences, and ideas.");
         System.out.println("5. Connect with other users based on their interests and skills.");
-        Enter();
+        CommonMethods.pressEnterToContinue();
     }
 
     private static void settings() {
@@ -102,7 +98,7 @@ public class HomePage {
         System.out.println("1. Software Developer");
         System.out.println("2. UI/UX Designer");
         System.out.println("3. Product Manager");
-        Enter();
+        CommonMethods.pressEnterToContinue();
     }
 
     private static void refreshFeed() {
@@ -126,99 +122,6 @@ public class HomePage {
 
     }
 
-    private static void profile(String username) {
-        System.out.println(CYAN +BOLD);
-        System.out.println("===============================================");
-        System.out.println("                  YOUR PROFILE                 ");
-        System.out.println("===============================================");
-        System.out.println(RESET);
-        System.out.println();
-        String real_name = "";
-        String gender = "";
-        String location = "";
-        String bio = "";
-        int member_since = 0;
-        int posts = 0;
-        int following = 0;
-        int followers = 0;
-        int xp = 0;
-        String level = "";
-        String mood = "";
-        System.out.println(color("real_name", YELLOW) + "               " + color(real_name, BLUE));
-        System.out.println(color("gender", YELLOW) + "     " + color(gender, BLUE) + "     " + color("location", YELLOW) + "  " + color(location, BLUE));
-        System.out.println(color("BIO ->", YELLOW) + "  " + color(bio, BLUE) );
-        System.out.println();
-        System.out.println(color("Member since:", YELLOW) + " " + color(String.valueOf(member_since), BLUE));
-        System.out.println();
-        System.out.println(color("Posts:", YELLOW) + " " + color(String.valueOf(posts), BLUE) + "     " + color("following:", YELLOW) + " " + color(String.valueOf(following), BLUE) + "     " +
-                color("Followers:", YELLOW) + " " + color(String.valueOf(followers), BLUE));
-        System.out.println();
-        System.out.println(color("XP:", YELLOW) + " " + color(String.valueOf(xp), BLUE) + "          " +
-                color("Level:", YELLOW) + " " + color(level, BLUE));
-        System.out.println();
-        System.out.println(color("Mood:", YELLOW) + " " + color(mood, BLUE) + " (current mood)");
-        System.out.println();
-
-        System.out.println(color("OPTIONS", PURPLE));
-        System.out.println("-----------------------------------------------");
-        System.out.println("[1] View Posts  [2] Edit Profile  [3] My Circles");
-        System.out.println("[4] Settings    [5] Privacy Mode  [6] Exit      ");
-        System.out.println("-----------------------------------------------");
-
-        System.out.println(color("Tip: Type 'mood' to update your feeling!", GREEN));
-        while (true) {
-            System.out.println("Enter your choices :");
-            String choice = sc.nextLine();
-            switch (choice){
-                case "1":
-                    view_posts();
-                    break;
-                case "2":
-                    edit_profile();
-                    break;
-                case "3":
-                    my_circles();
-                    break;
-                case "4":
-                    settings();
-                    break;
-                case "5":
-                    privacy_mode();
-                    break;
-                case "6":
-                    return;
-                case "mood":
-                    update_mood();
-                    break;
-                default:
-                    System.out.println(RED+"Invalid choice. Please try again."+RESET);
-            }
-        }
-    }
-
-    private static void update_mood() {
-        System.out.println("Enter your mood..."+GREEN);
-        String nmood = sc.nextLine();
-        System.out.println(CYAN +"Mood updated to :"+nmood+RESET);
-        Enter();
-    }
-
-    private static void privacy_mode() {
-        System.out.println(CYAN +"Viewing posts....."+RESET);
-        Enter();
-    }
-
-    private static void my_circles() {
-    }
-
-    private static void edit_profile() {
-    }
-
-    private static void view_posts() {
-        System.out.println(CYAN +"Viewing posts....."+RESET);
-        Enter();
-    }
-
     private static String color(String text, String color) {
         return color + text + RESET;
     }
@@ -226,19 +129,12 @@ public class HomePage {
 
     private static void goToNext() {
         System.out.println(CYAN + " Going to the next screen..." + RESET);
-        Enter();
+        CommonMethods.pressEnterToContinue();
     }
 
     private static void goToPrevious() {
         System.out.println(CYAN + "Going back to the previous screen..." + RESET);
-        Enter();
+        CommonMethods.pressEnterToContinue();
     }
-
-    private static void Enter() {
-        System.out.print(PURPLE + "(Press Enter to continue)" + RESET);
-        sc.nextLine();
-    }
-
-
 
 }
