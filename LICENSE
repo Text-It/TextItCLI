@@ -1,21 +1,139 @@
-MIT License
+TEXTIT CORPORATION EXCLUSIVE LICENSE (TCEL) v1.0
+Effective Date: July 20, 2025
 
-Copyright (c) 2025 TextIt
+1. DEFINITIONS
+   1.1 "Software" refers to TextIt, including its source code, compiled binaries, assets, documentation, and any related materials.
+   1.2 "Licensee" means any individual or entity that receives a copy of the Software under this License.
+   1.3 "Contributor" means any Licensee who submits modifications, enhancements, or bug fixes ("Contributions") to the Software.
+   1.4 "Contribution" means any original work of authorship, including modifications or additions to the Software, submitted to TextIt Corporation.
+   1.5 "Documentation" means all technical documentation, user manuals, and other materials provided with the Software.
+   1.6 "Intellectual Property Rights" means all intellectual property rights, including but not limited to copyrights, patents, trademarks, trade secrets, and any other proprietary rights.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+2. OWNERSHIP & INTELLECTUAL PROPERTY
+   2.1 All rights, title, and interest in and to the Software, including all intellectual property rights, remain exclusively with TextIt Corporation.
+   2.2 The Software is protected by applicable copyright laws and international treaties.
+   2.3 Licensee acknowledges that the Software constitutes valuable trade secrets and proprietary information of TextIt Corporation.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+3. GRANT OF LICENSE
+   3.1 Subject to the terms of this License, TextIt Corporation grants Licensee a non-transferable, non-sublicensable, revocable license to:
+       (a) Use the Software for internal evaluation, development, and testing purposes;
+       (b) Make a reasonable number of copies for backup and archival purposes;
+       (c) Use the Documentation solely in connection with the licensed use of the Software.
+   3.2 Any use beyond the scope of this License requires prior written consent from TextIt Corporation.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+4. RESTRICTIONS ON USE
+   4.1 Licensee shall not use the Software for any unlawful, malicious, or harmful purpose.
+   4.2 Licensee shall not reverse engineer, decompile, or disassemble the Software except to the extent expressly permitted by applicable law.
+   4.3 Licensee shall not remove, alter, or obscure any copyright, trademark, or other proprietary notices.
+   4.4 Licensee shall not use the Software to develop a competing product or service.
+
+5. MODIFICATIONS & DERIVATIVE WORKS
+   5.1 Licensee may modify the Software for internal use only.
+   5.2 Any distributed derivative works must include this License and a prominent notice of modifications.
+   5.3 All modifications and derivative works are subject to this License.
+
+6. CONTRIBUTIONS & SUBMISSIONS
+   6.1 Any Contribution submitted to TextIt Corporation shall be deemed a non-exclusive grant of rights under this License.
+   6.2 By submitting a Contribution, Contributor affirms that the work is original or that they have the rights to grant such license.
+   6.3 TextIt Corporation shall have the right to use, modify, and distribute Contributions without limitation.
+
+7. CONTRIBUTOR RIGHTS & OBLIGATIONS
+   7.1 Attribution: Contributors shall be credited in project documentation.
+   7.2 Personal Reuse: Contributors may reuse their Contributions for personal, academic, or non-commercial purposes.
+   7.3 Moral Rights: Contributors retain moral rights in their work.
+
+8. DISTRIBUTION & REPRODUCTION
+   8.1 Unauthorized reproduction, distribution, or public display of the Software is strictly prohibited.
+   8.2 Any distribution must include this License and proper attribution to TextIt Corporation.
+
+9. WARRANTY DISCLAIMER
+   9.1 THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+   9.2 TEXTIT CORPORATION DOES NOT WARRANT THAT THE SOFTWARE WILL BE UNINTERRUPTED OR ERROR-FREE.
+
+10. LIMITATION OF LIABILITY
+    10.1 IN NO EVENT SHALL TEXTIT CORPORATION BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES ARISING FROM THE USE OF THE SOFTWARE.
+    10.2 TEXTIT CORPORATION'S TOTAL LIABILITY SHALL NOT EXCEED ANY AMOUNTS PAID, IF ANY, FOR ACCESS TO OR USE OF THE SOFTWARE.
+
+11. INDEMNIFICATION
+    11.1 Licensee agrees to indemnify, defend, and hold harmless TextIt Corporation from any claims, damages, liabilities, and expenses arising from Licensee's use of the Software or breach of this License.
+
+12. TERM & TERMINATION
+    12.1 This License is effective until terminated.
+    12.2 TextIt Corporation may terminate this License immediately upon breach of any term.
+    12.3 Upon termination, Licensee must cease all use of the Software and destroy all copies.
+
+13. EXPORT CONTROL & COMPLIANCE
+    13.1 Licensee shall comply with all applicable export control laws and regulations.
+    13.2 The Software may not be exported or re-exported to prohibited entities or countries.
+
+14. DATA PROTECTION
+    14.1 If the Software processes personal data, Licensee shall comply with all applicable data protection laws including:
+        (a) GDPR (EU) 2016/679
+        (b) CCPA
+        (c) Any other applicable privacy regulations
+
+15. GOVERNING LAW & DISPUTE RESOLUTION
+    15.1 This License shall be governed by the laws of India (Bharat).
+    15.2 Any disputes shall be resolved through binding arbitration in accordance with the rules of the Indian Arbitration and Conciliation Act, 1996.
+    15.3 The arbitration shall take place in Ahmedabad, and the proceedings shall be conducted in English.
+
+16. NOTICES
+    16.1 All notices shall be in writing and delivered via certified mail or email to the addresses provided by each party.
+    16.2 Notices to TextIt Corporation shall be sent to the address specified in Section 18.
+    16.3 Electronic notices shall be deemed given when received, as evidenced by confirmation of delivery.
+
+17. AUDIT RIGHTS
+    17.1 TextIt Corporation reserves the right to audit Licensee's use of the Software to ensure compliance with this License.
+    17.2 Licensee shall maintain accurate records of all installations and uses of the Software.
+    17.3 Audits may be conducted upon 30 days' written notice, not more than once per calendar year.
+
+18. SUPPORT & MAINTENANCE
+    18.1 This License does not include any support, maintenance, or updates unless separately agreed in writing.
+    18.2 TextIt Corporation may, at its sole discretion, provide updates or bug fixes.
+    18.3 Technical support may be available separately under a separate support agreement.
+
+19. THIRD-PARTY COMPONENTS
+    19.1 The Software may include third-party components with separate legal notices.
+    19.2 Third-party components are provided "as is" and TextIt Corporation makes no warranties regarding such components.
+    19.3 Licensee agrees to comply with all applicable third-party licenses.
+
+20. HIGH-RISK ACTIVITIES
+    20.1 The Software is not designed or intended for use in hazardous environments requiring fail-safe performance.
+    20.2 TextIt Corporation specifically disclaims any express or implied warranty of fitness for high-risk activities.
+    20.3 High-risk activities include but are not limited to:
+         (a) Operation of nuclear facilities
+         (b) Air traffic control
+         (c) Life support systems
+         (d) Weapon systems
+
+21. U.S. GOVERNMENT RIGHTS
+    21.1 The Software is provided with "RESTRICTED RIGHTS."
+    21.2 Use, duplication, or disclosure by the U.S. Government is subject to restrictions as set forth in subparagraph (c)(1)(ii) of the Rights in Technical Data and Computer Software clause at DFARS 252.227-7013.
+    21.3 Contractor/Manufacturer is TextIt Corporation, Ahmedabad, Gujarat, India.
+
+22. MISCELLANEOUS
+    22.1 Entire Agreement: This License constitutes the entire agreement between the parties.
+    22.2 Amendments: Any modifications must be in writing and signed by authorized representatives.
+    22.3 Severability: If any provision is held invalid, the remaining provisions shall remain in effect.
+    22.4 No Waiver: Failure to enforce any provision shall not constitute a waiver.
+    22.5 Force Majeure: Neither party shall be liable for delays due to circumstances beyond their reasonable control.
+    22.6 No Partnership: Nothing in this License creates a partnership, joint venture, or agency relationship.
+    22.7 Headings: Section headings are for convenience only and shall not affect interpretation.
+    22.8 Survival: All provisions that by their nature should survive termination shall survive.
+
+23. CONTACT INFORMATION
+    TextIt Corporation
+    123 Tech Park, Near Sola Road
+    S.G. Highway
+    Ahmedabad, Gujarat 380061
+    India
+    
+    Email: legal@TextItCorporation.com
+    Phone: +91 99999-88888
+    Website: www.TextITCorporation.com
+
+BY USING, MODIFYING, OR DISTRIBUTING THE SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST IMMEDIATELY CEASE USING THE SOFTWARE AND DESTROY ALL COPIES IN YOUR POSSESSION.
+
+© 2025 TextIt Corporation. All rights reserved.
+
+This license was last updated on: July 20, 2025
