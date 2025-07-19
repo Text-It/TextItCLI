@@ -1,102 +1,136 @@
-# Contributor Covenant Code of Conduct
+# 🌟 TextIt Corporation Code of Conduct
 
-## Our Pledge
+<div align="center">
+  <p><em>Last Updated: July 20, 2025</em></p>
+  <p>Version 2.0 | <a href="https://www.TextITCorporation.com/code-of-conduct">View Online</a></p>
+</div>
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, religion, or sexual identity
-and orientation.
+## 📜 Our Commitment
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+At TextIt Corporation, we are committed to fostering an open, inclusive, and respectful environment for all contributors, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-## Our Standards
+We pledge to make participation in our project and community a harassment-free experience for everyone, creating a welcoming environment where all individuals feel valued and respected.
 
-Examples of behavior that contributes to a positive environment for our
-community include:
+## 🏆 Our Standards
 
-* Demonstrating empathy and kindness toward other people
-* Being respectful of differing opinions, viewpoints, and experiences
-* Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes,
-  and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the
-  overall community
-* Maintaining security and privacy of project information
-* Reporting security vulnerabilities responsibly
-* Following security protocols and guidelines
-* Respecting user data privacy
-* Protecting against unauthorized access
+### 🙌 Expected Behavior
 
-Examples of unacceptable behavior include:
+We encourage all community members to:
 
-* The use of sexualized language or imagery, and sexual attention or
-  advances of any kind
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or email
-  address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
-* Violating security protocols
-* Sharing security vulnerabilities publicly without permission
-* Attempting unauthorized access to systems
-* Compromising user data privacy
+- **Be Respectful**: Value each other's ideas, styles, and viewpoints.
+- **Be Direct but Professional**: We encourage open communication but expect professionalism at all times.
+- **Be Inclusive**: Seek diverse perspectives and actively include people from different backgrounds.
+- **Show Empathy**: Be kind to others and understand that everyone has valuable contributions to offer.
+- **Respect Privacy**: Protect personal information and respect confidentiality.
+- **Be Precise**: Provide clear, actionable, and constructive feedback.
+- **Take Responsibility**: Acknowledge and correct mistakes, and learn from the experience.
 
-## Enforcement Responsibilities
+### 🚫 Unacceptable Behavior
 
-Project maintainers are responsible for:
+Unacceptable behaviors include but are not limited to:
 
-- Clarifying and enforcing our standards of acceptable behavior
-- Taking appropriate and fair corrective action for inappropriate behavior
-- Protecting the security and privacy of the project
-- Ensuring compliance with security protocols
-- Handling security-related issues responsibly
-- Maintaining a safe and inclusive environment
+- **Harassment**: Any form of harassment, intimidation, or discrimination.
+- **Violence and Threats**: Violent or threatening language or actions.
+- **Inappropriate Content**: Sexist, racist, or otherwise discriminatory jokes and language.
+- **Privacy Violations**: Publishing others' private information without explicit permission.
+- **Security Breaches**: Attempting unauthorized access to systems or data.
+- **Disruption**: Sustained disruption of community events or discussions.
+- **Misinformation**: Spreading false or misleading information.
+- **Retaliation**: Retaliating against anyone who files a complaint.
 
-Project maintainers have the right and responsibility to:
+## 🛡️ Security & Privacy
 
-- Remove, edit, or reject contributions that violate this Code of Conduct
-- Take action against security violations
-- Protect user data privacy
-- Communicate reasons for moderation decisions
-- Ensure compliance with security guidelines
+### 🔒 Security Responsibilities
 
-## Scope
+All community members must:
+- Report security vulnerabilities to security@TextItCorporation.com
+- Follow secure coding practices
+- Respect user data privacy
+- Never expose sensitive information in public forums
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+### 🕵️‍♂️ Reporting Security Issues
 
-## Enforcement
+For security-related concerns, please follow our [Security Policy](SECURITY.md).
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-conduct@textit.example.com. This Code of Conduct was last updated on July 7, 2025.
-All complaints will be reviewed and investigated promptly and fairly.
+## 🏛️ Governance
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+### 🧑‍⚖️ Code of Conduct Committee
 
-## Enforcement Guidelines
+Our Code of Conduct is enforced by the TextIt Conduct Committee, which includes:
+- At least three TextIt team members
+- At least one external community member
+- A designated ombudsperson for confidential reporting
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+### ⚖️ Enforcement Process
 
-### 1. Correction
+1. **Report**: Submit a report via conduct@TextItCorporation.com
+2. **Acknowledge**: You'll receive an acknowledgment within 2 business days
+3. **Review**: The committee will review the report
+4. **Decision**: A response will be provided within 14 days
+5. **Appeal**: Decisions can be appealed within 30 days
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+## 🚨 Enforcement Guidelines
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+### 1. Community Warning
 
-### 2. Warning
+**Impact**: Minor violations or first-time offenses
+
+**Action**: 
+- Private written warning
+- Request for public or private apology
+- Mediation between affected parties
+
+### 2. Temporary Ban
+
+**Impact**: Repeated violations or moderate offenses
+
+**Action**:
+- Temporary ban from community spaces (1-30 days)
+- Required training or mentoring
+- Public or private reprimand
+
+### 3. Permanent Ban
+
+**Impact**: Severe violations or continued misconduct
+
+**Action**:
+- Permanent ban from all community spaces
+- Removal from project roles
+- Legal action if necessary
+
+## 🌍 Scope
+
+This Code of Conduct applies to all TextIt Corporation spaces, including:
+- GitHub repositories
+- Community forums and chat rooms
+- Social media platforms
+- In-person events
+- Private communications related to TextIt business
+
+## 📬 Reporting
+
+To report a violation of this Code of Conduct:
+
+1. **Email**: conduct@TextItCorporation.com
+2. **Web Form**: [TextIt Report Form](https://www.TextITCorporation.com/report)
+3. **Phone**: +91 99999-88888 (9 AM - 5 PM IST, Monday-Friday)
+
+All reports will be kept confidential to the extent possible.
+
+## 🤝 Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.1, and includes additional security and privacy provisions specific to TextIt Corporation.
+
+## 📜 License
+
+This document is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+---
+
+<div align="center">
+  <p>© 2025 TextIt Corporation. All rights reserved.</p>
+  <p>123 Tech Park, Near Sola Road, S.G. Highway, Ahmedabad, Gujarat 380061, India</p>
+</div>
 
 **Community Impact**: A violation through a single incident or series
 of actions.

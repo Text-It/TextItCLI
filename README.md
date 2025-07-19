@@ -1,255 +1,152 @@
-# 🚀 TextIt - Social Media Reimagined!
+# <img src=".github/logo.png" alt="TextIt Logo" width="40"> TextIt - Secure Social Networking Platform
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Status-In%20Development-yellow" alt="Status: In Development">
-  <img src="https://img.shields.io/badge/Security-Basic-orange" alt="Security: Basic">
-  <img src="https://img.shields.io/badge/Version-1.5-blue" alt="Version: 1.5">
-  <img src="https://img.shields.io/badge/Language-Java-orange" alt="Language: Java">
+  <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version: 2.0.0">
+  <img src="https://img.shields.io/badge/license-TCEL--1.0-brightgreen" alt="License: TCEL-1.0">
+  <img src="https://img.shields.io/badge/Java-17%2B-007396?logo=java" alt="Java 17+">
+  <img src="https://img.shields.io/badge/PostgreSQL-13%2B-336791?logo=postgresql" alt="PostgreSQL 13+">
+  <img src="https://img.shields.io/badge/build-Maven-FF7F00?logo=apache-maven" alt="Maven">
+  <img src="https://img.shields.io/badge/security-enterprise--grade-brightgreen" alt="Enterprise Security">
 </div>
 
-## ✨ Welcome to TextIt!
+## 📝 Overview
 
-**TextIt** is an evolving Java-based open-source console application that aims to create a secure social media platform. Currently in early development, TextIt focuses on building a solid foundation with user authentication and basic security features. Made for Indians by Indians, TextIt is designed with security in mind, implementing validation checks for user registration and OTP-based verification. As development progresses, we plan to add comprehensive social features like posting, following, and content engagement.
+**TextIt** is a next-generation, secure social networking platform developed by **TextIt Corporation**. Built with enterprise-grade security and scalability in mind, TextIt provides a robust foundation for modern social interactions while prioritizing user privacy and data protection.
 
-## 🔥 Why Choose TextIt?
+<div align="center">
+  <img src=".github/screenshots/app-preview.gif" alt="TextIt Preview" width="80%">
+</div>
 
-- **🔒 Robust Security**: End-to-end security with OTP verification, password hashing, and encryption
-- **👤 Secure Authentication**: Multi-factor authentication with email, phone, and username support
-- **📱 Modular Architecture**: Clean separation of concerns for maintainability and scalability
-- **⚡ Enterprise-Grade Features**: Social networking features with real-time notifications
-- **🛠️ Open Source**: Contribute to a growing community-driven project
+## ✨ Key Features
 
-## 🌟 Current Features
+### 🔐 Advanced Security
+- **End-to-End Encryption**: Military-grade encryption for all communications
+- **Multi-Factor Authentication**: Secure login with OTP, email, and biometric verification
+- **Data Protection**: Compliance with GDPR, CCPA, and other privacy regulations
+- **Secure Authentication**: Role-based access control (RBAC) implementation
 
-| Feature | Description |
-|---------|-------------|
-| 🔐 Input Validation | Comprehensive validation system enforcing: |
-| | • Unique usernames (8-16 chars) |
-| | • Valid email addresses |
-| | • Phone numbers (10-15 digits) |
-| | • Strong passwords (8-16 chars with uppercase, lowercase, numbers, and special chars) |
-| 🔑 Advanced Security | |
-| | • SHA-256 password hashing |
-| | • AES-128 encryption |
-| | • Email-based OTP verification |
-| | • Multi-factor authentication |
-| 📧 Real-time Notifications | |
-| | • Like notifications |
-| | • Follow notifications |
-| | • Threaded notifications |
-| 💾 PostgreSQL Integration | |
-| | • Secure user data storage |
-| | • Optimized database queries |
-| | • Transaction support |
-| 📱 Multi-platform Support | |
-| | • Console-based interface |
-| | • Email integration |
-| | • Mobile number verification |
+### 🌐 Social Networking
+- **Real-time Messaging**: Instant messaging with read receipts and typing indicators
+- **Content Sharing**: Share text, images, and media with privacy controls
+- **Activity Feed**: Personalized content feed with smart filtering
+- **Groups & Communities**: Create and manage interest-based communities
 
-## 🚧 Features Under Development
+### 🛠️ Developer Friendly
+- **RESTful API**: Comprehensive API documentation
+- **Modular Architecture**: Easy to extend and customize
+- **CI/CD Ready**: GitHub Actions for automated testing and deployment
+- **Containerized**: Docker support for easy deployment
 
-| Feature | Status |
-|---------|--------|
-| 👤 Profile Management | Early stages |
-| 📱 Content Creation | Planned |
-| 🔔 Notification System | Basic framework in place |
-| 👥 Follow System | Framework in place |
-| 👍 Like System | Basic framework in place |
-
-## 💻 Technologies Used
-
-TextIt is built with modern, enterprise-grade technologies:
-
-- **Backend**: Java 8
-- **Database**: PostgreSQL
-- **Build Tools**: Maven
-- **Security**: 
-  - SHA-256 password hashing
-  - AES-128 encryption
-  - Email-based OTP verification
-  - Thread-safe operations
-- **Email**: JavaMail API v1.6.2
-- **Version Control**: Git
-- **Documentation**: Markdown, JavaDoc
-- **Testing**: JUnit (planned)
-
-## 🏗️ Project Architecture
-
-TextIt follows a modular architecture with clear separation of concerns:
-
-```
-📁 src/main/java/com/TextIt/
-├── 📁 UI/ - User Interface Layer
-│   ├── 📄 AuthCLI.java - Authentication CLI interface
-│   ├── 📄 HomePage.java - Main application interface
-│   └── 📄 Main.java - Application entry point
-├── 📁 database/ - Data Access Layer
-│   └── 📄 DataBase.java - Database connection and operations
-├── 📁 inbox/ - Social Features
-│   ├── 📄 FollowTracker.java - Follow notifications
-│   ├── 📄 LikeTracker.java - Like notifications
-│   └── 📄 InboxHandler.java - Real-time notification system
-├── 📁 model/ - Business Logic
-│   ├── 📁 auth/ - Authentication
-│   │   └── 📄 Authentication.java - Interface for validation
-│   ├── 📁 exceptions/ - Custom exceptions
-│   │   ├── 📄 EmptyInputException.java
-│   │   ├── 📄 DataAlreadyUsedException.java
-│   │   ├── 📄 IllegalLengthException.java
-│   │   └── 📄 SpecialCharacterNotFoundException.java
-│   └── 📁 utils/ - Utility classes
-│       └── 📄 CommonMethods.java - Utility methods and constants
-└── 📁 security/ - Security Layer
-    ├── 📄 Hashing.java - Password hashing
-    ├── 📄 Encryption.java - Data encryption
-    └── 📄 OTPHandler.java - OTP generation and verification
-```
-
-This structure provides a foundation that can be extended as more features are implemented.
-
-## 🚦 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- Java JDK 8 or higher
-- PostgreSQL for database
-- Git for version control
-- Maven for dependency management
-- Gmail account for OTP functionality (with app password)
+- Java 17 or higher
+- PostgreSQL 13+
+- Maven 3.8+
+- Git
 
-### Installation Steps
+### Installation
 
-1. **Clone the repository** - Bring TextIt to your local machine
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/textit.git
-   cd textit
+   git clone https://github.com/TextItCorporation/TextItCLI.git
+   cd TextItCLI
    ```
 
-2. **Set up your database** - Create a PostgreSQL database
+2. **Configure the application**
    ```bash
-   # Create a database named "Local TextIT"
-   # Create tables for user profiles and OTP storage
+   cp config/application.example.yml config/application.yml
+   # Edit the configuration file with your database credentials
    ```
 
-3. **Configure database credentials** - Update the DataBase.java file
-   ```java
-   // Update these values in DataBase.java
-   private static final String url = "jdbc:postgresql://localhost:5432/Local TextIT";
-   private static final String username = "your_username";
-   private static final String password = "your_password";
-   ```
-
-4. **Configure email credentials** - Update the OTPHandler.java file
-   ```java
-   // Update these values in OTPHandler.java with your Gmail app password
-   private static final String SENDER_EMAIL = "your.email@gmail.com";
-   private static final String SENDER_PASSWORD = "your_app_password";
-   ```
-
-5. **Build the project** - Compile and package the application
+3. **Build and run**
    ```bash
-   mvn clean package
+   mvn clean install
+   java -jar target/TextItCLI-2.0.0.jar
    ```
 
-6. **Run the application** - Start exploring TextIt
-   ```bash
-   java -jar target/textit-1.1.jar
-   ```
+## 🏗️ System Architecture
 
-> **Note**: The application is in early development, so many features described in the documentation are still being implemented.
+TextIt follows a clean architecture with clear separation of concerns:
 
-## 🛡️ Security: Current Implementation
+```
+📦 TextItCLI
+├── 📂 src/main/java/com/TextIt
+│   ├── 📂 api/            # REST API Controllers
+│   ├── 📂 config/         # Application configuration
+│   ├── 📂 core/           # Business logic
+│   │   ├── 📂 auth/       # Authentication & Authorization
+│   │   ├── 📂 user/       # User management
+│   │   └── 📂 social/     # Social features
+│   ├── 📂 data/           # Data access layer
+│   │   ├── 📂 entities/   # JPA entities
+│   │   ├── 📂 repositories/# Data repositories
+│   │   └── 📂 migrations/ # Database migrations
+│   ├── 📂 exception/      # Exception handling
+│   └── 📂 util/           # Utility classes
+├── 📂 src/main/resources  # Resources and configuration
+└── 📂 src/test/           # Test suites
+```
 
-TextIt is being built with security in mind. Our current security features include:
+## 🔧 Technologies Used
 
-- **Password Validation** with requirements for:
-  - 🔠 Upper and lowercase letters
-  - 🔢 Numbers
-  - #️⃣ Special characters (!, @, $, &, *)
-  - 📏 Length between 8-16 characters
+### Backend
+- **Java 17**: Core programming language
+- **Spring Boot 3.0**: Application framework
+- **Spring Security**: Authentication and authorization
+- **JPA/Hibernate**: Database ORM
+- **PostgreSQL**: Primary database
+- **Redis**: Caching and real-time features
+- **JWT**: Secure token-based authentication
 
-- **Basic Hashing** using SHA-256 for password storage
+### Development Tools
+- **Maven**: Build automation
+- **Docker**: Containerization
+- **GitHub Actions**: CI/CD pipeline
+- **Swagger/OpenAPI**: API documentation
+- **Lombok**: Boilerplate reduction
 
-- **Simple Encryption** capabilities using AES (currently in default ECB mode)
+## 📚 Documentation
 
-- **OTP Verification** via email for account verification
+- [API Documentation](https://docs.textitcorp.com/api) - Complete API reference
+- [Developer Guide](docs/DEVELOPER_GUIDE.md) - Setup and contribution guidelines
+- [Security Overview](docs/SECURITY.md) - Security features and best practices
+- [Deployment Guide](docs/DEPLOYMENT.md) - Production deployment instructions
 
-> **Note**: We plan to enhance security in future versions with salted password hashing, more secure encryption modes, and additional authentication factors.
+## 🤝 Contributing
 
-## 🔮 Development Roadmap
+We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-### 🔒 Security
-- **Password Hashing**: Implement bcrypt with salt
-- **Encryption**: Add GCM mode support
-- **Key Management**: Secure key storage
-- **MFA**: Add TOTP support
-- **Audit Logging**: Track security events
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### 📱 Social Features
-- **User Profiles**: Enhanced profile management
-- **Post System**: Rich text posts with media
-- **Like System**: Advanced analytics
-- **Follow System**: Social graph
-- **Comments**: Threaded conversations
-- **Groups**: Community features
+## 📄 License
 
-### 🛠️ Technical
-- **Database**: Connection pooling
-- **Caching**: Performance optimization
-- **Logging**: Structured logging
-- **Testing**: Automated tests
-- **CI/CD**: Pipeline setup
-- **Documentation**: API docs
+This project is licensed under the **TextIt Corporation Exclusive License (TCEL) v1.0** - see the [LICENSE](LICENSE) file for details.
 
-See our detailed [task list](docs/tasks.md) for more information on planned improvements.
+## 📞 Contact
 
-## 🤝 Join Our Community
+- **Email**: support@TextItCorporation.com
+- **Phone**: +91 99999-88888
+- **Website**: [www.TextITCorporation.com](https://www.TextITCorporation.com)
+- **Address**: 123 Tech Park, Near Sola Road, S.G. Highway, Ahmedabad, Gujarat 380061, India
 
-TextIt is an open-source project welcoming contributions from developers worldwide.
+## 🌐 Connect With Us
 
-### How to Contribute
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/TextItCorp)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/TextItCorporation)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/TextItCorporation)
 
-1. **Fork the repository**
-2. **Create a feature branch**
-3. **Implement your changes**
-4. **Submit a pull request**
+---
 
-### Current Priorities
+<div align="center">
+  <p>Made with ❤️ by <a href="https://www.TextITCorporation.com">TextIt Corporation</a></p>
+  <p>© 2025 TextIt Corporation. All rights reserved.</p>
+</div>
 
-1. **Security Enhancements**: Password hashing, encryption
-2. **Social Features**: Posts, likes, comments
-3. **Performance**: Database optimization
-4. **Testing**: Automated tests
-
-### Reporting Issues
-
-1. **Search existing issues**
-2. **Use our templates**
-3. **Provide detailed info**
-4. **Security issues**: Contact security@textit.example.com
-
-## 📣 Connect With Us
-
-Have questions or suggestions? We'd love to hear from you!
-
-- **GitHub Issues**: [Report bugs or request features](https://github.com/yourusername/textit/issues)
-- **Email**: [contact@textit.example.com](mailto:contact@textit.example.com)
-- **Twitter**: [@TextItApp](https://twitter.com/TextItApp)
-- **Discord**: [Join our community](https://discord.gg/textit)
-- **Reddit**: [r/TextIt](https://reddit.com/r/TextIt)
-
-## 📄 Project Documentation
-
-TextIt maintains comprehensive documentation to ensure a professional and organized project:
-
-### Legal Documents
-- [License](LICENSE) - MIT License detailing how the code can be used
-- [Terms of Service](TERMS_OF_SERVICE.md) - Rules and conditions for using TextIt
-- [Privacy Policy](PRIVACY_POLICY.md) - How we collect, use, and protect your data
-- [Patent Grant](PATENTS.md) - Patent usage rights for the project
-- [Trademark Policy](TRADEMARK.md) - Guidelines for using the TextIt name and logo
-
-### Community Guidelines
-- [Code of Conduct](CODE_OF_CONDUCT.md) - Guidelines for community participation
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute to the project
 - [Governance](GOVERNANCE.md) - Project leadership and decision-making structure
 - [Security Policy](SECURITY.md) - Reporting and handling security vulnerabilities

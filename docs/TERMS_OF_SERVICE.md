@@ -1,103 +1,190 @@
-# TextIt Terms of Service
+# 📜 TextIt Terms of Service
 
-*Last Updated: July 14, 2025*
+<div align="center">
+  <p><em>Last Updated: July 20, 2025 | Version 2.0</em></p>
+  <p><a href="#">View Change History</a> | <a href="#">Download PDF</a></p>
+</div>
 
-## 1. Acceptance of Terms
+## 📋 Table of Contents
 
-By accessing or using the TextIt application and related services (collectively, the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
+1. [Introduction](#-introduction)
+2. [Account Terms](#-account-terms)
+3. [Content Policies](#-content-policies)
+4. [Privacy & Data Protection](#-privacy--data-protection)
+5. [Intellectual Property](#-intellectual-property)
+6. [Service Modifications](#-service-modifications)
+7. [Termination](#-termination)
+8. [Disclaimers & Limitations](#-disclaimers--limitations)
+9. [Governing Law](#-governing-law)
+10. [Contact Information](#-contact-information)
 
-## 2. Description of Service
+## 🌟 Introduction
 
-TextIt is a social media platform that allows users to create profiles, share content, connect with other users, and engage with shared content through likes, comments, and follows.
+Welcome to TextIt, a secure social networking platform developed by TextIt Corporation ("we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of the TextIt application, website, and related services (collectively, the "Service").
 
-## 3. Eligibility
+### 1.1 Acceptance of Terms
 
-You must be at least 13 years old to use the Service. By using the Service, you represent and warrant that you meet this requirement and that you have the right, authority, and capacity to enter into these Terms.
+By accessing or using the Service, you agree to be bound by these Terms and our [Privacy Policy](PRIVACY_POLICY.md). If you do not agree to these Terms, you may not access or use the Service.
 
-## 4. User Accounts
+### 1.2 Service Description
 
-### 4.1 Registration
+TextIt provides a secure platform for users to:
+- Create and manage personal profiles
+- Share text, images, and multimedia content
+- Connect with other users through follows and direct messages
+- Engage with content through reactions, comments, and shares
+- Access premium features through subscription plans
 
-To use certain features of the Service, you must register for an account. When registering, you agree to:
+### 1.3 Eligibility
+
+To use the Service, you must:
+- Be at least 13 years of age (or the minimum legal age in your jurisdiction)
+- Have the legal capacity to enter into a binding contract
+- Not be prohibited from receiving the Service under applicable laws
+
+## 🔐 Account Terms
+
+### 2.1 Account Creation
+
+To access certain features, you must create a TextIt account. During registration, you agree to:
 - Provide accurate, current, and complete information
-- Update your information to maintain accuracy
-- Complete multi-factor authentication
-- Follow all security requirements
+- Maintain and promptly update your information
+- Safeguard your account credentials
+- Maintain the security of your account
 
-### 4.2 Account Security
+### 2.2 Account Security
 
 You are responsible for:
-- Maintaining the confidentiality of your account credentials
+- Maintaining the confidentiality of your login credentials
 - Using strong, unique passwords
-- Enabling multi-factor authentication
-- Regularly updating your security settings
-- Not sharing your credentials with others
-- Not using automated tools to access your account
-- Immediately reporting any unauthorized access
+- Enabling multi-factor authentication (MFA)
+- Immediately notifying us of any unauthorized access
+- Keeping your contact information up to date
 
-### 4.3 Account Termination
+### 2.3 Account Restrictions
 
-TextIt reserves the right to suspend or terminate your account at any time for any reason, including but not limited to:
-- Violation of these Terms
-- Security breaches
-- Unauthorized access attempts
-- Violation of security protocols
-- Misuse of the Service
-- Violation of user privacy
+You may not:
+- Create accounts using automated means
+- Use another user's account without permission
+- Create multiple accounts to circumvent restrictions
+- Transfer your account to another party
 
-## 5. User Content
+## 📝 Content Policies
 
-### 5.1 Content Ownership
+### 3.1 User Content
 
-You retain ownership of any content you submit, post, or display on or through the Service ("User Content"). By submitting User Content, you grant TextIt a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display such User Content in connection with providing and promoting the Service.
+You retain ownership of all content you create, upload, or share on the Service ("User Content"). By posting User Content, you grant TextIt a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, distribute, and display such content in connection with the Service.
 
-### 5.2 Content Restrictions
+### 3.2 Prohibited Content
 
-You agree not to post User Content that:
-- Violates any applicable law or regulation
-- Infringes upon the rights of any third party
-- Is harmful, abusive, defamatory, obscene, or otherwise objectionable
-- Contains malware, viruses, or other harmful code
-- Constitutes unsolicited or unauthorized advertising or promotional materials
-- Impersonates any person or entity
-- Interferes with the proper functioning of the Service
-- Violates user privacy
-- Contains unauthorized personal data
-- Violates security protocols
-- Contains automated or bot-generated content
+You agree not to post, upload, or share content that:
+- Violates any applicable laws or regulations
+- Infringes upon intellectual property rights
+- Contains hate speech, harassment, or threats
+- Includes sexually explicit or pornographic material
+- Promotes violence or illegal activities
+- Contains malware, viruses, or harmful code
+- Violates privacy rights of others
+- Is deceptive, fraudulent, or misleading
 
-### 5.3 Content Monitoring
+### 3.3 Content Moderation
 
-TextIt:
-- Does not actively monitor User Content
-- Reserves the right to review and remove any User Content that violates these Terms
-- May use automated tools to detect security threats
-- May remove content that poses security risks
-- May terminate accounts for repeated violations
-- May report security violations to appropriate authorities
+We reserve the right to:
+- Review and moderate User Content
+- Remove or disable access to any content that violates these Terms
+- Suspend or terminate accounts of repeat infringers
+- Report illegal content to law enforcement
 
-## 6. Prohibited Activities
+## 🔒 Privacy & Data Protection
 
-You agree not to:
-- Use the Service for any illegal purpose
-- Attempt to gain unauthorized access to the Service or other users' accounts
-- Interfere with or disrupt the Service or servers connected to the Service
-- Circumvent any technological measures employed to restrict access to or use of the Service
-- Harvest or collect user information without consent
-- Use automated means to access or use the Service without our express permission
-- Engage in any activity that could disable, overburden, or impair the Service
+### 4.1 Data Collection
 
-## 7. Intellectual Property
+We collect and process personal data in accordance with our [Privacy Policy](PRIVACY_POLICY.md). By using the Service, you consent to such processing.
 
-The Service and its original content (excluding User Content), features, and functionality are owned by TextIt and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+### 4.2 Data Security
 
-## 8. Third-Party Links and Services
+We implement industry-standard security measures to protect your data, including:
+- End-to-end encryption for private messages
+- Secure data storage with access controls
+- Regular security audits and penetration testing
+- Compliance with applicable data protection laws
 
-The Service may contain links to third-party websites or services that are not owned or controlled by TextIt. TextIt has no control over and assumes no responsibility for the content, privacy policies, or practices of any third-party websites or services.
+### 4.3 Third-Party Services
 
-## 9. Disclaimer of Warranties
+The Service may integrate with or link to third-party services. We are not responsible for the privacy practices or content of these services.
 
-THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+## 🏛️ Intellectual Property
+
+### 5.1 Ownership
+
+All rights, title, and interest in and to the Service (excluding User Content) are and will remain our exclusive property.
+
+### 5.2 License to Use
+
+We grant you a limited, non-exclusive, non-transferable, revocable license to use the Service in accordance with these Terms.
+
+### 5.3 Copyright Complaints
+
+We respect intellectual property rights. If you believe your work has been copied in a way that constitutes copyright infringement, please contact us at [legal@TextItCorporation.com](mailto:legal@TextItCorporation.com).
+
+## 🔄 Service Modifications
+
+We reserve the right to:
+- Modify, suspend, or discontinue the Service at any time
+- Change or remove features without notice
+- Impose limits on certain features or restrict access to parts or all of the Service
+
+## 🚫 Termination
+
+### 7.1 By You
+
+You may stop using the Service at any time by deactivating your account.
+
+### 7.2 By Us
+
+We may suspend or terminate your access to the Service if you:
+- Violate these Terms
+- Create risk or possible legal exposure for us
+- Engage in fraudulent or illegal activities
+
+## ⚖️ Disclaimers & Limitations
+
+### 8.1 No Warranty
+
+THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+### 8.2 Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, TEXTIT CORPORATION SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
+
+### 8.3 Indemnification
+
+You agree to defend, indemnify, and hold harmless TextIt Corporation and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including without limitation reasonable attorney's fees, arising out of or in any way connected with your access to or use of the Service.
+
+## ⚖️ Governing Law
+
+These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any legal action or proceeding arising under these Terms will be brought exclusively in the courts located in Ahmedabad, Gujarat, India.
+
+## 📞 Contact Information
+
+For questions about these Terms, please contact us at:
+
+**TextIt Corporation**  
+123 Tech Park, Near Sola Road, S.G. Highway  
+Ahmedabad, Gujarat 380061, India  
+Email: [legal@TextItCorporation.com](mailto:legal@TextItCorporation.com)  
+Phone: +91 99999-88888
+
+## 📝 Changes to These Terms
+
+We may update these Terms from time to time. We will notify you of any changes by posting the new Terms on this page and updating the "Last Updated" date. You are advised to review these Terms periodically for any changes.
+
+---
+
+<div align="center">
+  <p>© 2025 TextIt Corporation. All rights reserved.</p>
+  <p><a href="https://www.TextITCorporation.com">www.TextITCorporation.com</a></p>
+</div>
 
 ## 10. Limitation of Liability
 

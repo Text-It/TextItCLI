@@ -1,103 +1,201 @@
 # Contributing to TextIt
 
-Thank you for considering contributing to TextIt! This document outlines the process for contributing to the project and helps to ensure a smooth collaboration experience for everyone involved.
+<div align="center">
+  <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg" alt="Contributions Welcome">
+  <img src="https://img.shields.io/badge/PRs-Welcome-blue.svg" alt="PRs Welcome">
+  <img src="https://img.shields.io/badge/First--Timer-Friendly-6cc644.svg" alt="Good First Issue">
+</div>
 
-*Last updated: July 14, 2025*
+Thank you for your interest in contributing to TextIt! We appreciate your time and effort in helping us build a better platform. This guide will help you get started with contributing to our project.
 
-## Code of Conduct
+## 📋 Table of Contents
 
-By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md). Please read it before contributing.
+- [Code of Conduct](#-code-of-conduct)
+- [Getting Started](#-getting-started)
+- [How to Contribute](#-how-to-contribute)
+  - [Reporting Bugs](#-reporting-bugs)
+  - [Suggesting Enhancements](#-suggesting-enhancements)
+  - [Pull Requests](#-pull-requests)
+- [Development Setup](#-development-setup)
+- [Coding Standards](#-coding-standards)
+- [Code Review Process](#-code-review-process)
+- [Community](#-community)
+- [License](#-license)
 
-## How Can I Contribute?
+## 📜 Code of Conduct
 
-### Reporting Bugs
+By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md). We expect all contributors to uphold this code. Please report any unacceptable behavior to [conduct@TextItCorporation.com](mailto:conduct@TextItCorporation.com).
 
-This section guides you through submitting a bug report for TextIt. Following these guidelines helps maintainers understand your report, reproduce the issue, and find related reports.
+## 🚀 Getting Started
 
-Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report).
+1. **Fork** the repository on GitHub
+2. **Clone** your fork locally
+   ```bash
+   git clone https://github.com/your-username/TextItCLI.git
+   cd TextItCLI
+   ```
+3. **Set up** the development environment
+   ```bash
+   mvn clean install
+   ```
+4. **Create a branch** for your changes
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-#### Before Submitting A Bug Report
+## 💡 How to Contribute
 
-* **Check the [documentation](README.md)** for a list of common questions and problems.
-* **Perform a [search](https://github.com/yourusername/textit/issues)** to see if the problem has already been reported. If it has and the issue is still open, add a comment to the existing issue instead of opening a new one.
+### 🐛 Reporting Bugs
 
-#### How Do I Submit A Good Bug Report?
+Bugs are tracked as [GitHub issues](https://github.com/TextItCorporation/TextItCLI/issues). Before submitting a bug report:
 
-Bugs are tracked as [GitHub issues](https://github.com/yourusername/textit/issues). Create an issue and provide the following information:
+1. **Search existing issues** to avoid duplicates
+2. **Check the documentation** and [FAQ](#) for known issues
+3. **Update to the latest version** to ensure the bug hasn't been fixed
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples.
-* **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
-* **Explain which behavior you expected to see instead and why.**
-* **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem.
-* **If the problem is related to performance or memory**, include a CPU profile capture with your report.
-* **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
-* **Specify the version of TextIt you're using (1.5.0)**
-* **Specify your Java version (Java 8)**
-* **Specify your PostgreSQL version if relevant**
+#### Bug Report Template
 
-### Suggesting Enhancements
+```markdown
+## Description
+[Clear and concise description of the bug]
 
-This section guides you through submitting an enhancement suggestion for TextIt, including completely new features and minor improvements to existing functionality.
+## Steps to Reproduce
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-#### Before Submitting An Enhancement Suggestion
+## Expected Behavior
+[What you expected to happen]
 
-* **Check the [documentation](README.md)** to see if the enhancement has already been suggested.
-* **Perform a [search](https://github.com/yourusername/textit/issues)** to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
+## Actual Behavior
+[What actually happened]
 
-#### How Do I Submit A Good Enhancement Suggestion?
+## Environment
+- TextIt Version: [e.g., 2.0.0]
+- Java Version: [e.g., Java 17]
+- OS: [e.g., Windows 11, macOS 12.6, Ubuntu 22.04]
+- Database: [e.g., PostgreSQL 15]
 
-Enhancement suggestions are tracked as [GitHub issues](https://github.com/yourusername/textit/issues). Create an issue and provide the following information:
+## Additional Context
+[Screenshots, logs, or any other relevant information]
+```
 
-* **Use a clear and descriptive title** for the issue to identify the suggestion.
-* **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples.
-* **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
-* **Include screenshots and animated GIFs** which help you demonstrate the steps or point out the part of TextIt which the suggestion is related to.
-* **Explain why this enhancement would be useful** to most TextIt users.
-* **List some other applications where this enhancement exists.**
-* **Specify which version of TextIt you're using (1.5.0)**
-* **Specify the name and version of the OS you're using.**
-* **Specify your Java version (Java 8)**
-* **Specify your PostgreSQL version if relevant**
+### ✨ Suggesting Enhancements
 
-### Pull Requests
+We welcome suggestions for new features and improvements. Before submitting an enhancement:
 
-The process described here has several goals:
+1. **Search existing suggestions** to avoid duplicates
+2. **Check the roadmap** in our [project board](#)
+3. **Be specific** about your use case
 
-- Maintain TextIt's quality
-- Fix problems that are important to users
-- Engage the community in working toward the best possible TextIt
-- Enable a sustainable system for TextIt's maintainers to review contributions
+#### Enhancement Template
 
-Please follow these steps to have your contribution considered by the maintainers:
+```markdown
+## Problem
+[The problem this enhancement solves]
 
-1. Follow all instructions in [the template](PULL_REQUEST_TEMPLATE.md)
-2. Follow the [styleguides](#styleguides)
-3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing
-4. Ensure your code follows our security guidelines:
-   - No hardcoded credentials
-   - Proper input validation
-   - Secure database operations
-   - Thread-safe operations
-5. Include appropriate test cases for new features
+## Proposed Solution
+[Your proposed solution]
 
-While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
+## Alternatives Considered
+[Any alternative solutions]
 
-## Styleguides
+## Additional Context
+[Any additional information]
+```
 
-### Git Commit Messages
+### 🔄 Pull Requests
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less
-* Reference issues and pull requests liberally after the first line
-* Include security implications if relevant
-* Reference any security fixes
-* Follow semantic versioning guidelines
-    * 🔒 `:lock:` when dealing with security
-    * ⬆️ `:arrow_up:` when upgrading dependencies
+1. **Keep PRs focused** - One feature/bugfix per PR
+2. **Update documentation** - Include relevant documentation updates
+3. **Write tests** - Include unit and integration tests
+4. **Follow coding standards** - See [Coding Standards](#-coding-standards)
+5. **Update CHANGELOG.md** - Document your changes
+
+#### PR Template
+
+```markdown
+## Description
+[Description of changes]
+
+## Related Issues
+Fixes #[issue-number]
+
+## Type of Change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] CI/CD update
+
+## Checklist
+- [ ] Code follows the style guidelines
+- [ ] Tests have been added/updated
+- [ ] Documentation has been updated
+- [ ] CHANGELOG.md has been updated
+```
+
+## 🛠 Development Setup
+
+### Prerequisites
+
+- Java 17 or higher
+- Maven 3.8+
+- PostgreSQL 13+
+- Git
+
+### Building the Project
+
+```bash
+# Clone the repository
+git clone https://github.com/TextItCorporation/TextItCLI.git
+cd TextItCLI
+
+# Build the project
+mvn clean install
+
+# Run tests
+mvn test
+```
+
+## 📏 Coding Standards
+
+### Java
+- Follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
+- Use meaningful variable and method names
+- Keep methods small and focused (max 30 lines)
+- Add Javadoc for public APIs
+- Write unit tests for new features
+
+### Git
+- Write clear, concise commit messages
+- Use [Conventional Commits](https://www.conventionalcommits.org/)
+- Keep commits atomic and focused
+- Rebase your feature branch before submitting a PR
+
+### Security
+- Never commit secrets or credentials
+- Validate all user inputs
+- Use parameterized queries for database operations
+- Follow the principle of least privilege
+
+## 🔍 Code Review Process
+
+1. **Initial Review** - A maintainer will review your PR within 3 business days
+2. **Address Feedback** - Make requested changes and push updates
+3. **Approval** - Once approved, a maintainer will merge your changes
+4. **Release** - Changes will be included in the next release
+
+## 🌟 Community
+
+- **Discord**: [Join our community](https://discord.gg/TextIt)
+- **Twitter**: [@TextItCorp](https://twitter.com/TextItCorp)
+- **Email**: [dev@TextItCorporation.com](mailto:dev@TextItCorporation.com)
+
+## 📄 License
+
+By contributing to TextIt, you agree that your contributions will be licensed under the [TextIt Corporation Exclusive License (TCEL) v1.0](LICENSE).
     * ⬇️ `:arrow_down:` when downgrading dependencies
     * 👕 `:shirt:` when removing linter warnings
 
