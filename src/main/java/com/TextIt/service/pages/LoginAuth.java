@@ -3,7 +3,6 @@ package com.TextIt.service.pages;
 
 
 import com.TextIt.database.DataBase;
-import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
@@ -13,7 +12,7 @@ import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
 
-public class Login implements Authentication {
+public class LoginAuth {
 
     //Object of class DataBase
     private final DataBase dataBase = new DataBase();
@@ -70,7 +69,7 @@ public class Login implements Authentication {
         System.out.print(YELLOW + "Enter your registered email for verification: " + RESET);
         email = scanner.nextLine().toLowerCase();
 
-        if(!verifyEmail(email)){
+        if(!verifyUserDetail(email)){
             return;
         }
 
@@ -103,23 +102,6 @@ public class Login implements Authentication {
         }
     }
 
-
-
-    @Override
-    public boolean verifyUsername(String username) {
-        try {
-            if (profile.isAvailable("username", username)) {
-                return true;
-            } else {
-                throw new UserDetailNotMatchException("Incorrect UserName!!");
-            }
-        }catch (UserDetailNotMatchException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-
-    }
-
     /**
      * <h1>Password Validator</h1>
      * <p>
@@ -144,7 +126,7 @@ public class Login implements Authentication {
             if (profile.isAvailable("password_hash", hashedPassword)) {
                 return true;
             } else {
-                throw new UserDetailNotMatchException("Incorrect Password!!");
+                throw new PasswordNotMatchException("password does not match");
             }
         } catch (PasswordNotMatchException e) {
             System.out.println(e.getMessage());
@@ -153,38 +135,10 @@ public class Login implements Authentication {
     }
 
     /**
-     *
-     * @param email
-     * @return
+     * Return{@code True}  When Object is different (Like String)
      */
-    @Override
-    public boolean verifyEmail(String email) {
-        try{
-            if (profile.isAvailable("email", email )) {
-                return true;
-            }else{
-                throw new UserDetailNotMatchException("Incorrect Email!!");
-            }
-
-        }catch (UserDetailNotMatchException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean verifyPhoneNumber(String phoneNumber) {
-        try {
-            if (profile.isAvailable("mobile_number", phoneNumber)) {
-                return true;
-            } else {
-                throw new UserDetailNotMatchException("Incorrect Mobile Number!!");
-            }
-
-        } catch (UserDetailNotMatchException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+    public boolean isDifferent(Object s){
+        return !(this==s);
     }
 
 

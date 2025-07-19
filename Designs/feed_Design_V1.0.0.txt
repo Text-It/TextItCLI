@@ -1,0 +1,58 @@
+
+		╔════════════════════════════════════════════════════════════╗
+		║                                   HIVE                       			  ║
+		║              Discover what other Textizens are inking         	          ║
+		╚════════════════════════════════════════════════════════════╝
+
+		╭────────────────────────────────────────────────────────────╮
+		│   Ink by: @username        time: 10 mins ago               			 │
+		|										 |
+		│  Tag: #Life #MorningThoughts(user will give tags)                             │
+		|										|	
+		│───────────────────────────────────────────────────────────│
+		|										|
+		| POST AREA:									|
+		│ "Finally deployed the OTP system "      					│
+		│                                                           			│
+		│ Ripples: 14   Vibes: 72   Casts: 9   Views : 189		     		│
+		|										|
+		│───────────────────────────────────────────────────────────│
+		|										|
+		| OPTION SECTION: 								|	
+		│ [1] Ripple (Comment)   [2] Vibe (Like)                     			│
+		│ [3] Cast (Re-share)    [4] Profile (View Author)          			│
+		│ [5] Report             [6] Share via Link                 			│
+		| [7] previous		 [8] Next 						|
+		╰────────────────────────────────────────────────────────────╯
+
+*Note
+
+1) Hive --> Like in insta there is feed section so are feed section is called Hive ( terminology hive is something where honeybees collect all there food so in textit hive is place where everones post is there)  ( one other name suggestion is Ink Pod)
+
+2) Textizens --> the user of textit are called textizens
+
+3) ink --> in insta we call It reel and in x formally know as twitter we call it tweet so our app is text based so we call it Ink
+
+4) time --> when the post was uploaded calc from current time - uplode time
+
+5) tags --> tags given by user
+
+6) post area --> a 10 * 10 area so for now we provide a space for 100 words (if you wish we can expand it to 20*20)
+
+7) ripples --> means comment section
+
+8) vibes --> means likes
+
+9) casts --> means repost
+
+10) views --> total views got on this ink
+
+11) profile --> goes to profile page of user who post this ink
+
+12) report --> to repot the ink (future plans)
+
+13) share --> 16 digit unified code 
+
+14) previous --> to go to previous post
+
+15) next --> to go to next post
