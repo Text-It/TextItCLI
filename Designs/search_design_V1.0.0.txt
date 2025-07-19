@@ -1,0 +1,33 @@
+╔════════════════════════════════════════╗
+║                	Explore	                       ║
+╚════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 What would you like to search?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Search Users
+  2. Search Inks
+  3. Not Yet Decided Future Updates
+  N. 🔙 Go Back to Home
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📥 Enter your search query:
+________________________________________
+
+🧾 Tips:
+• Use @username to find users directly.
+• Try #hashtag to explore trending topics.
+• Type keywords to search Inks or Ripples.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+#NOTE_FOR_DEVELOPERS
+
+1) search user by his username or (a 16 digit code which is unique for each account holder)
+2) search ink by ShareCode(a 16 digit code which unique for each ink on platform)
+3) some more search options
+N) the last number in sequence which is back button
+
