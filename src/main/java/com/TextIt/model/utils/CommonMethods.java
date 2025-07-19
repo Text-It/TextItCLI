@@ -1,5 +1,6 @@
 package com.TextIt.model.utils;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class CommonMethods {
@@ -22,5 +23,44 @@ public class CommonMethods {
         scanner.nextLine();
     }
 
+    public static String color(String text, String color) {
+        return color + text + RESET;
+    }
 
+    public static void openInNewCMD(String className, String... args) {
+        try {
+            // Get java executable and working directory
+            String javaBin = System.getProperty("java.home") + "\\bin\\java";
+            String workingDir = System.getProperty("user.dir");
+
+            // Build classpath: include compiled classes and all jars in target/dependency
+            String classpath = "\"" + workingDir + "\\target\\classes\"";
+
+            File depDir = new File(workingDir + "\\target\\dependency");
+            if (depDir.exists()) {
+                File[] jars = depDir.listFiles((dir, name) -> name.endsWith(".jar"));
+                if (jars != null) {
+                    for (File jar : jars) {
+                        classpath += ";" + "\"" + jar.getAbsolutePath() + "\"";
+                    }
+                }
+            }
+
+            // Prepare argument string
+            String argString = String.join(" ", args);
+
+            // Final Java command
+            String command = String.format("\"%s\" -cp %s %s %s", javaBin, classpath, className, argString);
+
+            // Open in new CMD window
+            new ProcessBuilder("cmd", "/c", "start", "cmd", "/k", "title " + className + " && " + command)
+                    .directory(new File(workingDir))
+                    .inheritIO()
+                    .start();
+
+        } catch (Exception e) {
+            System.err.println("❌ Failed to launch " + className);
+            e.printStackTrace();
+        }
+    }
 }
