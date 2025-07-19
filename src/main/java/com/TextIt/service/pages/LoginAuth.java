@@ -3,6 +3,7 @@ package com.TextIt.service.pages;
 
 
 import com.TextIt.database.DataBase;
+import com.TextIt.model.auth.Authentication;
 import com.TextIt.model.exceptions.*;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
@@ -12,8 +13,7 @@ import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
 
-public class LoginAuth {
-
+public class LoginAuth implements Authentication {
     //Object of class DataBase
     private final DataBase dataBase = new DataBase();
     private final DataBase.Profile profile =dataBase.new Profile();
@@ -56,10 +56,56 @@ public class LoginAuth {
         }
     }
 
+    @Override
+    public boolean verifyUsername(String username) {
+        try {
+            if (profile.isAvailable("username", username)) {
+                return true;
+            } else {
+                throw new UserDetailNotMatchException("Incorrect UserName!!");
+            }
+        }catch (UserDetailNotMatchException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+    }
+
+
+    @Override
+    public boolean verifyEmail(String email) {
+        try{
+            if (profile.isAvailable("email", email )) {
+                return true;
+            }else{
+                throw new UserDetailNotMatchException("Incorrect Email!!");
+            }
+
+        }catch (UserDetailNotMatchException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean verifyPhoneNumber(String phoneNumber) {
+        try {
+            if (profile.isAvailable("mobile_number", phoneNumber)) {
+                return true;
+            } else {
+                throw new UserDetailNotMatchException("Incorrect Mobile Number!!");
+            }
+
+        } catch (UserDetailNotMatchException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public void handleForgotPassword(Scanner scanner){
 
         //Object of Signup
-        SignUp signup = new SignUp();
+        SignUpAuth signup = new SignUpAuth();
 
         //Variables
         String email, newPassword , conformPassword;
@@ -118,6 +164,7 @@ public class LoginAuth {
      * @param password user provided password
      * @return true, if the password matches else false
      */
+    @Override
     public boolean verifyPassword(String password){
 
          String hashedPassword = Hashing.generateHashCode(password);
@@ -133,13 +180,4 @@ public class LoginAuth {
             return false;
         }
     }
-
-    /**
-     * Return{@code True}  When Object is different (Like String)
-     */
-    public boolean isDifferent(Object s){
-        return !(this==s);
-    }
-
-
 }
