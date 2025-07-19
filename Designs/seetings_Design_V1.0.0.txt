@@ -1,0 +1,46 @@
+╔════════════════════════════════════════════╗
+║               ⚙ TEXTIT SETTINGS         	            ║
+╚════════════════════════════════════════════╝
+
+📂 ACCOUNT MANAGEMENT
+  ├─ 🔑  Change Password
+  ├─ 📧  Update Email
+  ├─ 📱  Update Phone Number
+  └─ 🧾  Edit Profile Information
+
+🛡 PRIVACY & SECURITY
+  ├─ 🔒  Enable 2FA (Two-Factor Auth)
+  ├─ 👁  Profile Visibility Control
+  ├─ 🚫  Block / Unblock Users
+  └─ 🕵️  Show/Hide Activity Status
+
+🎨 APPEARANCE & THEMES
+  ├─ 🌗  Dark Mode / Light Mode
+  ├─ 🖼  Theme Customization
+ 
+
+🔔 NOTIFICATION SETTINGS
+  ├─ 🔕  Push Notifications
+  ├─ 📩  Email Alerts
+  └─ ⏰  Custom Activity Reminders
+
+🛠 APP PREFERENCES
+  └─ 🗑  Clear Cache & Temp Files
+
+📄 ABOUT & LEGAL
+  ├─ ℹ  Version: 1.0.0 (Build 2025)
+  ├─ 📜  Terms of Service
+  ├─ 🔐  Privacy Policy
+  └─ 📬  Contact Developer Support
+
+🚪 SESSION OPTIONS
+  ├─ 🔄  Switch Account
+  ├─ ❌  Logout
+  └─ 🗑️  Delete My Account
+
+════════════════════════════════════════════
+
+#NOTE_FOR_DEVELOPERS
+we will give 7 options has you can see then suppose if he choose opton 1 )account management then we give 4 option as shown above 
+
+so I have written extra features but we will not implement all of them we will focus on main topics and then work on extra features
