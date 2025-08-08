@@ -17,7 +17,12 @@ import java.util.Properties;
  */
 public class DataBase {
 
-     {
+    // Database credentials and URL
+    private String DB_URL;
+    private String DB_USERNAME;
+    private String DB_PASSWORD;
+
+    {
         try {
             Class.forName("org.postgresql.Driver");
             loadDB();
@@ -39,13 +44,7 @@ public class DataBase {
         return DB_PASSWORD;
     }
 
-    // Database credentials and URL
-    private String DB_URL ;
-    private String DB_USERNAME ;
-    private String DB_PASSWORD ;
-
-
-        public void loadDB(){
+    public void loadDB() {
         Properties props = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
 
@@ -66,6 +65,7 @@ public class DataBase {
         }
 
     }
+
     public boolean isServerReachable() {
         try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             return true;
@@ -73,6 +73,60 @@ public class DataBase {
             System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
             return false;
         }
+    }
+
+    public int featchId(String userData) {
+        Profile profile = new Profile();
+
+        String query = "";
+        if (profile.isAvailable("username", userData)) {
+            query = "SELECT user_id FROM users WHERE username = ?";
+        } else if (profile.isAvailable("email", userData)) {
+            query = "SELECT user_id FROM users WHERE email = ?";
+        } else {
+            query = "SELECT user_id FROM users WHERE mobile_number  = ?";
+        }
+
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, userData);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_id");
+            } else {
+                throw new UserDetailNotMatchException("No DataFound about the User");
+
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error occurred while registering user: " + e.getMessage());
+            e.printStackTrace(); // Optional: useful during debugging
+
+        }
+        return -1;
+    }
+
+    // fetch User_details byUser_id
+    public UserData getUserData(int userId) {
+
+        UserData user = new UserData();
+        String query = "SELECT * FROM users WHERE user_id = ?";
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new UserData(rs.getString(4), rs.getString(2).concat(rs.getString(3)), rs.getString(7), rs.getDate(8).toLocalDate().getYear() , rs.getString(10));
+            } else {
+                System.out.println("User not found.");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error occurred while registering user: " + e.getMessage());
+            e.printStackTrace(); // Optional: useful during debugging
+
+        }
+        return null;
     }
 
     /**
@@ -89,7 +143,7 @@ public class DataBase {
          * @param input the value to check for uniqueness
          * @return true if the input is available (not taken), false if it already exists
          */
-        public  boolean isAvailable(String field, String input) {
+        public boolean isAvailable(String field, String input) {
             String query = "SELECT user_id FROM users WHERE " + field + " = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
 
@@ -106,14 +160,13 @@ public class DataBase {
         }
 
 
-
         public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email) {
             String hashedPassword = Hashing.generateHashCode(password); // Hash the password
             LocalDate currentDate = LocalDate.now();                    // Account creation date
 
-            String query = "INSERT INTO users (first_name, last_name, LOWER(username), password_hash, mobile_number, LOWER(email), created_at) " + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (first_name, last_name, username, password_hash, mobile_number, email, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-            try (Connection conn = DriverManager.getConnection(DB_URL , DB_USERNAME , DB_PASSWORD)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
 
                 PreparedStatement ps = conn.prepareStatement(query);
 
@@ -122,7 +175,7 @@ public class DataBase {
                 ps.setString(3, username);
                 ps.setString(4, hashedPassword);
                 ps.setString(5, mobileNumber);
-                ps.setString(6, email);
+                ps.setString(6, email.toLowerCase());
                 ps.setDate(7, java.sql.Date.valueOf(currentDate));
 
                 ps.executeUpdate();
@@ -152,63 +205,39 @@ public class DataBase {
                 return false;
             }
         }
-
     }
 
-    public int featchId(String userData){
-        Profile profile = new Profile();
+    public class Post{
 
-        String query="";
-        if(profile.isAvailable("username", userData)){
-                query = "SELECT user_id FROM users WHERE username = ?";
-        } else if (profile.isAvailable("email", userData)) {
-                 query = "SELECT user_id FROM users WHERE email = ?";
-        }else{
-             query = "SELECT user_id FROM users WHERE mobile_number  = ?";
-        }
+        public int postCount(int userid){
+            String query = "select count(*) from posts where user_id = ?";
 
-        try (Connection con= DriverManager.getConnection(DB_URL , DB_USERNAME , DB_PASSWORD)) {
-            PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, userData);
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()){
-                return rs.getInt("user_id");
-            }else {
-                throw new  UserDetailNotMatchException("No DataFound about the User" );
-
+            try (Connection conn = DriverManager.getConnection(DB_URL,DB_USERNAME,DB_PASSWORD)){
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1,userid);
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post count for user_id = " + userid);
             }
-
-        }catch (SQLException e) {
-            System.err.println("Error occurred while registering user: " + e.getMessage());
-            e.printStackTrace(); // Optional: useful during debugging
-
+            return -1;
         }
-        return -1;
-    }
 
-    // fetch User_details byUser_id
-    public UserData getUserData(int userId) {
-
-        UserData user = new UserData();
-        String query = "SELECT * FROM users WHERE user_id = ?";
-        try (Connection con= DriverManager.getConnection(DB_URL , DB_USERNAME , DB_PASSWORD)) {
-            PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, userId);
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()) {
-               return new UserData(rs.getString(3),rs.getString(1)+rs.getString(2),rs.getString(7));
-            }else{
-                System.out.println("User not found.");
-                return null;
+        public String getShareCode(int postid){
+            String query = "select share_code from posts where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL,DB_USERNAME,DB_PASSWORD)){
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1,postid);
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching share code for post_id = " + postid);
             }
-        }catch (SQLException e) {
-            System.err.println("Error occurred while registering user: " + e.getMessage());
-            e.printStackTrace(); // Optional: useful during debugging
-
+            return null;
         }
-        return null;
     }
-
-
-
 }
