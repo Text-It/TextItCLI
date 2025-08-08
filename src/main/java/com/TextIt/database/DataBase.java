@@ -77,25 +77,36 @@ public class DataBase {
 
     public int featchId(String userData) {
         Profile profile = new Profile();
+        boolean emailExists = false;
 
         String query = "";
         if (profile.isAvailable("username", userData)) {
             query = "SELECT user_id FROM users WHERE username = ?";
-        } else if (profile.isAvailable("email", userData)) {
+        } else if (profile.isAvailable("email", userData.toLowerCase())) {
             query = "SELECT user_id FROM users WHERE email = ?";
+            emailExists = true;
         } else {
             query = "SELECT user_id FROM users WHERE mobile_number  = ?";
         }
 
         try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             PreparedStatement statement = con.prepareStatement(query);
+            // for comparing email to database email Only
+            if (emailExists) {
+                statement.setString(1, userData.toLowerCase());
+                ResultSet rs = statement.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+                return -1;
+
+            }
             statement.setString(1, userData);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                return rs.getInt("user_id");
+                return rs.getInt(1);
             } else {
                 throw new UserDetailNotMatchException("No DataFound about the User");
-
             }
 
         } catch (SQLException e) {
@@ -116,6 +127,7 @@ public class DataBase {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
+                System.out.println(rs.getString(2)+rs.getString(3));
                 return new UserData(rs.getString(4), rs.getString(2).concat(rs.getString(3)), rs.getString(7), rs.getDate(8).toLocalDate().getYear() , rs.getString(10));
             } else {
                 System.out.println("User not found.");
