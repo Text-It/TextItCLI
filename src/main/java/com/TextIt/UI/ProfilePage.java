@@ -10,7 +10,6 @@ import static com.TextIt.model.utils.CommonMethods.*;
 
 public class ProfilePage {
 
-
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {

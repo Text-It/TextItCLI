@@ -19,12 +19,17 @@ import static com.TextIt.model.utils.CommonMethods.openInNewCMD;
  */
 public class SessionManger {
 
-    private  UserData userData ;
+    public static   UserData userData ;
     private DataBase dataBase = new DataBase();
     // It will Load During SignUP
     public SessionManger() {
     }
 
+
+    public  void fetchData() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("last_session.txt"));
+        userData = dataBase.getUserData(Integer.parseInt(br.readLine()));
+    }
     public boolean autoLogin(){
         File file = new File("last_session.txt");
         if (file.exists()) {
@@ -74,8 +79,6 @@ public class SessionManger {
     // During First Time Login
     public void manualLogin(int user_id) {
         try {
-            File file = new File("last_session.txt");
-            if(file.createNewFile()){
                 BufferedWriter bw = new BufferedWriter(new FileWriter("last_session.txt"));
                 LocalDate localDate = LocalDate.now();
                 LocalTime localTime = LocalTime.now();
@@ -86,16 +89,12 @@ public class SessionManger {
                 bw.write(String.valueOf(localTime));
                 bw.flush();
                 bw.close();
-            }else{
-                System.out.println("File already exists");
-            }
+                fetchData();
+
         }catch (IOException e){
             System.out.println("Error writing to file(last_session.txt) " + e.getMessage());
         }
 
     }
-    public boolean checkSessionValidity(Date time ) {
-        File file = new File("last_session.txt");
-        return false;
-    }
+
 }

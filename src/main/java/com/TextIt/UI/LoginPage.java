@@ -46,10 +46,8 @@ public class LoginPage {
         } else {
             try {
                 if (oldUser.verifyUserDetail(userInput) && oldUser.verifyPassword(password)) {
+                    sessionManger.manualLogin(connectivity.featchId(userInput.trim()));
                     System.out.println(GREEN + BOLD + "\n LoginAuth successful!" + RESET);
-                    sessionManger.manualLogin(connectivity.featchId(userInput));
-
-
                 } else {
                     System.out.println(RED + BOLD + "\n LoginAuth failed. Please check your credentials." + RESET);
                 }
