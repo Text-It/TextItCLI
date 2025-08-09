@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class SearchPage {
 
     private HashMap<String, UserData> userMap;
-    private DataBase database;
-    private Scanner scanner;
+    private final DataBase database;
+    private final Scanner scanner;
     public SearchPage() {
         this.userMap = new HashMap<>();
         this.database = new DataBase();
@@ -42,9 +42,9 @@ public class SearchPage {
                 String email = rs.getString("email");
 
                 String fullName = firstName + " " + lastName;
-                UserData userData = new UserData(username, fullName, email);
+               // UserData userData = new UserData(username, fullName, email);
 
-                userMap.put(username, userData);
+               // userMap.put(username, userData);
                 userCount++;
             }
 
