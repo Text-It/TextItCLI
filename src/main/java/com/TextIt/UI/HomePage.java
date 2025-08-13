@@ -1,7 +1,10 @@
 package com.TextIt.UI;
 
+import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
+import com.TextIt.service.session.SessionManger;
 
+import javax.xml.crypto.Data;
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -11,17 +14,21 @@ public class HomePage {
 
     static Scanner sc = new Scanner(System.in);
 
+    private static final int userID = SessionManger.getUserid();
+    private static final DataBase db = new DataBase();
+    private static final DataBase.UserData userdata =db.new UserData();
+
 
     public static void main(String[] args) {
         //String username = args[0];
-        String username = "TextIt";
+
         while (true) {
             System.out.println(CYAN + BOLD);
             System.out.println("==============================================");
             System.out.println("             Welcome to TextIT                ");
             System.out.println("==============================================");
             System.out.print(RESET);
-            System.out.println(color("Hello, " + username + "!", YELLOW));
+            System.out.println(color("Hello, " + userdata.getUserName(userID) + "!", YELLOW));
             System.out.println(color("Select option to explore the world of TextIT", GREEN));
             System.out.println(YELLOW + "1. " + color("Profile", BLUE));
             System.out.println(YELLOW + "2. " + color("Reel", BLUE));
@@ -38,7 +45,7 @@ public class HomePage {
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + username);
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + userID);
                     break;
                 case 2:
                     reel();
