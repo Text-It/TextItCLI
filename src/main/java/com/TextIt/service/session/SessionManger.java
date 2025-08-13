@@ -19,17 +19,20 @@ import static com.TextIt.model.utils.CommonMethods.openInNewCMD;
  */
 public class SessionManger {
 
-    public static   UserData userData ;
-    private DataBase dataBase = new DataBase();
+    private static int userid;
+
     // It will Load During SignUP
     public SessionManger() {
     }
 
-
-    public  void fetchData() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("last_session.txt"));
-        userData = dataBase.getUserData(Integer.parseInt(br.readLine()));
+    public static int getUserid() {
+        return userid;
     }
+
+    public static void setUserid(int userid) {
+        SessionManger.userid = userid;
+    }
+
     public boolean autoLogin(){
         File file = new File("last_session.txt");
         if (file.exists()) {
@@ -41,7 +44,7 @@ public class SessionManger {
                 System.out.println("File not found");
             }
             try(BufferedReader br = new BufferedReader(fr)){
-                userData = dataBase.getUserData(Integer.parseInt(br.readLine()));
+                userid = Integer.parseInt(br.readLine());
 
 
                     // Formater for the Date
@@ -89,7 +92,6 @@ public class SessionManger {
                 bw.write(String.valueOf(localTime));
                 bw.flush();
                 bw.close();
-                fetchData();
 
         }catch (IOException e){
             System.out.println("Error writing to file(last_session.txt) " + e.getMessage());

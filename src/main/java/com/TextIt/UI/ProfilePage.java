@@ -1,5 +1,6 @@
 package com.TextIt.UI;
 
+import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.user.UserData;
 
@@ -11,49 +12,42 @@ import static com.TextIt.model.utils.CommonMethods.*;
 public class ProfilePage {
 
     static Scanner sc = new Scanner(System.in);
+    private static final DataBase db = new DataBase();
+    private static final DataBase.UserData userdata =db.new UserData();
+    private static final DataBase.Post userpost =db.new Post();
 
     public static void main(String[] args) {
+        int userid = Integer.parseInt(args[0]);
 
-        dynamicDesign();
-        //String username = String.valueOf(args[0]);
-        String username = "TextIt";
+        int borderLength = 50;
+        String headerTopBottomBorder = "=";
+        String bodyLeftRightBorder = "||";
+        String header = userdata.getUserName(userid) + "'s Profile";
+        int bodyContentLength = borderLength - bodyLeftRightBorder.length() * 2;
+
         System.out.println(CYAN + BOLD);
-        System.out.println("===============================================");
-        System.out.println("                  YOUR PROFILE                 ");
-        System.out.println("===============================================");
+        System.out.println(headerTopBottomBorder.repeat(borderLength));
+        System.out.println(" ".repeat(borderLength / 2 - header.length() / 2) + header + "".repeat(borderLength / 2 - header.length() / 2));
+        System.out.println(headerTopBottomBorder.repeat(borderLength));
         System.out.println(RESET);
         System.out.println();
-        String real_name = "";
-        String gender = "";
-        String location = "";
-        String bio = "";
-        int member_since = 0;
-        int posts = 0;
-        int following = 0;
-        int followers = 0;
-        int xp = 0;
-        String level = "";
-        String mood = "";
-        System.out.println(color("real_name", YELLOW) + "               " + color(real_name, BLUE));
-        System.out.println(color("gender", YELLOW) + "     " + color(gender, BLUE) + "     " + color("location", YELLOW) + "  " + color(location, BLUE));
-        System.out.println(color("BIO ->", YELLOW) + "  " + color(bio, BLUE));
-        System.out.println();
-        System.out.println(color("Member since:", YELLOW) + " " + color(String.valueOf(member_since), BLUE));
-        System.out.println();
-        System.out.println(color("Posts:", YELLOW) + " " + color(String.valueOf(posts), BLUE) + "     " + color("following:", YELLOW) + " " + color(String.valueOf(following), BLUE) + "     " + color("Followers:", YELLOW) + " " + color(String.valueOf(followers), BLUE));
-        System.out.println();
-        System.out.println(color("XP:", YELLOW) + " " + color(String.valueOf(xp), BLUE) + "          " + color("Level:", YELLOW) + " " + color(level, BLUE));
-        System.out.println();
-        System.out.println(color("Mood:", YELLOW) + " " + color(mood, BLUE) + " (current mood)");
+
+        System.out.println(bodyLeftRightBorder + userdata.getRealName(userid) + " ".repeat(bodyContentLength - userdata.getRealName(userid).length() - userdata.getUserName(userid).length()) + userdata.getUserName(userid) + bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + userdata.getGender(userid) + " ".repeat(bodyContentLength- userdata.getGender(userid).length() - userdata.getLocation(userid).length())+ bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + "BIO -->" + " ".repeat(bodyContentLength - 7) + bodyLeftRightBorder);
+        CommonMethods.paragraphDisplay(userdata.getBio(userid),bodyLeftRightBorder,borderLength);
+        System.out.println(bodyLeftRightBorder + "Member Since: " + userdata.getMemberSince(userid) + " ".repeat(bodyContentLength-userdata.getMemberSince(userid)-14) + bodyLeftRightBorder);
+        //System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userData.getFollowingCount()-userData.getFollowersCount()-29)/3) + "Following: " + userData.getFollowingCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + "Followers: " + userData.getFollowersCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + bodyLeftRightBorder );
+        System.out.println(bodyLeftRightBorder + "XP: " + userdata.getXP(userid)  + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + "Level: " + userdata.getLevel(userid) + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + "Share: " + userdata.getUserShareCode(userid) + " ".repeat(bodyContentLength-userdata.getUserShareCode(userid).length()-6) + bodyLeftRightBorder);
+
         System.out.println();
 
         System.out.println(color("OPTIONS", PURPLE));
-        System.out.println("-----------------------------------------------");
+        System.out.println("-".repeat(borderLength));
         System.out.println("[1] View Posts  [2] Edit Profile  [3] My Circles");
         System.out.println("[4] Settings    [5] Privacy Mode  [6] Exit      ");
-        System.out.println("-----------------------------------------------");
-
-        System.out.println(color("Tip: Type 'mood' to update your feeling!", GREEN));
+        System.out.println("-".repeat(borderLength));
         while (true) {
             System.out.println("Enter your choices :");
             String choice = sc.nextLine();
@@ -110,38 +104,4 @@ public class ProfilePage {
     private static void settings() {
     }
 
-    private static void dynamicDesign() {
-
-        UserData userData = new UserData();
-
-        int borderLength = 50;
-        String headerTopBottomBorder = "=";
-        String bodyLeftRightBorder = "||";
-        String header = userData.getUserName() + "'s Profile";
-        int bodyContentLength = borderLength - bodyLeftRightBorder.length() * 2;
-
-        System.out.println(CYAN + BOLD);
-        System.out.println(headerTopBottomBorder.repeat(borderLength));
-        System.out.println(" ".repeat(borderLength / 2 - header.length() / 2) + header + "".repeat(borderLength / 2 - header.length() / 2));
-        System.out.println(headerTopBottomBorder.repeat(borderLength));
-        System.out.println(RESET);
-        System.out.println();
-
-        System.out.println(bodyLeftRightBorder + userData.getRealName() + " ".repeat(bodyContentLength - userData.getRealName().length() - userData.getUserName().length()) + userData.getUserName() + bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + userData.getGender() + " ".repeat(bodyContentLength- userData.getGender().length() - userData.getLocation().length())+ bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + "BIO -->" + " ".repeat(bodyContentLength - 7) + bodyLeftRightBorder);
-        CommonMethods.paragraphDisplay(userData.getBio(),bodyLeftRightBorder,borderLength);
-        System.out.println(bodyLeftRightBorder + "Member Since: " + userData.getMemberSince() + " ".repeat(bodyContentLength-userData.getMemberSince()-14) + bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + "Posts: " + userData.getPostCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3) + "Following: " + userData.getFollowingCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + "Followers: " + userData.getFollowersCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + bodyLeftRightBorder );
-        System.out.println(bodyLeftRightBorder + "XP: " + userData.getXP()  + " ".repeat((bodyContentLength-userData.getXP() - userData.getLevel() -11)/3) + "Level: " + userData.getLevel() + " ".repeat((bodyContentLength-userData.getXP() - userData.getLevel() -11)/3) + bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + "Share: " + userData.getUserShareCode() + " ".repeat(bodyContentLength-userData.getUserShareCode().length()-6) + bodyLeftRightBorder);
-
-        System.out.println();
-
-        System.out.println(color("OPTIONS", PURPLE));
-        System.out.println("-".repeat(borderLength));
-        System.out.println("[1] View Posts  [2] Edit Profile  [3] My Circles");
-        System.out.println("[4] Settings    [5] Privacy Mode  [6] Exit      ");
-        System.out.println("-".repeat(borderLength));
-    }
 }
