@@ -116,6 +116,67 @@ public class DataBase {
         return -1;
     }
 
+    public class UserFollows{
+
+        public int getFollowersCount(int userID){
+            String query = "select count(*) from user_follows where following_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching follower count for userID = " + userID);
+            }
+            return -1;
+        }
+
+        public int getFollowingCount(int userID){
+            String query = "select count(*) from user_follows where follower_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching following count for userID = " + userID);
+            }
+            return -1;
+        }
+
+        public boolean followUser(int followerID, int followingID){
+            String query = "INSERT INTO user_follows (follower_id, following_id) VALUES (?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, followerID);
+                pst.setInt(2, followingID);
+                pst.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while following user: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean unFollowUser(int followerID, int followingID){
+            String query = "DELETE FROM user_follows WHERE follower_id = ? AND following_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, followerID);
+                pst.setInt(2, followingID);
+                pst.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while unfollowing user: " + e.getMessage());
+            }
+            return false;
+        }
+    }
+
 
     /**
      * The {@code Profile} class handles verification of unique user details

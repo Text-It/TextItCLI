@@ -15,6 +15,7 @@ public class ProfilePage {
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata =db.new UserData();
     private static final DataBase.Post userpost =db.new Post();
+    private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
     public static void main(String[] args) {
         int userid = Integer.parseInt(args[0]);
@@ -37,7 +38,7 @@ public class ProfilePage {
         System.out.println(bodyLeftRightBorder + "BIO -->" + " ".repeat(bodyContentLength - 7) + bodyLeftRightBorder);
         CommonMethods.paragraphDisplay(userdata.getBio(userid),bodyLeftRightBorder,borderLength);
         System.out.println(bodyLeftRightBorder + "Member Since: " + userdata.getMemberSince(userid) + " ".repeat(bodyContentLength-userdata.getMemberSince(userid)-14) + bodyLeftRightBorder);
-        //System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userData.getFollowingCount()-userData.getFollowersCount()-29)/3) + "Following: " + userData.getFollowingCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + "Followers: " + userData.getFollowersCount() + " ".repeat((bodyContentLength-userData.getPostCount()-userData.getFollowingCount()-userData.getFollowersCount()-29)/3)  + bodyLeftRightBorder );
+        System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3) + "Following: " + userfollows.getFollowingCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + "Followers: " + userfollows.getFollowersCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + bodyLeftRightBorder );
         System.out.println(bodyLeftRightBorder + "XP: " + userdata.getXP(userid)  + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + "Level: " + userdata.getLevel(userid) + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + bodyLeftRightBorder);
         System.out.println(bodyLeftRightBorder + "Share: " + userdata.getUserShareCode(userid) + " ".repeat(bodyContentLength-userdata.getUserShareCode(userid).length()-6) + bodyLeftRightBorder);
 
