@@ -42,9 +42,9 @@ public class SearchPage {
                 String email = rs.getString("email");
 
                 String fullName = firstName + " " + lastName;
-                UserData userData = new UserData(username, fullName, email);
+                //UserData userData = new UserData(username, fullName, email);
 
-                userMap.put(username, userData);
+               // userMap.put(username, userData);
                 userCount++;
             }
 
