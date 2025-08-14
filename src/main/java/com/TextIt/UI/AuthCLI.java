@@ -22,6 +22,7 @@ public class AuthCLI {
 
     public static void openInNewCMD(String className) {
         try {
+            // Path where java is downloaded
             String javaHome = System.getProperty("java.home");
             String javaBin = javaHome + "\\bin\\java";
             String workingDir = System.getProperty("user.dir");

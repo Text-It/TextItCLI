@@ -2,7 +2,6 @@ package com.TextIt.database;
 
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
-import com.TextIt.service.user.UserData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,29 +116,67 @@ public class DataBase {
         return -1;
     }
 
-    // fetch User_details byUser_id
-    public UserData getUserData(int userId) {
+    public class UserFollows{
 
-        UserData user = new UserData();
-        String query = "SELECT * FROM users WHERE user_id = ?";
-        try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-            PreparedStatement statement = con.prepareStatement(query);
-            statement.setInt(1, userId);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                System.out.println(rs.getString(2)+rs.getString(3));
-                return new UserData(rs.getString(4), rs.getString(2).concat(rs.getString(3)), rs.getString(7), rs.getDate(8).toLocalDate().getYear() , rs.getString(10));
-            } else {
-                System.out.println("User not found.");
-                return null;
+        public int getFollowersCount(int userID){
+            String query = "select count(*) from user_follows where following_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching follower count for userID = " + userID);
             }
-        } catch (SQLException e) {
-            System.err.println("Error occurred while registering user: " + e.getMessage());
-            e.printStackTrace(); // Optional: useful during debugging
-
+            return -1;
         }
-        return null;
+
+        public int getFollowingCount(int userID){
+            String query = "select count(*) from user_follows where follower_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching following count for userID = " + userID);
+            }
+            return -1;
+        }
+
+        public boolean followUser(int followerID, int followingID){
+            String query = "INSERT INTO user_follows (follower_id, following_id) VALUES (?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, followerID);
+                pst.setInt(2, followingID);
+                pst.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while following user: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean unFollowUser(int followerID, int followingID){
+            String query = "DELETE FROM user_follows WHERE follower_id = ? AND following_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, followerID);
+                pst.setInt(2, followingID);
+                pst.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while unfollowing user: " + e.getMessage());
+            }
+            return false;
+        }
     }
+
 
     /**
      * The {@code Profile} class handles verification of unique user details
@@ -219,16 +256,201 @@ public class DataBase {
         }
     }
 
-    public class Post{
+    public class UserData {
 
-        public int postCount(int userid){
+        public UserData() {
+        }
+
+        public String getUserName(int userID) {
+            String query = "select username from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching user name for = " + userID);
+            }
+            return null;
+        }
+
+        public String getGender(int userID) {
+            String query = "select user_gender from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching gender for = " + userID);
+            }
+            return null;
+        }
+
+        public String getLocation(int userID) {
+            String query = "select user_location from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching location for = " + userID);
+            }
+            return null;
+        }
+
+        public String getBio(int userID) {
+            String query = "select user_bio from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching bio for = " + userID);
+            }
+            return null;
+        }
+
+
+
+        public String getFirstName(int userID) {
+            String query = "select first_name from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching first name for = " + userID);
+            }
+            return null;
+        }
+
+        public int getXP(int userID) {
+            String query = "select user_xp from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching XP for = " + userID);
+            }
+            return -1;
+        }
+
+        public int getLevel(int userID) {
+            String query = "select user_level from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching level for = " + userID);
+            }
+            return -1;
+        }
+
+        public int getMemberSince(int userID) {
+            String query = "SELECT created_at FROM users WHERE userID = ?";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+
+                pst.setInt(1, userID);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        java.sql.Date date = rs.getDate(1); // Directly get as Date
+                        java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
+                        if (date != null) {
+                            return today.toLocalDate().getYear() - date.toLocalDate().getYear(); // Extract only year
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching member since year for userID = " + userID);
+            }
+
+            return -1; // Indicates not found or error
+        }
+
+        public String getUserShareCode(int userID) {
+            String query = "select user_url from users where user_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching share code for = " + userID);
+            }
+            return null;
+        }
+
+
+        public String getLastName(int userID) {
+            String query = "select last_name from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching last name for = " + userID);
+            }
+            return null;
+        }
+        public String getRealName(int userID){
+            return getFirstName(userID) + " " + getLastName(userID);
+        }
+
+        public String getMobileNumber(int userID) {
+            String query = "select mobile_number from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching mobile number for = " + userID);
+            }
+            return null;
+        }
+    }
+
+    public class Post {
+
+        public int getPostCount(int userid) {
             String query = "select count(*) from posts where user_id = ?";
 
-            try (Connection conn = DriverManager.getConnection(DB_URL,DB_USERNAME,DB_PASSWORD)){
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1,userid);
+                pst.setInt(1, userid);
                 ResultSet rs = pst.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     return rs.getInt(1);
                 }
             } catch (SQLException e) {
@@ -237,13 +459,13 @@ public class DataBase {
             return -1;
         }
 
-        public String getShareCode(int postid){
+        public String getShareCode(int postid) {
             String query = "select share_code from posts where post_id = ?";
-            try (Connection conn = DriverManager.getConnection(DB_URL,DB_USERNAME,DB_PASSWORD)){
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1,postid);
+                pst.setInt(1, postid);
                 ResultSet rs = pst.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     return rs.getString(1);
                 }
             } catch (SQLException e) {
