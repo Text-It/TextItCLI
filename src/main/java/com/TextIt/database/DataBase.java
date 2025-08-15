@@ -28,7 +28,7 @@ public class DataBase {
             Class.forName("org.postgresql.Driver");
             loadDB();
         } catch (ClassNotFoundException e) {
-            System.err.println("PostgresSQL JDBC Driver not found.");
+            System.err.println("PostgresSQL JDBC Driver not found. x");
             e.printStackTrace();
         }
     }
@@ -466,6 +466,50 @@ public class DataBase {
             return -1;
         }
 
+        public int getPostCommentsCount(int postid) {
+            String query = "select count(*) from comments where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post comments count for post_id = " + postid);
+            }
+            return -1;
+        }
+        public int getPostLikesCount(int postid) {
+            String query = "select count(*) from likes where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post likes count for post_id = " + postid);
+            }
+            return -1;
+        }
+
+        public int getPostResharesCount(int postid) {
+            String query = "select count(*) from reshare where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post reshares count for post_id = " + postid);
+            }
+            return -1;
+        }
+
         public String getShareCode(int postid) {
             String query = "select share_code from posts where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -480,6 +524,88 @@ public class DataBase {
             }
             return null;
         }
+
+        public String getPostContent(int postid) {
+            String query = "select content from posts where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching Content   for post_id = " + postid);
+            }
+            return null;
+        }
+
+        public String getPostUsername(int postId){
+            String query = "select username from users where userid = (select userid from posts where post_id = ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postId);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post username for post_id = " + postId);
+            }
+            return "Unknown user";
+        }
+        public int getPostViewCount(int postId){
+            String query = "select view_count from posts where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postId);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post view count for post_id = " + postId);
+            }
+            return -1;
+        }
+
+
+        public String getPostTime(int postId) {
+            String query = "SELECT created_at FROM posts WHERE post_id = ?";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+
+                pst.setInt(1, postId);
+                ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    Timestamp createdAt = rs.getTimestamp(1);
+
+                    long diffMillis = System.currentTimeMillis() - createdAt.getTime();
+                    long diffSeconds = diffMillis / 1000;
+                    long diffMinutes = diffSeconds / 60;
+                    long diffHours = diffMinutes / 60;
+                    long diffDays = diffHours / 24;
+
+                    if (diffMinutes < 1) {
+                        return "Posted just now";
+                    } else if (diffMinutes < 60) {
+                        return "Posted " + diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+                    } else if (diffHours < 24) {
+                        return "Posted " + diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+                    } else {
+                        return "Posted " + diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return "Unknown time";
+        }
+
+
     }
     public class ChatListener  implements Runnable   {
         private Connection conn;
