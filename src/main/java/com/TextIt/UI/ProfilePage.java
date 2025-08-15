@@ -39,7 +39,18 @@ public class ProfilePage {
         CommonMethods.paragraphDisplay(userdata.getBio(userid),bodyLeftRightBorder,borderLength);
         System.out.println(bodyLeftRightBorder + "Member Since: " + userdata.getMemberSince(userid) + " ".repeat(bodyContentLength-userdata.getMemberSince(userid)-14) + bodyLeftRightBorder);
         System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3) + "Following: " + userfollows.getFollowingCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + "Followers: " + userfollows.getFollowersCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + bodyLeftRightBorder );
-        System.out.println(bodyLeftRightBorder + "XP: " + userdata.getXP(userid)  + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + "Level: " + userdata.getLevel(userid) + " ".repeat((bodyContentLength-userdata.getXP(userid) - userdata.getLevel(userid) -11)/3) + bodyLeftRightBorder);
+        int repeatCount = Math.max(0,
+                (bodyContentLength - userdata.getXP(userid) - userdata.getLevel(userid) - 11) / 3
+        );
+
+        System.out.println(
+                bodyLeftRightBorder +
+                        "XP: " + userdata.getXP(userid) +
+                        " ".repeat(repeatCount) +
+                        "Level: " + userdata.getLevel(userid) +
+                        " ".repeat(repeatCount) +
+                        bodyLeftRightBorder
+        );
         System.out.println(bodyLeftRightBorder + "Share: " + userdata.getUserShareCode(userid) + " ".repeat(bodyContentLength-userdata.getUserShareCode(userid).length()-6) + bodyLeftRightBorder);
 
         System.out.println();

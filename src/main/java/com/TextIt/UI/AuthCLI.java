@@ -1,13 +1,11 @@
 package com.TextIt.UI;
 
-import com.TextIt.database.DataBase;
+
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.pages.HomePage;
-import com.TextIt.service.pages.LoginAuth;
-import com.TextIt.service.pages.SignUpAuth;
+
 import com.TextIt.service.session.SessionManger;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;

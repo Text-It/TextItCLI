@@ -71,7 +71,7 @@ public class DataBase {
         try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             return true;
         } catch (SQLException e) {
-            System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
+            System.out.println("Unable to connect to the server. Please check your internet connection or try again later.");
             return false;
         }
     }
@@ -82,12 +82,12 @@ public class DataBase {
 
         String query = "";
         if (profile.isAvailable("username", userData)) {
-            query = "SELECT user_id FROM users WHERE username = ?";
+            query = "SELECT userID FROM users WHERE username = ?";
         } else if (profile.isAvailable("email", userData.toLowerCase())) {
-            query = "SELECT user_id FROM users WHERE email = ?";
+            query = "SELECT userID FROM users WHERE email = ?";
             emailExists = true;
         } else {
-            query = "SELECT user_id FROM users WHERE mobile_number  = ?";
+            query = "SELECT userID FROM users WHERE mobile_number  = ?";
         }
 
         try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -195,7 +195,7 @@ public class DataBase {
          * @return true if the input is available (not taken), false if it already exists
          */
         public boolean isAvailable(String field, String input) {
-            String query = "SELECT user_id FROM users WHERE " + field + " = ?";
+            String query = "SELECT userID FROM users WHERE " + field + " = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
 
                 PreparedStatement statement = conn.prepareStatement(query);
@@ -203,9 +203,12 @@ public class DataBase {
                 statement.setString(1, input);
                 try (ResultSet rs = statement.executeQuery()) {
                     return rs.next(); // true = available
+                }catch (Exception e) {
+                    System.out.println("Error occurred while fetching user profile: " + e.getMessage());
+                    return false;
                 }
             } catch (SQLException e) {
-                System.out.println("⚠️ Unable to connect to the server. Please check your internet connection or try again later.");
+                System.out.println("Unable to connect to the server. Please check your internet connection or try again later.");
                 return false;
             }
         }
@@ -279,7 +282,7 @@ public class DataBase {
         }
 
         public String getGender(int userID) {
-            String query = "select user_gender from users where userID = ?";
+            String query = "select Gender from users where userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setInt(1, userID);
@@ -394,7 +397,7 @@ public class DataBase {
         }
 
         public String getUserShareCode(int userID) {
-            String query = "select user_url from users where user_id = ?";
+            String query = "select user_url from users where userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setInt(1, userID);
@@ -448,7 +451,7 @@ public class DataBase {
     public class Post {
 
         public int getPostCount(int userid) {
-            String query = "select count(*) from posts where user_id = ?";
+            String query = "select count(*) from posts where userID = ?";
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
