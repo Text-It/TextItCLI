@@ -2,6 +2,8 @@ package com.TextIt.database;
 
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
+import org.postgresql.PGConnection;
+import org.postgresql.PGNotification;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -421,6 +423,7 @@ public class DataBase {
             }
             return null;
         }
+
         public String getRealName(int userID){
             return getFirstName(userID) + " " + getLastName(userID);
         }
@@ -440,6 +443,7 @@ public class DataBase {
             return null;
         }
     }
+
 
     public class Post {
 
@@ -472,6 +476,62 @@ public class DataBase {
                 System.err.println("Error fetching share code for post_id = " + postid);
             }
             return null;
+        }
+    }
+    public class ChatListener  implements Runnable   {
+        private Connection conn;
+        private PGConnection pgConn;
+        private String username;
+
+        public ChatListener(String username) throws Exception {
+            this. conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+             this. pgConn = conn.unwrap(PGConnection.class);
+             this.username = username;
+
+
+            // Listen to the chat channel
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute("LISTEN new_message");
+            }
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    PGNotification[] notifications = pgConn.getNotifications();
+                    if (notifications != null) {
+                        for (PGNotification n : notifications) {
+                            String[] parts = n.getParameter().split(":", 3);
+                            String receiver = parts[0];
+                            String sender = parts[1];
+                            String msg = parts[2];
+
+                            if (receiver.equalsIgnoreCase(username)) {
+                                System.out.println("\n" + sender + ": " + msg);
+                                System.out.print("> ");
+                            }
+                        }
+                    }
+                    Thread.sleep(500); // avoid busy-wait
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+     public class Chats{
+
+        public void send(String sender, String receiver, String msg) throws SQLException {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            String sql = "INSERT INTO messages (sender, receiver, message) VALUES (?, ?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, sender);
+                ps.setString(2, receiver);
+                ps.setString(3, msg);
+                ps.executeUpdate();
+            }
         }
     }
 }

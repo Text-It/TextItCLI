@@ -1,10 +1,9 @@
-package com.TextIt.UI;
+package com.TextIt.service.pages;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.session.SessionManger;
 
-import javax.xml.crypto.Data;
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
