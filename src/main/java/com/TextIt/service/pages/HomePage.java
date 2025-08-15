@@ -38,7 +38,8 @@ public class HomePage {
             System.out.println(YELLOW + "7. " + color("Logout", BLUE));
             System.out.println(YELLOW + "8. " + color("Setting", BLUE));
             System.out.println(YELLOW + "9. " + color("Help", BLUE));
-            System.out.println(YELLOW + "10. " + color("Exit", RED));
+            System.out.println(YELLOW + "10. " + color("Chat", BLUE));
+            System.out.println(YELLOW + "11. " + color("Exit", RED));
 
             System.out.println(color("Enter your choice: ", GREEN));
             int choice = sc.nextInt();
@@ -71,6 +72,9 @@ public class HomePage {
                     help();
                     break;
                 case 10:
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ChatUI " + userID);
+                    break;
+                case 11:
                     System.out.println(RED + "Exiting TextIT..." + RESET);
                     System.exit(0);
                     break;

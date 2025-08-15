@@ -1,6 +1,6 @@
 package com.TextIt.UI;
 
-public class ReelPage {
+public class FeedPage {
 
     public static void main(String[] args) {
 
