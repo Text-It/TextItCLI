@@ -474,4 +474,207 @@ public class DataBase {
             return null;
         }
     }
+    
+    /**
+     * The {@code AccountManager} class handles account management operations
+     * such as updating passwords, email, phone numbers, and profile information.
+     */
+    public class AccountManager {
+        
+        /**
+         * Updates the user's password after verifying the current password.
+         * @param userId The ID of the user
+         * @param currentPassword The current password for verification
+         * @param newPassword The new password to set
+         * @return true if password was updated successfully, false otherwise
+         */
+        public boolean updatePassword(int userId, String currentPassword, String newPassword) {
+            // First verify the current password
+            if (!verifyCurrentPassword(userId, currentPassword)) {
+                return false;
+            }
+            
+            String hashedNewPassword = Hashing.generateHashCode(newPassword);
+            String query = "UPDATE users SET password_hash = ? WHERE user_id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, hashedNewPassword);
+                pst.setInt(2, userId);
+                
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+                
+            } catch (SQLException e) {
+                System.err.println("Error updating password for user ID = " + userId + ": " + e.getMessage());
+                return false;
+            }
+        }
+        
+        /**
+         * Updates the user's email address.
+         * @param userId The ID of the user
+         * @param newEmail The new email address
+         * @return true if email was updated successfully, false otherwise
+         */
+        public boolean updateEmail(int userId, String newEmail) {
+            // Check if email is already in use by another user
+            Profile profile = new Profile();
+            if (profile.isAvailable("email", newEmail.toLowerCase())) {
+                System.out.println("Email is already in use by another account.");
+                return false;
+            }
+            
+            String query = "UPDATE users SET email = ? WHERE user_id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, newEmail.toLowerCase());
+                pst.setInt(2, userId);
+                
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+                
+            } catch (SQLException e) {
+                System.err.println("Error updating email for user ID = " + userId + ": " + e.getMessage());
+                return false;
+            }
+        }
+        
+        /**
+         * Updates the user's mobile number.
+         * @param userId The ID of the user
+         * @param newMobileNumber The new mobile number
+         * @return true if mobile number was updated successfully, false otherwise
+         */
+        public boolean updateMobileNumber(int userId, String newMobileNumber) {
+            // Check if mobile number is already in use by another user
+            Profile profile = new Profile();
+            if (profile.isAvailable("mobile_number", newMobileNumber)) {
+                System.out.println("Mobile number is already in use by another account.");
+                return false;
+            }
+            
+            String query = "UPDATE users SET mobile_number = ? WHERE user_id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, newMobileNumber);
+                pst.setInt(2, userId);
+                
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+                
+            } catch (SQLException e) {
+                System.err.println("Error updating mobile number for user ID = " + userId + ": " + e.getMessage());
+                return false;
+            }
+        }
+        
+        /**
+         * Updates the user's profile information (first name, last name, bio).
+         * @param userId The ID of the user
+         * @param firstName The new first name (null to keep current)
+         * @param lastName The new last name (null to keep current)
+         * @param bio The new bio (null to keep current)
+         * @return true if profile was updated successfully, false otherwise
+         */
+        public boolean updateProfileInfo(int userId, String firstName, String lastName, String bio) {
+            StringBuilder queryBuilder = new StringBuilder("UPDATE users SET ");
+            boolean hasUpdates = false;
+            
+            if (firstName != null && !firstName.trim().isEmpty()) {
+                queryBuilder.append("first_name = ?");
+                hasUpdates = true;
+            }
+            
+            if (lastName != null && !lastName.trim().isEmpty()) {
+                if (hasUpdates) queryBuilder.append(", ");
+                queryBuilder.append("last_name = ?");
+                hasUpdates = true;
+            }
+            
+            if (bio != null && !bio.trim().isEmpty()) {
+                if (hasUpdates) queryBuilder.append(", ");
+                queryBuilder.append("user_bio = ?");
+                hasUpdates = true;
+            }
+            
+            if (!hasUpdates) {
+                return false;
+            }
+            
+            queryBuilder.append(" WHERE user_id = ?");
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(queryBuilder.toString());
+                
+                int paramIndex = 1;
+                if (firstName != null && !firstName.trim().isEmpty()) {
+                    pst.setString(paramIndex++, firstName.trim());
+                }
+                if (lastName != null && !lastName.trim().isEmpty()) {
+                    pst.setString(paramIndex++, lastName.trim());
+                }
+                if (bio != null && !bio.trim().isEmpty()) {
+                    pst.setString(paramIndex++, bio.trim());
+                }
+                pst.setInt(paramIndex, userId);
+                
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+                
+            } catch (SQLException e) {
+                System.err.println("Error updating profile info for user ID = " + userId + ": " + e.getMessage());
+                return false;
+            }
+        }
+        
+        /**
+         * Gets the current email address for a user.
+         * @param userId The ID of the user
+         * @return The user's email address or null if not found
+         */
+        public String getCurrentEmail(int userId) {
+            String query = "SELECT email FROM users WHERE user_id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userId);
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching email for user ID = " + userId);
+            }
+            return null;
+        }
+        
+        /**
+         * Verifies if the provided password matches the user's current password.
+         * @param userId The ID of the user
+         * @param currentPassword The password to verify
+         * @return true if password matches, false otherwise
+         */
+        private boolean verifyCurrentPassword(int userId, String currentPassword) {
+            String query = "SELECT password_hash FROM users WHERE user_id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userId);
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()) {
+                    String storedHash = rs.getString(1);
+                    String providedHash = Hashing.generateHashCode(currentPassword);
+                    return storedHash.equals(providedHash);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error verifying password for user ID = " + userId);
+            }
+            return false;
+        }
+    }
 }
