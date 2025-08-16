@@ -484,6 +484,21 @@ public class DataBase {
             return null;
         }
 
+        public String getEmail(int userID){
+            String query = "select email from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching email for = " + userID);
+            }
+            return null;
+        }
+
         public String getRealName(int userID){
             return getFirstName(userID) + " " + getLastName(userID);
         }
@@ -570,6 +585,25 @@ public class DataBase {
         }
 
 
+    }
+
+    public class Career{
+
+        public boolean saveApplication(int userId, String role, String resumePath) {
+            String query = "INSERT INTO career_applications (userid, role_applied, resume_path) VALUES (?, ?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)){
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setInt(1, userId);
+                ps.setString(2, role);
+                ps.setString(3, resumePath);
+                ps.executeUpdate();
+                return true;
+            }
+             catch (SQLException e) {
+                System.err.println("Error saving application: " + e.getMessage());
+                return false;
+            }
+        }
     }
 
 
