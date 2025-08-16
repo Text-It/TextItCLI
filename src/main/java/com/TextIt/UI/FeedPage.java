@@ -142,7 +142,7 @@ public class FeedPage {
 
             switch (option) {
                 case 1:
-                    System.out.println("Commenting...");
+                    CommonMethods.openInNewCMD("com.TextIt.UI.CommentPage " + userID + " " + postId);
                     break;
                 case 2:
                     System.out.println("Liking...");

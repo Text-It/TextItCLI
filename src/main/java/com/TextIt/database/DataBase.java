@@ -504,6 +504,75 @@ public class DataBase {
         }
     }
 
+    public class Comment {
+        public List<String[]> getComments(int postID, int limit, int offset) {
+            List<String[]> list = new ArrayList<>();
+            String query = "SELECT u.username, c.content, c.created_at " +
+                    "FROM comments c JOIN users u ON c.userid = u.userid " +
+                    "WHERE c.post_id = ? ORDER BY c.created_at DESC " +
+                    "LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setInt(1, postID);
+                pst.setInt(2, limit);
+                pst.setInt(3, offset);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    String username = rs.getString("username");
+                    String content = rs.getString("content");
+                    Timestamp createdAt = rs.getTimestamp("created_at");
+
+                    String formattedTime = formatTime(createdAt);
+
+                    list.add(new String[]{username, content, formattedTime});
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching comments: " + e.getMessage());
+            }
+            return list;
+        }
+
+        private String formatTime(Timestamp createdAt) {
+            long diffMillis = System.currentTimeMillis() - createdAt.getTime();
+            long diffSeconds = diffMillis / 1000;
+            long diffMinutes = diffSeconds / 60;
+            long diffHours = diffMinutes / 60;
+            long diffDays = diffHours / 24;
+
+            if (diffMinutes < 1) {
+                return "Posted just now";
+            } else if (diffMinutes < 60) {
+                return "Posted " + diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+            } else if (diffHours < 24) {
+                return "Posted " + diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+            } else {
+                return "Posted " + diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+            }
+        }
+
+
+        public boolean addComment(int postID, int userID, String text) {
+            String query = "INSERT INTO comments (post_id, userid, content) VALUES (?, ?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+
+                pst.setInt(1, postID);    // the post being commented on
+                pst.setInt(2, userID);    // the user who is commenting
+                pst.setString(3, text);   // the comment text
+                pst.executeUpdate();
+                return true;
+
+            } catch (SQLException e) {
+                System.err.println("❌ Error adding comment: " + e.getMessage());
+                return false;
+            }
+        }
+
+
+    }
+
+
 
     public class Post {
 
