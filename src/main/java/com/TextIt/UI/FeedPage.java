@@ -11,7 +11,8 @@ public class FeedPage {
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdb = db.new UserData();
     private static final DataBase.Post postdb = db.new Post();
-    private static final DataBase.Likes likedb = db.new Likes();
+    private static final DataBase.Like likedb = db.new Like();
+    private static final DataBase.ReShare resharedb = db.new ReShare();
 
     public static void main(String[] args) {
 
@@ -20,9 +21,9 @@ public class FeedPage {
 
 
         //Important Variables
-        int userId = 4;
+        int userID = Integer.parseInt(args[0]);
         //int userId = Integer.parseInt(args[0]);
-        int postId = 1; //find a way to fetch  ids one by one from post
+        int postId = 6; //find a way to fetch  ids one by one from post
         int boxLength = 70;
         String border = "||";
         int spaceLeftForContent = boxLength - border.length() * 2;
@@ -95,6 +96,9 @@ public class FeedPage {
             int postViewCountLength = String.valueOf(postViewCount).length();
 
 
+            //Update View Count
+            postdb.updatePostViewCount(postId);
+
             System.out.println("-".repeat(boxLength));
             System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader + " ".repeat((boxLength - headerLength) / 2));
             System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription + " ".repeat((boxLength - discriptionLength) / 2));
@@ -142,9 +146,11 @@ public class FeedPage {
                     break;
                 case 2:
                     System.out.println("Liking...");
+                    likePost(userID, postId);
                     break;
                 case 3:
                     System.out.println("ReSharing...");
+                    reSharePost(userID,postId,postContent);
                     break;
                 case 4:
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + postdb.getUserId(postId));
@@ -153,7 +159,7 @@ public class FeedPage {
                     System.out.println("Reporting...");
                     break;
                 case 6:
-                    System.out.println("Sharing...");
+                    System.out.println("ShareCode is: " + postdb.getShareCode(postId));
                     break;
                 case 7:
                     System.out.println("Going to previous post...");
@@ -165,12 +171,28 @@ public class FeedPage {
 
     }
 
-    public static boolean likePost(int postid, int logeduserid) {
 
-        if (likedb.likePost(postid, logeduserid) && postdb.incrementPostLikesCount(postid)) {
+    public static boolean likePost(int userid , int postid){
+
+        if(likedb.incrementLikesCount(userid,postid)){
             return true;
         }
         System.out.println("Error in liking post. Please try again later.");
         return false;
+    }
+
+    public static boolean reSharePost(int userid , int postid , String content){
+
+        String shareCode = userdb.getUserName(userid) + (int) (Math.random() * 1000000000);
+
+        if (resharedb.reSharePost(postid,userid)){
+            if(postdb.insertPost(userid,content,shareCode)){
+                return true;
+            }
+        }
+
+        System.out.println("Error in resharing post. Please try again later.");
+        return false;
+
     }
 }

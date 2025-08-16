@@ -42,6 +42,7 @@ public class HomePage {
             System.out.println(YELLOW + "9. " + color("Help", BLUE));
             System.out.println(YELLOW + "10. " + color("Chat", BLUE));
             System.out.println(YELLOW + "11. " + color("Exit", RED));
+            System.out.println(YELLOW + "12. " + color("Post", RED));
 
             System.out.println(color("Enter your choice: ", GREEN));
             int choice = sc.nextInt();
@@ -80,6 +81,9 @@ public class HomePage {
                     System.out.println(RED + "Exiting TextIT..." + RESET);
                     System.exit(0);
                     break;
+                    case 12:
+                        CommonMethods.openInNewCMD("com.TextIt.UI.Post " + userID);
+                        break;
                 default:
                     System.out.println(RED + "Invalid choice. Try again." + RESET);
             }
