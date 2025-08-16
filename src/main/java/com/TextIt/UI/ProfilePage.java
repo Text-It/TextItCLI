@@ -2,10 +2,7 @@ package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
-import com.TextIt.service.user.UserData;
-
 import java.util.Scanner;
-
 import static com.TextIt.model.utils.CommonMethods.*;
 
 

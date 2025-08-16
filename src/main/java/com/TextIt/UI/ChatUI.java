@@ -2,7 +2,6 @@ package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.model.Messages;
-
 import java.util.List;
 import java.util.Scanner;
 

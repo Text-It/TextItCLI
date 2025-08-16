@@ -182,6 +182,23 @@ public class DataBase {
         }
     }
 
+    public class Likes{
+
+        public boolean likePost(int userID, int postID){
+            String query = "INSERT INTO likes ( post_id , userid) VALUES (?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postID);
+                pst.setInt(2, userID);
+                pst.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while liking post: " + e.getMessage());
+            }
+            return false;
+        }
+    }
+
 
     /**
      * The {@code Profile} class handles verification of unique user details
@@ -469,6 +486,21 @@ public class DataBase {
             return -1;
         }
 
+        public boolean incrementPostLikesCount(int postid) {
+            String query = "update posts set like_count = like_count + 1 where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                System.err.println("Error liking for user_id = " + userid);
+            }
+            return false;
+        }
+
         public int getPostCommentsCount(int postid) {
             String query = "select count(*) from comments where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -483,6 +515,22 @@ public class DataBase {
             }
             return -1;
         }
+        public int getUserId(int postid){
+            String query = "select userid from posts where post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postid);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching user id for post_id = " + postid);
+            }
+            return -1;
+        }
+
+
         public int getPostLikesCount(int postid) {
             String query = "select count(*) from likes where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {

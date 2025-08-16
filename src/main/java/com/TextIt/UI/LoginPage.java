@@ -3,16 +3,9 @@ package com.TextIt.UI;
 import com.TextIt.database.DataBase;
 import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.session.SessionManger;
-
 import java.util.Scanner;
-
 import static com.TextIt.model.utils.CommonMethods.*;
-import static com.TextIt.model.utils.CommonMethods.BOLD;
-import static com.TextIt.model.utils.CommonMethods.GREEN;
-import static com.TextIt.model.utils.CommonMethods.RED;
-import static com.TextIt.model.utils.CommonMethods.RESET;
-import static com.TextIt.model.utils.CommonMethods.YELLOW;
-import static com.TextIt.model.utils.CommonMethods.pressEnterToContinue;
+
 
 public class LoginPage {
 
