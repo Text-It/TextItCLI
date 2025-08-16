@@ -1,5 +1,6 @@
 package com.TextIt.database;
 
+import com.TextIt.model.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
 import org.postgresql.PGConnection;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -481,50 +484,66 @@ public class DataBase {
             return null;
         }
     }
-    public class ChatListener  implements Runnable   {
-        private Connection conn;
-        private PGConnection pgConn;
-        private String username;
+    public class ChatListener implements Runnable {
+        private final Connection conn;
+        private final PGConnection pgConn;
+        private final String username;
 
         public ChatListener(String username) throws Exception {
-            this. conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-             this. pgConn = conn.unwrap(PGConnection.class);
-             this.username = username;
+            this.conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
+            // ✅ Required for LISTEN to take effect immediately
+            this.conn.setAutoCommit(true);
 
-            // Listen to the chat channel
+            this.pgConn = conn.unwrap(PGConnection.class);
+            this.username = username;
+
             try (Statement stmt = conn.createStatement()) {
                 stmt.execute("LISTEN new_message");
+                System.out.println("[DEBUG] LISTEN registered for 'new_message'");
             }
         }
 
         @Override
         public void run() {
-            try {
+            try (Statement stmt = conn.createStatement()) {
                 while (true) {
+                    // force Postgres to deliver pending notifications
+                    stmt.execute("SELECT 1");
+
                     PGNotification[] notifications = pgConn.getNotifications();
-                    if (notifications != null) {
+
+                    if (notifications != null ) {
                         for (PGNotification n : notifications) {
+
                             String[] parts = n.getParameter().split(":", 3);
+                            if (parts.length < 3) continue;
+
                             String receiver = parts[0];
                             String sender = parts[1];
                             String msg = parts[2];
 
-                            if (receiver.equalsIgnoreCase(username)) {
-                                System.out.println("\n" + sender + ": " + msg);
-                                System.out.print("> ");
+                            if (receiver.trim().equalsIgnoreCase(username.trim())) {
+                                System.out.println();
+                                System.out.println(sender + ": " + msg);
+                                System.out.print("> "); // restore prompt
                             }
                         }
                     }
-                    Thread.sleep(500); // avoid busy-wait
+
+                    Thread.sleep(500);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
-     public class Chats{
+
+    public class Chats{
+        Connection conn;
+        public Chats() throws Exception {
+            this.conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        }
 
         public void send(String sender, String receiver, String msg) throws SQLException {
             Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -536,5 +555,42 @@ public class DataBase {
                 ps.executeUpdate();
             }
         }
+
+            // get chat history
+            public List<Messages> getMessages(String user1, String user2) throws SQLException {
+                List<Messages> messages = new ArrayList<>();
+
+                String sql = "SELECT * FROM (" +
+                        "   SELECT sender, receiver, message, sent_at " +
+                        "   FROM messages " +
+                        "   WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?) " +
+                        "   ORDER BY sent_at DESC " +
+                        "   LIMIT 5" +
+                        ") sub " +
+                        "ORDER BY sent_at ASC";
+
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, user1);
+                    ps.setString(2, user2);
+                    ps.setString(3, user2);
+                    ps.setString(4, user1);
+
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            Messages m = new Messages(
+                                    rs.getString("sender"),
+                                    rs.getString("receiver"),
+                                    rs.getString("message"),
+                                    rs.getString("sent_at")
+                            );
+                            messages.add(m);
+                        }
+                    }
+                }
+
+                return messages;
+            }
+        }
+
     }
-}
+
