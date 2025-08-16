@@ -35,7 +35,7 @@ public class HomePage {
             System.out.println(YELLOW + "2. " + color("Reel", BLUE));
             System.out.println(YELLOW + "3. " + color("Search", BLUE));
             System.out.println(YELLOW + "4. " + color("Inbox", BLUE));
-            System.out.println(YELLOW + "5. " + color("Refresh Feed", BLUE));
+            System.out.println(YELLOW + "5. " + color("Create Post", BLUE));
             System.out.println(YELLOW + "6. " + color("Career at TextIT", BLUE));
             System.out.println(YELLOW + "7. " + color("Logout", BLUE));
             System.out.println(YELLOW + "8. " + color("Setting", BLUE));
@@ -59,16 +59,16 @@ public class HomePage {
                     inbox();
                     break;
                 case 5:
-                    refreshFeed();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.Post " + userID);
                     break;
                 case 6:
-                    career();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.CareerPage " + userID);
                     break;
                 case 7:
                     logout();
                     break;
                 case 8:
-                    settings();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.SettingsPage " + userID);
                     break;
                 case 9:
                     help();

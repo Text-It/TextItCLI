@@ -183,18 +183,18 @@ public class DataBase {
         }
     }
 
-    public class Likes{
+    public class Like{
 
-        public boolean likePost(int userID, int postID){
-            String query = "INSERT INTO likes ( post_id , userid) VALUES (?, ?)";
+        public boolean incrementLikesCount(int userid ,int postID){
+            String query = "INSERT INTO likes (userid, post_id) VALUES (?, ?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1, postID);
-                pst.setInt(2, userID);
+                pst.setInt(1, userid);
+                pst.setInt(2, postID);
                 pst.executeUpdate();
                 return true;
             } catch (SQLException e) {
-                System.err.println("Error occurred while liking post: " + e.getMessage());
+                System.err.println("Can't Like the Post More Than Once");
             }
             return false;
         }
@@ -280,6 +280,42 @@ public class DataBase {
                 return false;
             }
         }
+    }
+
+    public class ReShare{
+        public boolean reSharePost(int postID, int userID) {
+            String getOriginalQuery = "SELECT original_post_id FROM reshare WHERE post_id = ?";
+            String insertQuery = "INSERT INTO reshare (post_id, userid, original_post_id) VALUES (?, ?, ?)";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+
+                int originalPostID = postID; // default assume it's original
+
+                // Step 1: Try to fetch original_post_id (if this post was already a reshare)
+                try (PreparedStatement pst1 = conn.prepareStatement(getOriginalQuery)) {
+                    pst1.setInt(1, postID);
+                    ResultSet rs = pst1.executeQuery();
+                    if (rs.next()) {
+                        originalPostID = rs.getInt("original_post_id");
+                    }
+                }
+
+                // Step 2: Insert into reshare
+                try (PreparedStatement pst2 = conn.prepareStatement(insertQuery)) {
+                    pst2.setInt(1, postID);
+                    pst2.setInt(2, userID);
+                    pst2.setInt(3, originalPostID);
+                    pst2.executeUpdate();
+                }
+
+                return true;
+
+            } catch (SQLException e) {
+                System.err.println("Error occurred while resharing post: " + e.getMessage());
+                return false;
+            }
+        }
+
     }
 
     public class UserData {
@@ -448,6 +484,21 @@ public class DataBase {
             return null;
         }
 
+        public String getEmail(int userID){
+            String query = "select email from users where userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, userID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching email for = " + userID);
+            }
+            return null;
+        }
+
         public String getRealName(int userID){
             return getFirstName(userID) + " " + getLastName(userID);
         }
@@ -468,6 +519,94 @@ public class DataBase {
         }
     }
 
+    public class Comment {
+        public List<String[]> getComments(int postID, int limit, int offset) {
+            List<String[]> list = new ArrayList<>();
+            String query = "SELECT u.username, c.content, c.created_at " +
+                    "FROM comments c JOIN users u ON c.userid = u.userid " +
+                    "WHERE c.post_id = ? ORDER BY c.created_at DESC " +
+                    "LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setInt(1, postID);
+                pst.setInt(2, limit);
+                pst.setInt(3, offset);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    String username = rs.getString("username");
+                    String content = rs.getString("content");
+                    Timestamp createdAt = rs.getTimestamp("created_at");
+
+                    String formattedTime = formatTime(createdAt);
+
+                    list.add(new String[]{username, content, formattedTime});
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching comments: " + e.getMessage());
+            }
+            return list;
+        }
+
+        private String formatTime(Timestamp createdAt) {
+            long diffMillis = System.currentTimeMillis() - createdAt.getTime();
+            long diffSeconds = diffMillis / 1000;
+            long diffMinutes = diffSeconds / 60;
+            long diffHours = diffMinutes / 60;
+            long diffDays = diffHours / 24;
+
+            if (diffMinutes < 1) {
+                return "Posted just now";
+            } else if (diffMinutes < 60) {
+                return "Posted " + diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+            } else if (diffHours < 24) {
+                return "Posted " + diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+            } else {
+                return "Posted " + diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+            }
+        }
+
+
+        public boolean addComment(int postID, int userID, String text) {
+            String query = "INSERT INTO comments (post_id, userid, content) VALUES (?, ?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+
+                pst.setInt(1, postID);    // the post being commented on
+                pst.setInt(2, userID);    // the user who is commenting
+                pst.setString(3, text);   // the comment text
+                pst.executeUpdate();
+                return true;
+
+            } catch (SQLException e) {
+                System.err.println("❌ Error adding comment: " + e.getMessage());
+                return false;
+            }
+        }
+
+
+    }
+
+    public class Career{
+
+        public boolean saveApplication(int userId, String role, String resumePath) {
+            String query = "INSERT INTO career_applications (userid, role_applied, resume_path) VALUES (?, ?, ?)";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)){
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setInt(1, userId);
+                ps.setString(2, role);
+                ps.setString(3, resumePath);
+                ps.executeUpdate();
+                return true;
+            }
+             catch (SQLException e) {
+                System.err.println("Error saving application: " + e.getMessage());
+                return false;
+            }
+        }
+    }
+
+
 
     public class Post {
 
@@ -487,20 +626,39 @@ public class DataBase {
             return -1;
         }
 
-        public boolean incrementPostLikesCount(int postid) {
-            String query = "update posts set like_count = like_count + 1 where post_id = ?";
+        public boolean insertPost(int userID, String postContent , String shareCode) {
+            String query = "INSERT INTO posts (userID, content,post_url) VALUES (?, ? ,?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1, postid);
+                pst.setInt(1, userID);
+                pst.setString(2, postContent);
+                pst.setString(3, shareCode);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while inserting post: " + e.getMessage());
+                return false;
+            }
+        }
+
+        public List<Integer> getPostIds(int limit, int offset) {
+            List<Integer> ids = new ArrayList<>();
+            String query = "SELECT post_id FROM posts ORDER BY post_point  DESC LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setInt(1, limit);
+                pst.setInt(2, offset);
                 ResultSet rs = pst.executeQuery();
-                if (rs.next()) {
-                    return true;
+                while (rs.next()) {
+                    ids.add(rs.getInt("post_id"));
                 }
             } catch (SQLException e) {
-                System.err.println("Error liking for user_id = " + postid);
+                System.err.println("Error fetching post ids: " + e.getMessage());
             }
-            return false;
+            return ids;
         }
+
+
 
         public int getPostCommentsCount(int postid) {
             String query = "select count(*) from comments where post_id = ?";
@@ -548,7 +706,7 @@ public class DataBase {
         }
 
         public int getPostResharesCount(int postid) {
-            String query = "select count(*) from reshare where post_id = ?";
+            String query = "select count(*) from reshare where original_post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setInt(1, postid);
@@ -563,7 +721,7 @@ public class DataBase {
         }
 
         public String getShareCode(int postid) {
-            String query = "select share_code from posts where post_id = ?";
+            String query = "select post_url from posts where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setInt(1, postid);
@@ -619,6 +777,19 @@ public class DataBase {
                 System.err.println("Error fetching post view count for post_id = " + postId);
             }
             return -1;
+        }
+
+        public boolean updatePostViewCount(int postId){
+            String query = "UPDATE posts SET view_count = view_count + 1 WHERE post_id = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, postId);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating post view count: " + e.getMessage());
+                return false;
+            }
         }
 
 

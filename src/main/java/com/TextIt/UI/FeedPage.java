@@ -3,6 +3,7 @@ package com.TextIt.UI;
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class FeedPage {
@@ -11,21 +12,25 @@ public class FeedPage {
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdb = db.new UserData();
     private static final DataBase.Post postdb = db.new Post();
-    private static final DataBase.Likes likedb = db.new Likes();
+    private static final DataBase.Like likedb = db.new Like();
+    private static final DataBase.ReShare resharedb = db.new ReShare();
 
     public static void main(String[] args) {
 
         //Objects
         Scanner sc = new Scanner(System.in);
 
-
         //Important Variables
-        int userId = 4;
-        //int userId = Integer.parseInt(args[0]);
-        int postId = 1; //find a way to fetch  ids one by one from post
+        int userID = Integer.parseInt(args[0]);
         int boxLength = 70;
         String border = "||";
         int spaceLeftForContent = boxLength - border.length() * 2;
+
+        // pagination variables
+        int pageSize = 1;   // show 1 post at a time
+        int offset = 0;
+        List<Integer> buffer = postdb.getPostIds(pageSize, offset);
+        int bufferIndex = 0;
 
         //Some predifined texts
         String pageHeader = "REEL";
@@ -61,7 +66,7 @@ public class FeedPage {
         String option5 = "5)Report";
         String option6 = "6)Share";
         String option7 = "7)Previous";
-        String option8 = "8)Next";
+        String option8 = "8)Next ";
 
         //Letgth of option table lengths
         int option1Length = option1.length();
@@ -75,6 +80,15 @@ public class FeedPage {
 
 
         while (true) {
+            CommonMethods.clearConsole(); // ✅ clear screen before each render
+
+            if (buffer.isEmpty()) {
+                System.out.println("No posts available.");
+                CommonMethods.pressEnterToContinue();
+                return;
+            }
+
+            int postId = buffer.get(bufferIndex);
 
             //Fetched Data From DataBase
             String userName = postdb.getPostUsername(postId);
@@ -94,7 +108,10 @@ public class FeedPage {
             int postResharesCountLength = String.valueOf(postResharesCount).length();
             int postViewCountLength = String.valueOf(postViewCount).length();
 
+            //Update View Count
+            postdb.updatePostViewCount(postId);
 
+            // === Your exact UI code kept intact ===
             System.out.println("-".repeat(boxLength));
             System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader + " ".repeat((boxLength - headerLength) / 2));
             System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription + " ".repeat((boxLength - discriptionLength) / 2));
@@ -138,39 +155,78 @@ public class FeedPage {
 
             switch (option) {
                 case 1:
-                    System.out.println("Commenting...");
+                    CommonMethods.openInNewCMD("com.TextIt.UI.CommentPage " + userID + " " + postId);
                     break;
                 case 2:
                     System.out.println("Liking...");
+                    if (!likePost(userID, postId)) CommonMethods.pressEnterToContinue();
+
                     break;
                 case 3:
                     System.out.println("ReSharing...");
+                    if (!reSharePost(userID, postId, postContent)) CommonMethods.pressEnterToContinue();
+
                     break;
                 case 4:
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + postdb.getUserId(postId));
                     break;
                 case 5:
                     System.out.println("Reporting...");
+                    CommonMethods.pressEnterToContinue();
                     break;
                 case 6:
-                    System.out.println("Sharing...");
+                    System.out.println("ShareCode is: " + postdb.getShareCode(postId));
+                    CommonMethods.pressEnterToContinue();
                     break;
-                case 7:
-                    System.out.println("Going to previous post...");
+                case 7: // Previous Post
+                    if (bufferIndex > 0) {
+                        bufferIndex--;
+                    } else if (offset > 0) {
+                        offset -= pageSize;
+                        buffer = postdb.getPostIds(pageSize, offset);
+                        bufferIndex = buffer.size() - 1;
+                    } else {
+                        System.out.println("Already at the first post.");
+                        CommonMethods.pressEnterToContinue();
+                    }
                     break;
-                case 8:
-                    System.out.println("Going to next post...");
+                case 8: // Next Post
+                    if (bufferIndex < buffer.size() - 1) {
+                        bufferIndex++;
+                    } else {
+                        offset += pageSize;
+                        List<Integer> nextBatch = postdb.getPostIds(pageSize, offset);
+                        if (!nextBatch.isEmpty()) {
+                            buffer = nextBatch;
+                            bufferIndex = 0;
+                        } else {
+                            System.out.println("No more posts.");
+                            CommonMethods.pressEnterToContinue();
+                            offset -= pageSize;
+                        }
+                    }
+                    break;
             }
         }
-
     }
 
-    public static boolean likePost(int postid, int logeduserid) {
-
-        if (likedb.likePost(postid, logeduserid) && postdb.incrementPostLikesCount(postid)) {
+    public static boolean likePost(int userid, int postid) {
+        if (likedb.incrementLikesCount(userid, postid)) {
             return true;
         }
         System.out.println("Error in liking post. Please try again later.");
+        return false;
+    }
+
+    public static boolean reSharePost(int userid, int postid, String content) {
+        String shareCode = userdb.getUserName(userid) + (int) (Math.random() * 1000000000);
+
+        if (resharedb.reSharePost(postid, userid)) {
+            if (postdb.insertPost(userid, content, shareCode)) {
+                return true;
+            }
+        }
+        System.out.println("Error in resharing post. Please try again later.");
         return false;
     }
 }
