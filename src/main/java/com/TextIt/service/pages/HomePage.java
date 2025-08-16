@@ -48,7 +48,7 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + userID);
                     break;
                 case 2:
-                    reel();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " + userID);
                     break;
                 case 3:
                     search();

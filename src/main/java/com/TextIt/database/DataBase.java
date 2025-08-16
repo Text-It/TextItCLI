@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
  * and OTP-related operations using PostgresSQL. This class serves as the low-level
@@ -496,7 +497,7 @@ public class DataBase {
                     return true;
                 }
             } catch (SQLException e) {
-                System.err.println("Error liking for user_id = " + userid);
+                System.err.println("Error liking for user_id = " + postid);
             }
             return false;
         }
@@ -943,20 +944,13 @@ public class DataBase {
             public List<Messages> getMessages(String user1, String user2) throws SQLException {
                 List<Messages> messages = new ArrayList<>();
 
-                String sql = "SELECT * FROM (" +
-                        "   SELECT sender, receiver, message, sent_at " +
-                        "   FROM messages " +
-                        "   WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?) " +
-                        "   ORDER BY sent_at DESC " +
-                        "   LIMIT 5" +
-                        ") sub " +
-                        "ORDER BY sent_at ASC";
+                String sql = "SELECT sender, receiver, message, sent_at " + "FROM messages " + "WHERE (sender = ? AND receiver = ?)  ";
 
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setString(1, user1);
-                    ps.setString(2, user2);
-                    ps.setString(3, user2);
-                    ps.setString(4, user1);
+                    ps.setString(1, user2);
+                    ps.setString(2, user1);
+//                    ps.setString(3, user2);
+//                    ps.setString(4, user1);
 
                     try (ResultSet rs = ps.executeQuery()) {
                         while (rs.next()) {

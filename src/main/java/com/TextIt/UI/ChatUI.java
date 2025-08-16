@@ -17,7 +17,7 @@ public class ChatUI {
 
 
         System.out.println("------------------------");
-        String sender = userdb.getUserName(Integer.parseInt("4"));
+        String sender = userdb.getUserName(Integer.parseInt(args[0]));
         System.out.print("Enter Username you want to chat: ");
         String input = sc.nextLine();
         if(profiledb.isAvailable("username", input)) {
