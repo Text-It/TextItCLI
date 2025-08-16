@@ -83,7 +83,7 @@ public class AuthCLI {
         while (true) {
             if(sessionManger.autoLogin()){
                 // homePage
-                HomePage.main(null);
+                HomePage.main(new String[]{String.valueOf(SessionManger.getUserid())});
                 break;
             }
             System.out.println(CommonMethods.CYAN + CommonMethods.BOLD + """

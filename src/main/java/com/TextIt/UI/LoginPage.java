@@ -41,6 +41,7 @@ public class LoginPage {
                 if (oldUser.verifyUserDetail(userInput) && oldUser.verifyPassword(password)) {
                     sessionManger.manualLogin(connectivity.featchId(userInput.trim()));
                     System.out.println(GREEN + BOLD + "\n LoginAuth successful!" + RESET);
+                    openInNewCMD("com.TextIt.service.pages.HomePage " + connectivity.featchId(userInput.trim()));
                 } else {
                     System.out.println(RED + BOLD + "\n LoginAuth failed. Please check your credentials." + RESET);
                 }

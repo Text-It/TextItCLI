@@ -101,8 +101,10 @@ public class SignupPage {
         {
             DataBase db = new DataBase();
             DataBase.Profile profile = db.new Profile();
-            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email))
+            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email)) {
                 System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
+                openInNewCMD("com.TextIt.UI.HomePage " + connectivity.featchId(username));
+            }
             else {
                 System.out.println(RED + BOLD + "\nSign up failed. Please try again." + RESET);
                 System.out.println("If you have already registered, please login.");

@@ -4,6 +4,7 @@ import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.session.SessionManger;
 
+import java.io.File;
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -12,16 +13,17 @@ import static com.TextIt.model.utils.CommonMethods.*;
 public class HomePage {
 
     static Scanner sc = new Scanner(System.in);
-
-    private static final int userID = SessionManger.getUserid();
+    private static  int userID = SessionManger.getUserid();
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata =db.new UserData();
 
 
     public static void main(String[] args) {
-        //String username = args[0];
 
         while (true) {
+            if(args[0]!=null){
+                userID= Integer.parseInt(args[0]);
+            }
             System.out.println(CYAN + BOLD);
             System.out.println("==============================================");
             System.out.println("             Welcome to TextIT                ");
@@ -100,6 +102,12 @@ public class HomePage {
 
     private static void logout() {
         System.out.println(RED + "Logging out..." + RESET);
+        File file = new File("last_session.txt");
+        if(file.delete()){
+            System.out.println(RED + "Last session has been deleted" + RESET);
+        }else {
+            System.out.println(RED + "Last session has not been deleted" + RESET);
+        }
         System.exit(0);
     }
 
