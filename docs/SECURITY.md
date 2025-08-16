@@ -1,8 +1,8 @@
 # 🔒 TextIt Security Policy
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025 | Version 2.0</em></p>
-  <p><a href="#">View Change History</a> | <a href="#">Download PDF</a></p>
+  <p><em>Last Updated: August 17, 2025 | Version 3.0.0</em></p>
+  <p><a href="CHANGELOG.md">View Change History</a> | <a href="https://github.com/TextItCorporation/TextItCLI/security">Security Advisories</a></p>
 </div>
 
 ## 🛡️ Security at TextIt
@@ -25,9 +25,9 @@ At TextIt Corporation, we prioritize the security of our software and the protec
 
 | Version | Status | End of Support |
 |---------|--------|----------------|
-| 2.0.x   | ✅ Active | December 31, 2025 |
-| 1.5.x   | ⚠️ Maintenance | September 30, 2025 |
-| < 1.5   | ❌ EOL | Not supported |
+| 3.0.x   | ✅ Active | December 31, 2026 |
+| 2.0.x   | ⚠️ Maintenance | December 31, 2025 |
+| < 2.0   | ❌ EOL | Not supported |
 
 > **Note**: Critical security patches may be backported to maintenance versions for a limited time.
 
@@ -39,13 +39,18 @@ We take all security vulnerabilities seriously. If you've discovered a security 
 
 1. **Do not** publicly disclose the vulnerability
 2. Submit your report via one of these methods:
-   - **Email**: [security@TextItCorporation.com](mailto:security@TextItCorporation.com) (preferred)
-   - **Secure Web Form**: [TextIt Security Report](https://www.TextITCorporation.com/security/report)
-   - **PGP Encrypted**: [Download our PGP Key](https://www.TextITCorporation.com/security/pgp-key)
+   - **GitHub Security Advisories**: [Report a Vulnerability](https://github.com/TextItCorporation/TextItCLI/security/advisories/new)
+   - **Email**: [security@TextItCorporation.com](mailto:security@TextItCorporation.com) (include "[TextIt Security]" in subject)
+   - **PGP Encrypted**: [Download our PGP Key](https://github.com/TextItCorporation.gpg)
 
 ### 📋 Report Requirements
 
 For efficient processing, please include:
+- TextIt version affected
+- Steps to reproduce the issue
+- Impact of the vulnerability
+- Any proof-of-concept code (if available)
+- Your contact information
 
 - Detailed description of the vulnerability
 - Step-by-step reproduction instructions

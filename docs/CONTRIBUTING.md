@@ -36,18 +36,39 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
    ```
 3. **Set up** the development environment
    ```bash
+   # Ensure you have Java 22+ and Maven installed
+   java -version
+   mvn -v
+   
+   # Install dependencies
    mvn clean install
    ```
 4. **Create a branch** for your changes
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b type/scope/description
+   # Example: git checkout -b feat/messaging/add-read-receipts
    ```
+   
+   Branch naming convention:
+   - `feat/`: New features
+   - `fix/`: Bug fixes
+   - `docs/`: Documentation changes
+   - `refactor/`: Code changes that neither fix bugs nor add features
+   - `test/`: Adding missing tests or correcting existing tests
 
 ## 💡 How to Contribute
 
 ### 🐛 Reporting Bugs
 
 Bugs are tracked as [GitHub issues](https://github.com/TextItCorporation/TextItCLI/issues). Before submitting a bug report:
+
+1. **Search existing issues** to avoid duplicates
+2. **Check the documentation** to ensure it's not a configuration issue
+3. **Provide detailed information**:
+   - TextIt version (run `java -jar target/TextItCLI-3.0.0.jar --version`)
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Screenshots or logs if applicable
 
 1. **Search existing issues** to avoid duplicates
 2. **Check the documentation** and [FAQ](#) for known issues
@@ -140,24 +161,38 @@ Fixes #[issue-number]
 
 ### Prerequisites
 
-- Java 17 or higher
+- Java 22 (OpenJDK or Oracle JDK)
 - Maven 3.8+
-- PostgreSQL 13+
-- Git
+- PostgreSQL 15+
+- Git 2.30+
 
-### Building the Project
+### Local Development
 
-```bash
-# Clone the repository
-git clone https://github.com/TextItCorporation/TextItCLI.git
-cd TextItCLI
+1. **Database Setup**
+   ```bash
+   # Create a new PostgreSQL database
+   createdb textit_cli
+   
+   # Configure database connection in src/main/resources/application.properties
+   ```
 
-# Build the project
-mvn clean install
-
-# Run tests
-mvn test
-```
+2. **Running Tests**
+   ```bash
+   # Run all tests
+   mvn test
+   
+   # Run a specific test class
+   mvn test -Dtest=UserServiceTest
+   ```
+   
+3. **Building the Project**
+   ```bash
+   # Create an executable JAR
+   mvn clean package
+   
+   # Run the application
+   java -jar target/TextItCLI-3.0.0.jar
+   ```
 
 ## 📏 Coding Standards
 
@@ -182,9 +217,16 @@ mvn test
 
 ## 🔍 Code Review Process
 
-1. **Initial Review** - A maintainer will review your PR within 3 business days
-2. **Address Feedback** - Make requested changes and push updates
-3. **Approval** - Once approved, a maintainer will merge your changes
+1. **Automated Checks** - CI/CD pipeline runs tests and checks
+2. **Initial Review** - A maintainer will review within 2 business days
+3. **Address Feedback** - Update your PR with requested changes
+4. **Approval** - After approval, your changes will be squashed and merged
+
+### Review Guidelines
+- Keep PRs focused and small (300-500 lines max)
+- Include tests for new features and bug fixes
+- Update documentation for any API changes
+- Ensure all tests pass before requesting review
 4. **Release** - Changes will be included in the next release
 
 ## 🌟 Community
@@ -195,13 +237,13 @@ mvn test
 
 ## 📄 License
 
-By contributing to TextIt, you agree that your contributions will be licensed under the [TextIt Corporation Exclusive License (TCEL) v1.0](LICENSE).
-    * ⬇️ `:arrow_down:` when downgrading dependencies
-    * 👕 `:shirt:` when removing linter warnings
+By contributing to TextIt, you agree that your contributions will be licensed under the [TCEL-1.0 License](LICENSE).
 
-### Java Styleguide
+## 🤝 Community
 
-* Follow Java 8 best practices
+- Join our [Discord server](https://discord.gg/textit) for real-time discussions
+- Follow us on [Twitter @TextItCorp](https://twitter.com/TextItCorp) for updates
+- Read our [blog](https://blog.textitcorp.com) for development insights
 * Use proper exception handling
 * Implement thread-safe operations
 * Follow security guidelines
