@@ -3,9 +3,7 @@ package com.TextIt.UI;
 import com.TextIt.database.DataBase;
 import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.SignUpAuth;
-
 import java.util.Scanner;
-
 import static com.TextIt.model.utils.CommonMethods.*;
 
 public class SignupPage {

@@ -3,7 +3,6 @@ package com.TextIt.UI;
 import com.TextIt.database.DataBase;
 import com.TextIt.service.user.UserData;
 import com.TextIt.model.utils.CommonMethods;
-
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Scanner;

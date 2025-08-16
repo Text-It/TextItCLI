@@ -3,13 +3,10 @@ package com.TextIt.UI;
 
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.pages.HomePage;
-
 import com.TextIt.service.session.SessionManger;
-
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import static com.TextIt.model.utils.CommonMethods.*;
 
 public class AuthCLI {

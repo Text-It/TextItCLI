@@ -1,9 +1,7 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
-
 import java.util.Scanner;
-
 import static com.TextIt.model.utils.CommonMethods.*;
 
 public class SettingsPage {
