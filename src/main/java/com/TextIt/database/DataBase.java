@@ -607,6 +607,24 @@ public class DataBase {
             }
         }
 
+        public List<Integer> getPostIds(int limit, int offset) {
+            List<Integer> ids = new ArrayList<>();
+            String query = "SELECT post_id FROM posts ORDER BY post_point  DESC LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setInt(1, limit);
+                pst.setInt(2, offset);
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    ids.add(rs.getInt("post_id"));
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post ids: " + e.getMessage());
+            }
+            return ids;
+        }
+
+
 
         public int getPostCommentsCount(int postid) {
             String query = "select count(*) from comments where post_id = ?";
