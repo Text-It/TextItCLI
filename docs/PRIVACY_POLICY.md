@@ -1,8 +1,8 @@
 # 🔒 TextIt Privacy Policy
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025 | Version 2.0</em></p>
-  <p><a href="#">View Change History</a> | <a href="#">Download PDF</a></p>
+  <p><em>Last Updated: August 15, 2025 | Version 3.0</em></p>
+  <p><a href="https://github.com/TextItCorp/TextItCLI/commits/main/docs/PRIVACY_POLICY.md" target="_blank">View Change History</a> | <a href="https://github.com/TextItCorp/TextItCLI/raw/main/docs/PRIVACY_POLICY.md" download>Download</a></p>
 </div>
 
 ## 📋 Table of Contents
@@ -23,13 +23,22 @@
 
 ## 🌟 Introduction
 
-Welcome to TextIt, a secure social networking platform developed by TextIt Corporation ("we," "us," or "our"). We are committed to protecting your privacy and being transparent about how we handle your personal information.
+Welcome to TextIt 3.0, the secure command-line messaging platform developed by TextIt Corporation ("we," "us," or "our"). We are committed to protecting your privacy and being transparent about how we handle your personal information.
 
-This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our application, website, and related services (collectively, the "Service"). Please read this policy carefully to understand our practices regarding your information.
+This Privacy Policy explains how we collect, use, disclose, and protect your information when you use our command-line interface, related tools, and services (collectively, the "Service"). Please read this policy carefully to understand our practices regarding your information.
+
+### 1.0 Key Principles
+
+- **Minimal Data Collection**: We only collect what's necessary to provide our Service
+- **End-to-End Encryption**: Your messages are encrypted and only accessible by you and your intended recipients
+- **Transparency**: Clear explanations about our data practices
+- **User Control**: Tools to manage your privacy settings and data
 
 ### 1.1 About This Policy
 
-This Privacy Policy applies to all users of the TextIt Service. By accessing or using our Service, you acknowledge that you have read, understood, and agree to the collection, use, and disclosure of your information as described in this Privacy Policy and our [Terms of Service](TERMS_OF_SERVICE.md).
+This Privacy Policy applies to all users of the TextIt 3.0 Service. By accessing or using our Service, you acknowledge that you have read, understood, and agree to the collection, use, and disclosure of your information as described in this Privacy Policy and our [Terms of Service](TERMS_OF_SERVICE.md).
+
+This version of our Privacy Policy is effective as of August 15, 2025, and reflects our current data protection standards and legal requirements, including GDPR, CCPA, and other global privacy regulations.
 
 ### 1.2 Key Definitions
 
@@ -45,9 +54,20 @@ This Privacy Policy applies to all users of the TextIt Service. By accessing or 
 We collect information that you voluntarily provide when using our Service, including:
 
 #### Account Information
-- Full name, username, and password (hashed using Argon2id)
-- Email address and phone number (for verification and security)
-- Profile picture and biographical information
+- Username and password (hashed using Argon2id)
+- Email address (for account recovery and security notifications)
+- Public key for end-to-end encryption
+- Optional display name and status message
+
+#### Communication Data
+- Encrypted message content (only stored temporarily until delivered)
+- Message metadata (e.g., timestamps, recipient information)
+- Public keys of your contacts
+
+#### Usage Data
+- Commands executed
+- Feature usage statistics (anonymized)
+- Error reports and crash data (optional)
 - Payment and billing information (for premium services)
 
 #### Content and Communications
@@ -97,31 +117,33 @@ We may receive information about you from third parties, such as:
 
 We use the information we collect for the following purposes:
 
+### 🔄 How We Use Your Information
+
+We use the information we collect to:
+
 ### 3.1 Service Provision
-- Create and manage your account
-- Provide and maintain the Service
-- Process transactions and send related information
-- Enable communication between users
-- Provide customer support
+- Provide, maintain, and improve our CLI application
+- Enable secure end-to-end encrypted messaging
+- Facilitate user authentication and authorization
+- Deliver message notifications (if enabled)
 
 ### 3.2 Service Improvement
-- Analyze usage patterns and trends
+- Analyze usage patterns to enhance performance
 - Develop new features and functionality
-- Conduct research and analysis
-- Improve user experience
-- Ensure Service security and integrity
+- Fix bugs and optimize resource usage
+- Ensure compatibility across different operating systems
+
+### 3.3 Security & Compliance
+- Detect and prevent security incidents
+- Comply with legal obligations
+- Enforce our Terms of Service
+- Protect the rights and safety of our users
 
 ### 3.3 Communication
 - Send service-related communications
 - Respond to your inquiries and requests
 - Send promotional and marketing materials (with your consent)
 - Provide important security and policy updates
-
-### 3.4 Security & Compliance
-- Protect against unauthorized access and fraud
-- Enforce our Terms of Service
-- Comply with legal obligations
-- Protect the rights, property, and safety of TextIt and our users
 
 ## ⚖️ Legal Basis for Processing
 
@@ -166,47 +188,76 @@ To protect and defend the rights, property, or safety of TextIt, our users, or o
 
 ## 🌍 International Data Transfers
 
-### 6.1 Data Storage Locations
-Your information may be transferred to, stored, and processed in countries other than your country of residence. We implement appropriate safeguards to ensure your information remains protected when transferred internationally.
+### 🌐 International Data Transfers
 
-### 6.2 Cross-Border Transfers
-When we transfer Personal Data outside the European Economic Area (EEA) or the United Kingdom (UK), we implement appropriate safeguards such as Standard Contractual Clauses (SCCs) or other approved transfer mechanisms.
+### 6.1 Data Location
+- Our infrastructure is hosted in multiple regions for redundancy and performance
+- Message routing is optimized for speed and reliability
+- Your data may be processed in any country where we operate
+
+### 6.2 Transfer Safeguards
+We implement strong safeguards for international data transfers:
+- Standard Contractual Clauses (SCCs)
+- Data localization where required by law
+- End-to-end encryption ensures your messages remain private regardless of location
+- Regular transparency reports about government requests
+
+### 6.3 Your Control
+- Choose your preferred server region when available
+- Self-hosted options for enterprise customers
+- Detailed information about data jurisdiction in our documentation
 
 ## 🔐 Data Security
 
-### 7.1 Security Measures
-We implement industry-standard security measures to protect your information, including:
-- Encryption of data in transit (TLS 1.3) and at rest (AES-256)
-- Regular security audits and penetration testing
-- Access controls and authentication mechanisms
-- Employee training on data protection
-- Incident response and breach notification procedures
+### 🔒 Data Security
 
-### 7.2 Data Breach Notification
-In the event of a data breach that affects your Personal Data, we will notify you and the relevant authorities as required by applicable law.
+We implement industry-leading security measures to protect your information:
 
-## 🛡️ Your Rights
+### 7.1 Technical Measures
+- **End-to-End Encryption**: All messages are encrypted using the Signal Protocol
+- **Zero-Knowledge Architecture**: We cannot access your message content
+- **Secure Key Management**: Private keys never leave your device
+- **Perfect Forward Secrecy**: Unique encryption keys for each session
+- **Code Audits**: Regular security audits by independent third parties
 
-Depending on your jurisdiction, you may have the following rights regarding your Personal Data:
+### 7.2 Operational Measures
+- **Minimal Data Retention**: Messages are only stored until delivered
+- **No Message Logging**: We don't log message content
+- **Open Source**: Our encryption implementation is open for public review
+- **Bug Bounty Program**: Rewards for reporting security vulnerabilities
 
-### 8.1 Access & Portability
-- Request access to your Personal Data
-- Receive a copy of your data in a structured, machine-readable format
+### 7.3 Your Role in Security
+- Keep your client software updated
+- Never share your private keys or recovery phrase
+- Use strong, unique passwords
+- Enable two-factor authentication (2FA) if available
 
-### 8.2 Correction & Deletion
-- Request correction of inaccurate or incomplete data
-- Request deletion of your Personal Data in certain circumstances
+## 📜 Your Rights
 
-### 8.3 Restriction & Objection
-- Request restriction of processing
-- Object to processing of your Personal Data
-- Withdraw consent (where applicable)
+### 8.1 Your Data Protection Rights
 
-### 8.4 Automated Decision-Making
-- Not be subject to decisions based solely on automated processing that significantly affects you
+Depending on your location, you may have the following rights:
 
-### 8.5 Exercising Your Rights
-To exercise any of these rights, please contact us using the information in the [Contact Us](#-contact-us) section. We may need to verify your identity before processing your request.
+| Right | Description | How to Exercise |
+|-------|-------------|-----------------|
+| **Access** | Get a copy of your data | Submit a request via CLI or web portal |
+| **Correction** | Update inaccurate data | Edit in your account settings |
+| **Deletion** | Remove your personal data | Use the `account delete` command |
+| **Portability** | Download your data | Available in account settings |
+| **Restriction** | Limit data processing | Contact our support team |
+| **Objection** | Opt-out of processing | Adjust privacy settings |
+| **Withdraw Consent** | Revoke permissions | Update app preferences |
+
+### 8.2 Automated Decision Making
+
+We do not use fully automated decision-making that produces legal effects or similarly significant effects. Any automated processing is subject to human review where required by law.
+
+### 8.3 Non-Discrimination
+
+We will not discriminate against you for exercising your privacy rights, including by:
+- Denying goods or services
+- Charging different prices or rates
+- Providing a different level or quality of service
 
 ## 📅 Data Retention
 
@@ -226,45 +277,107 @@ Parents or guardians who believe their child has provided us with Personal Data 
 
 ## 🔄 Changes to This Policy
 
-### 11.1 Updates
-We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
+### 11.1 Policy Updates
 
-### 11.2 Notification
-For significant changes, we will provide more prominent notice, such as email notification or in-Service alerts.
+We may update this Privacy Policy to reflect changes in our practices or legal requirements. When we make changes, we'll:
+
+- Update the "Last Updated" date at the top of this policy
+- Post a notice in the CLI for significant changes
+- Provide a summary of key changes
+- Where required by law, obtain your consent for material changes
+
+### 11.2 Version History
+
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| 3.0.0 | Aug 2025 | Major update for CLI focus, enhanced encryption details |
+| 2.0 | Jul 2025 | Added GDPR/CCPA compliance sections |
+| 1.0 | Jan 2025 | Initial release |
+
+### 11.3 Your Acceptance
+
+Continued use of TextIt after changes become effective constitutes acceptance of the updated Privacy Policy. If you do not agree, you must discontinue using the Service.
 
 ## 📞 Contact Us
 
-If you have any questions about this Privacy Policy or our privacy practices, please contact us at:
+### 12.1 General Inquiries
 
 **TextIt Corporation**  
-Attn: Privacy Officer  
-123 Tech Park, Near Sola Road, S.G. Highway  
-Ahmedabad, Gujarat 380061, India  
-Email: [privacy@TextItCorporation.com](mailto:privacy@TextItCorporation.com)  
-Phone: +91 99999-88888  
+Email: [privacy@textitcorp.com](mailto:privacy@textitcorp.com)  
+Support: [support@textitcorp.com](mailto:support@textitcorp.com)  
+Security: [security@textitcorp.com](mailto:security@textitcorp.com)  
 
-For EU/UK residents, you may also contact our EU/UK Representative at [eurep@TextItCorporation.com](mailto:eurep@TextItCorporation.com).
+### 12.2 Regional Representatives
+
+| Region | Contact |
+|--------|---------|
+| **EU/UK** | [eudpr@textitcorp.com](mailto:eudpr@textitcorp.com) |
+| **North America** | [usprivacy@textitcorp.com](mailto:usprivacy@textitcorp.com) |
+| **Asia-Pacific** | [asiapac-privacy@textitcorp.com](mailto:asiapac-privacy@textitcorp.com) |
+
+### 12.3 Mailing Address
+
+```
+TextIt Corporation
+Attn: Privacy Officer
+123 Tech Park, Near Sola Road
+S.G. Highway, Ahmedabad
+Gujarat 380061, India
+```
+
+### 12.4 Emergency Contact
+
+For urgent privacy or security issues, please use our [Security Incident Report Form](https://www.textitcorp.com/security/incident).
 
 ## 🏛️ Compliance & Regulatory Information
 
-### 13.1 Data Protection Officer
-Our Data Protection Officer can be contacted at [dpo@TextItCorporation.com](mailto:dpo@TextItCorporation.com).
+### 13.1 Global Privacy Framework
 
-### 13.2 Regulatory Compliance
-This Privacy Policy is designed to comply with the following regulations:
-- **GDPR** (General Data Protection Regulation) - EU/EEA/UK
-- **CCPA/CPRA** (California Consumer Privacy Act/California Privacy Rights Act)
-- **PIPEDA** (Personal Information Protection and Electronic Documents Act) - Canada
-- **LGPD** (Lei Geral de Proteção de Dados) - Brazil
-- **DPA 2018** (Data Protection Act) - UK
-- **IT Rules, 2011** - India
+TextIt complies with major privacy regulations worldwide:
 
-### 13.3 Supervisory Authority
-If you have concerns about our data practices, you have the right to lodge a complaint with your local data protection authority.
+| Regulation | Compliance Status | Contact |
+|------------|-------------------|---------|
+| **GDPR** | Fully Compliant | [eudpr@textitcorp.com](mailto:eudpr@textitcorp.com) |
+| **CCPA/CPRA** | Fully Compliant | [ccpa@textitcorp.com](mailto:ccpa@textitcorp.com) |
+| **LGPD (Brazil)** | Compliant | [lgpd@textitcorp.com](mailto:lgpd@textitcorp.com) |
+| **PIPEDA (Canada)** | Compliant | [privacy@textitcorp.com](mailto:privacy@textitcorp.com) |
+
+### 13.2 Data Protection Officer
+
+Our Data Protection Officer (DPO) oversees compliance with data protection laws:
+
+**Email**: [dpo@textitcorp.com](mailto:dpo@textitcorp.com)  
+**Phone**: +1 (555) 123-4567 (Toll-free)  
+**Hours**: 9:00 AM - 5:00 PM GMT, Monday-Friday
+
+### 13.3 Regulatory Resources
+
+- [GDPR Information](https://ec.europa.eu/info/law/law-topic/data-protection_en)
+- [CCPA Information](https://oag.ca.gov/privacy/ccpa)
+- [LGPD Information](https://www.gov.br/cidadania/pt-br/acesso-a-informacao/lgpd)
+- [PIPEDA Information](https://www.priv.gc.ca/)
+
+### 13.4 Data Protection Authorities
+
+You have the right to contact your local data protection authority:
+
+| Region | Authority |
+|--------|-----------|
+| **EU** | [EDPB](https://edpb.europa.eu/) |
+| **UK** | [ICO](https://ico.org.uk/) |
+| **California** | [CPRA](https://oag.ca.gov/privacy/ccpa) |
+| **Canada** | [OPC](https://www.priv.gc.ca/) |
+
+### 13.5 Transparency Report
+
+View our latest [Transparency Report](https://www.textitcorp.com/transparency) for information about:
+- Government data requests
+- Content removal requests
+- User notification policies
 
 ---
 
 <div align="center">
-  <p>© 2025 TextIt Corporation. All rights reserved.</p>
-  <p><a href="https://www.TextITCorporation.com">www.TextITCorporation.com</a></p>
+  <p> 2025 TextIt Corporation. All rights reserved.</p>
+  <p><a href="https://www.textitcorp.com">www.textitcorp.com</a></p>
 </div>

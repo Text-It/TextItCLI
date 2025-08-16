@@ -1,7 +1,7 @@
 # 📜 TextIt Changelog
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025</em> | <a href="#version-history">Version History</a> | <a href="https://www.TextItCorporation.com">Website</a></p>
+  <p><em>Last Updated: August 17, 2025</em> | <a href="#version-history">Version History</a> | <a href="https://github.com/TextItCorporation/TextItCLI">GitHub</a></p>
 </div>
 
 ## 📋 About This Document
@@ -20,34 +20,40 @@ This changelog adheres to the principles of [Keep a Changelog](https://keepachan
 - `🧪 Tests` - Test-related changes
 - `🧹 Chore` - Maintenance and tooling updates
 
-## [Unreleased]
+## [3.0.0] - 2025-08-17
 
 ### ✨ Added
-- **Core**: Real-time notification system with WebSocket integration
-- **Security**: Advanced multi-factor authentication (MFA) with TOTP support
-- **Performance**: Database query optimization and caching layer
-- **Infrastructure**: Containerization support with Docker and Kubernetes
-- **Monitoring**: Comprehensive application metrics and health checks
-- **CI/CD**: Automated deployment pipelines
+- **CLI Interface**: Completely redesigned command-line interface for better usability
+- **Real-time Messaging**: Instant direct messaging with online status indicators
+- **User Profiles**: Enhanced profile system with bio and activity history
+- **Follow System**: New functionality to follow users and see their updates
+- **Inbox Notifications**: Real-time alerts for messages and interactions
+- **Themes**: Support for customizable color schemes
 
 ### 🛠 Changed
-- **Architecture**: Microservices refactoring for better scalability
-- **Security**: Enhanced encryption standards and key management
-- **Performance**: Optimized database indexing and query execution
-- **UI/UX**: Improved responsive design and accessibility
-- **Documentation**: Comprehensive API documentation with Swagger/OpenAPI
+- **Core**: Upgraded to Java 22 for better performance
+- **Database**: Updated to PostgreSQL 15+ with optimized schemas
+- **Security**: Enhanced OTP authentication system
+- **Performance**: Optimized database queries and connection handling
+- **Documentation**: Comprehensive CLI reference and user guide
 
 ### 🐛 Fixed
-- Resolved race conditions in concurrent user sessions
-- Fixed memory leaks in long-running processes
+- Fixed issues with message delivery reliability
+- Resolved session management bugs
 - Addressed security vulnerabilities in authentication flow
-- Corrected timezone handling in scheduled tasks
+- Improved error handling and user feedback
 
 ### 🔒 Security
-- Implemented rate limiting for authentication endpoints
-- Enhanced input validation and sanitization
-- Updated cryptographic libraries to latest secure versions
-- Added security headers and CSP policies
+- Enhanced password hashing implementation
+- Improved session token handling
+- Added rate limiting for login attempts
+- Secure storage of sensitive credentials
+
+### 📚 Documentation
+- Complete rewrite of user documentation
+- Added troubleshooting guide
+- Improved installation and setup instructions
+- Better code documentation
 
 ## [2.0.0] - 2025-07-20
 

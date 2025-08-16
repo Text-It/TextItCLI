@@ -1,8 +1,8 @@
 # 🏛️ TextIt Project Governance
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025 | Version 2.0</em></p>
-  <p><a href="#">View Change History</a> | <a href="#">Download PDF</a></p>
+  <p><em>Last Updated: August 15, 2025 | Version 3.0</em></p>
+  <p><a href="https://github.com/TextItCorp/TextItCLI/commits/main/docs/GOVERNANCE.md" target="_blank">View Change History</a> | <a href="https://github.com/TextItCorp/TextItCLI/raw/main/docs/GOVERNANCE.md" download>Download</a></p>
 </div>
 
 ## 📋 Table of Contents
@@ -26,28 +26,63 @@ This document outlines the governance model for the TextIt project, an open-sour
 
 ### 2.1 Project Components
 
-TextIt consists of several key components, each with dedicated maintainers:
+TextIt 3.0 is organized into the following key components, each with dedicated maintainers:
 
-- **Core Platform**: The main application framework and API
-- **Web Interface**: User-facing web application
-- **Mobile Apps**: Native mobile applications (iOS/Android)
-- **Documentation**: User guides, API references, and developer documentation
-- **DevOps & Infrastructure**: Deployment, CI/CD, and infrastructure management
-- **Security**: Security features, audits, and vulnerability management
+- **CLI Core**: Command-line interface framework and core functionality
+- **Messaging Engine**: Real-time messaging and notification system
+- **Security Module**: Authentication, encryption, and security features
+- **Database Layer**: Data persistence and query optimization
+- **API Gateway**: External integration points and web services
+- **Documentation**: Comprehensive guides, references, and developer documentation
+- **DevOps & CI/CD**: Build, test, and deployment automation
+- **Quality Assurance**: Testing frameworks and quality gates
 
 ### 2.2 Repository Organization
 
-- `main`: Production-ready code (protected branch)
-- `develop`: Integration branch for upcoming features
-- `feature/*`: Feature branches for development
-- `release/*`: Release preparation branches
-- `hotfix/*`: Critical bug fixes for production
+- `main`: Production-ready code (protected branch, requires PR and CI)
+- `develop`: Integration branch for upcoming features (nightly builds)
+- `feature/*`: Feature branches (prefixed with feature/)
+  - Example: `feature/messaging/read-receipts`
+- `release/*`: Release preparation branches (versioned)
+  - Example: `release/v3.0.0`
+- `hotfix/*`: Critical production fixes (immediate attention)
+- `docs/*`: Documentation updates and improvements
+
+### 2.3 Versioning
+
+TextIt follows [Semantic Versioning 2.0.0](https://semver.org/):
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for added functionality in a backward-compatible manner
+- **PATCH** version for backward-compatible bug fixes
 
 ## 👥 Roles & Responsibilities
 
-### 3.1 Community Members
+### 3.1 Community Tiers
 
-All participants in the TextIt community, including users, contributors, and maintainers, are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
+#### 3.1.1 Users
+- Use TextIt and provide feedback
+- Report bugs and suggest features
+- Help other users in community forums
+
+#### 3.1.2 Contributors
+- Submit bug fixes and small features
+- Improve documentation
+- Help triage issues
+- Participate in code reviews
+
+#### 3.1.3 Maintainers
+- Review and merge pull requests
+- Manage releases and versioning
+- Ensure code quality and standards
+- Mentor new contributors
+
+#### 3.1.4 Core Team
+- Set project direction and roadmap
+- Make architectural decisions
+- Handle security vulnerabilities
+- Manage infrastructure and CI/CD
+
+All participants must adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ### 3.2 Contributors
 
@@ -106,26 +141,34 @@ The Core Team consists of senior maintainers who provide strategic direction and
 
 #### Routine Decisions
 - Can be made by any maintainer
-- Include: bug fixes, documentation updates, dependency updates
-- Use GitHub PR review process
-
-#### Standard Decisions
-- Require approval from at least 2 maintainers
-- Include: New features, API changes, breaking changes
-- Use GitHub issue discussion + PR process
-
-#### Major Decisions
-- Require Core Team approval
-- Include: Architecture changes, license changes, security policies
-- Use Request for Comments (RFC) process
 
 ### 4.2 Decision Process
 
-1. **Proposal**: Document the proposal in a GitHub issue or RFC
-2. **Discussion**: Allow for community feedback (minimum 1 week)
-3. **Refinement**: Update the proposal based on feedback
-4. **Decision**: For major decisions, call for a formal vote
-5. **Implementation**: Execute the decision and document the outcome
+1. **Proposal**
+   - Create a GitHub Discussion or RFC (Request for Comments)
+   - Use the appropriate template
+   - Tag relevant stakeholders
+
+2. **Discussion Period**
+   - Minor changes: 3 business days
+   - Major changes: 14 calendar days
+   - Security issues: Follow [SECURITY.md](SECURITY.md)
+
+3. **Decision Making**
+   - **Lazy Consensus**: If no objections after discussion period
+   - **Voting**: For controversial decisions (2/3 majority required)
+   - **Veto**: Core Team can veto any decision that threatens project stability
+
+4. **Implementation**
+   - Create a tracking issue
+   - Break down into smaller, reviewable PRs
+   - Update documentation and tests
+
+5. **Review & Merge**
+   - Minimum 2 approvals required
+   - All CI checks must pass
+   - Documentation must be updated
+   - Backward compatibility considered
 
 ### 4.3 Voting Process
 
@@ -165,19 +208,39 @@ Contributors may be invited to become maintainers after:
 
 ## 🔒 Security & Compliance
 
-### 6.1 Security Policies
+### 6.1 Security Team
 
-- All code must pass security review before merging
-- Security vulnerabilities take highest priority
-- Follow secure coding practices
-- Regular security audits and penetration testing
+The Security Team consists of senior developers with expertise in:
 
-### 6.2 Compliance Requirements
+- Application Security
+- Cryptography
+- Infrastructure Security
+- Compliance (GDPR, CCPA, SOC2)
 
-- GDPR compliance for user data
-- Accessibility standards (WCAG 2.1)
-- Open-source license compliance
-- Export control regulations
+### 6.2 Security Process
+
+1. **Reporting**
+   - Email: security@textitcorp.com
+   - PGP: [Keybase](https://keybase.io/textitcorp)
+   - [GitHub Security Advisories](https://github.com/TextItCorp/TextItCLI/security/advisories)
+
+2. **Response Time**
+   - Critical: 24 hours
+   - High: 72 hours
+   - Medium: 7 days
+   - Low: Next release cycle
+
+3. **Disclosure Policy**
+   - Coordinated disclosure
+   - CVE assignment
+   - Security bulletins
+   - Upgrade guides
+
+4. **Compliance**
+   - Regular security audits
+   - Dependency scanning
+   - Penetration testing
+   - Compliance documentation
 
 ## 📜 Code of Conduct
 
@@ -199,32 +262,39 @@ All participants in the TextIt community must adhere to our [Code of Conduct](CO
 
 ## 🗺️ Project Roadmap
 
-### 9.1 Upcoming Releases
+### 9.1 Release Schedule
 
-- **v2.1.0** (Q3 2025): Enhanced security features
-- **v2.2.0** (Q4 2025): Performance improvements
-- **v3.0.0** (Q1 2026): Major architecture update
+| Version | Release Date | Focus Area | Status |
+|---------|--------------|------------|---------|
+| v3.0.0 | Aug 2025 | Core Architecture | 🟢 Released |
+| v3.1.0 | Nov 2025 | Performance | 🟡 In Development |
+| v3.2.0 | Feb 2026 | Security | ⚪ Planned |
+| v4.0.0 | Aug 2026 | Next Gen | ⚪ Planned |
 
-### 9.2 Long-Term Goals
+### 9.2 Focus Areas
 
-- Expand platform capabilities
-- Improve developer experience
-- Grow the community
-- Enhance security and privacy features
+#### Q3-Q4 2025
+- Performance optimization
+- Developer experience improvements
+- Enhanced documentation
+
+#### 2026
+- Plugin architecture
+- Advanced security features
+- Enterprise support
+
+### 9.3 How to Contribute to the Roadmap
+
+1. Submit feature requests via GitHub Issues
+2. Join our monthly community calls
+3. Participate in RFC discussions
+4. Vote on upcoming features
 
 ## 📞 Contact & Resources
 
-### 10.1 Getting Help
-
-- **Documentation**: [docs.TextItCorporation.com](https://docs.TextItCorporation.com)
-- **Community Forum**: [community.TextItCorporation.com](https://community.TextItCorporation.com)
-- **Chat**: [Discord/Matrix/Slack] (link)
-
-### 10.2 Reporting Issues
-
-- **Bugs**: [GitHub Issues](https://github.com/TextItCorp/TextIt/issues)
-- **Security Vulnerabilities**: [security@TextItCorporation.com](mailto:security@TextItCorporation.com)
-- **Governance Questions**: [governance@TextItCorporation.com](mailto:governance@TextItCorporation.com)
+### General Inquiries
+- **Website**: [TextItCorp.com](https://www.textitcorp.com)
+- **Documentation**: [docs.textitcorp.com](https://docs.textitcorp.com)
 
 ### 10.3 Social Media
 

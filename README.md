@@ -1,17 +1,17 @@
 # <img src=".github/logo.png" alt="TextIt Logo" width="40"> TextIt - Secure Social Networking Platform
 
 <div align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version: 2.0.0">
+  <img src="https://img.shields.io/badge/version-3.0.0-blue" alt="Version: 3.0.0">
   <img src="https://img.shields.io/badge/license-TCEL--1.0-brightgreen" alt="License: TCEL-1.0">
-  <img src="https://img.shields.io/badge/Java-17%2B-007396?logo=java" alt="Java 17+">
-  <img src="https://img.shields.io/badge/PostgreSQL-13%2B-336791?logo=postgresql" alt="PostgreSQL 13+">
+  <img src="https://img.shields.io/badge/Java-22%2B-007396?logo=java" alt="Java 22+">
+  <img src="https://img.shields.io/badge/PostgreSQL-15%2B-336791?logo=postgresql" alt="PostgreSQL 15+">
   <img src="https://img.shields.io/badge/build-Maven-FF7F00?logo=apache-maven" alt="Maven">
   <img src="https://img.shields.io/badge/security-enterprise--grade-brightgreen" alt="Enterprise Security">
 </div>
 
 ## 📝 Overview
 
-**TextIt** is a next-generation, secure social networking platform developed by **TextIt Corporation**. Built with enterprise-grade security and scalability in mind, TextIt provides a robust foundation for modern social interactions while prioritizing user privacy and data protection.
+**TextIt** is a next-generation, secure social networking platform developed by **TextIt Corporation**. Built with enterprise-grade security and a lightweight CLI interface, TextIt provides a fast and private social networking experience with a focus on real-time communication and content sharing, all while prioritizing user privacy and data protection.
 
 <div align="center">
   <img src=".github/screenshots/app-preview.gif" alt="TextIt Preview" width="80%">
@@ -20,30 +20,38 @@
 ## ✨ Key Features
 
 ### 🔐 Advanced Security
-- **End-to-End Encryption**: Military-grade encryption for all communications
-- **Multi-Factor Authentication**: Secure login with OTP, email, and biometric verification
-- **Data Protection**: Compliance with GDPR, CCPA, and other privacy regulations
-- **Secure Authentication**: Role-based access control (RBAC) implementation
+- **End-to-End Encryption**: Military-grade encryption for all direct messages
+- **OTP Authentication**: Secure login with email-based one-time passwords
+- **Session Management**: Robust session handling for secure user access
+- **Data Protection**: Secure storage and handling of user credentials
 
-### 🌐 Social Networking
-- **Real-time Messaging**: Instant messaging with read receipts and typing indicators
-- **Content Sharing**: Share text, images, and media with privacy controls
-- **Activity Feed**: Personalized content feed with smart filtering
-- **Groups & Communities**: Create and manage interest-based communities
+### 💬 Core Features
+- **Real-time Messaging**: Instant direct messaging with online status
+- **Post System**: Create and share text-based posts with followers
+- **User Profiles**: Customizable profiles with bio and activity history
+- **Follow System**: Follow other users and see their updates
+- **Inbox Notifications**: Get alerts for new messages and interactions
+
+### 🚀 Performance & Usability
+- **Lightweight CLI**: Fast and responsive command-line interface
+- **Low Resource Usage**: Optimized for performance on all systems
+- **Keyboard Navigation**: Full keyboard control for power users
+- **Themes**: Customizable color schemes for personalized experience
 
 ### 🛠️ Developer Friendly
-- **RESTful API**: Comprehensive API documentation
-- **Modular Architecture**: Easy to extend and customize
-- **CI/CD Ready**: GitHub Actions for automated testing and deployment
-- **Containerized**: Docker support for easy deployment
+- **Clean Architecture**: Well-organized codebase for easy contribution
+- **Maven Build**: Simple dependency management and build process
+- **Modular Design**: Independent components for maintainability
+- **Comprehensive Logging**: Detailed logs for debugging and monitoring
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Java 17 or higher
-- PostgreSQL 13+
+- Java 22 or higher
+- PostgreSQL 15+
 - Maven 3.8+
 - Git
+- Internet connection (for email verification)
 
 ### Installation
 
@@ -62,56 +70,57 @@
 3. **Build and run**
    ```bash
    mvn clean install
-   java -jar target/TextItCLI-2.0.0.jar
+   java -jar target/TextItCLI-3.0.0.jar
    ```
+   
+4. **First-time setup**
+   - Follow the on-screen prompts to create your admin account
+   - Check your email for the verification code
+   - Log in with your new credentials
 
 ## 🏗️ System Architecture
 
-TextIt follows a clean architecture with clear separation of concerns:
+TextIt is built with a modular, layered architecture for maintainability and performance:
 
 ```
 📦 TextItCLI
 ├── 📂 src/main/java/com/TextIt
-│   ├── 📂 api/            # REST API Controllers
-│   ├── 📂 config/         # Application configuration
-│   ├── 📂 core/           # Business logic
-│   │   ├── 📂 auth/       # Authentication & Authorization
-│   │   ├── 📂 user/       # User management
-│   │   └── 📂 social/     # Social features
-│   ├── 📂 data/           # Data access layer
-│   │   ├── 📂 entities/   # JPA entities
-│   │   ├── 📂 repositories/# Data repositories
-│   │   └── 📂 migrations/ # Database migrations
-│   ├── 📂 exception/      # Exception handling
-│   └── 📂 util/           # Utility classes
-├── 📂 src/main/resources  # Resources and configuration
-└── 📂 src/test/           # Test suites
+│   ├── 📂 UI/            # Command-line interface components
+│   ├── 📂 database/      # Database connection and operations
+│   ├── 📂 inbox/         # Inbox and notification system
+│   ├── 📂 model/         # Data models and entities
+│   ├── 📂 security/      # Authentication and encryption
+│   └── 📂 service/       # Business logic and features
+│       ├── 📂 pages/     # Application screens
+│       ├── 📂 session/   # User session management
+│       └── 📂 user/      # User-related operations
+├── 📂 src/main/resources # Configuration and resources
+└── 📂 target/            # Compiled application
 ```
 
 ## 🔧 Technologies Used
 
-### Backend
-- **Java 17**: Core programming language
-- **Spring Boot 3.0**: Application framework
-- **Spring Security**: Authentication and authorization
-- **JPA/Hibernate**: Database ORM
-- **PostgreSQL**: Primary database
-- **Redis**: Caching and real-time features
-- **JWT**: Secure token-based authentication
+### Core Technologies
+- **Java 22**: Modern Java features and performance
+- **PostgreSQL 15+**: Relational database for data persistence
+- **JavaMail**: Email notifications and OTP delivery
+- **Maven**: Dependency management and build automation
+- **JDBC**: Database connectivity and operations
 
-### Development Tools
-- **Maven**: Build automation
-- **Docker**: Containerization
-- **GitHub Actions**: CI/CD pipeline
-- **Swagger/OpenAPI**: API documentation
-- **Lombok**: Boilerplate reduction
+### Key Features
+- **CLI Interface**: Fast, keyboard-driven user experience
+- **Real-time Updates**: Event-driven architecture for live updates
+- **Secure Storage**: Encrypted credentials and sensitive data
+- **Modular Design**: Easy to extend with new features
+- **Cross-Platform**: Runs anywhere Java is supported
 
 ## 📚 Documentation
 
-- [API Documentation](https://docs.textitcorp.com/api) - Complete API reference
+- [User Guide](docs/USER_GUIDE.md) - Getting started and using TextIt
 - [Developer Guide](docs/DEVELOPER_GUIDE.md) - Setup and contribution guidelines
 - [Security Overview](docs/SECURITY.md) - Security features and best practices
-- [Deployment Guide](docs/DEPLOYMENT.md) - Production deployment instructions
+- [CLI Reference](docs/CLI_REFERENCE.md) - Complete command reference
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 
 ## 🤝 Contributing
 
@@ -130,9 +139,9 @@ This project is licensed under the **TextIt Corporation Exclusive License (TCEL)
 ## 📞 Contact
 
 - **Email**: support@TextItCorporation.com
-- **Phone**: +91 99999-88888
-- **Website**: [www.TextITCorporation.com](https://www.TextITCorporation.com)
-- **Address**: 123 Tech Park, Near Sola Road, S.G. Highway, Ahmedabad, Gujarat 380061, India
+- **GitHub Issues**: [Report Issues](https://github.com/TextItCorporation/TextItCLI/issues)
+- **Documentation**: [Read the Docs](https://github.com/TextItCorporation/TextItCLI/tree/main/docs)
+- **Community**: [Join our Discussions](https://github.com/TextItCorporation/TextItCLI/discussions)
 
 ## 🌐 Connect With Us
 
@@ -143,8 +152,8 @@ This project is licensed under the **TextIt Corporation Exclusive License (TCEL)
 ---
 
 <div align="center">
-  <p>Made with ❤️ by <a href="https://www.TextITCorporation.com">TextIt Corporation</a></p>
-  <p>© 2025 TextIt Corporation. All rights reserved.</p>
+  <p>Made with ❤️ by <a href="https://github.com/TextItCorporation">TextIt Corporation</a></p>
+  <p>© 2025 TextIt Corporation. All rights reserved. Version 3.0.0</p>
 </div>
 
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute to the project

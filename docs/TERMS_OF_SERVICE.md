@@ -1,8 +1,8 @@
 # 📜 TextIt Terms of Service
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025 | Version 2.0</em></p>
-  <p><a href="#">View Change History</a> | <a href="#">Download PDF</a></p>
+  <p><em>Last Updated: August 17, 2025 | Version 3.0.0</em></p>
+  <p><a href="https://github.com/TextItCorp/TextItCLI/commits/main/docs/TERMS_OF_SERVICE.md" target="_blank">View Change History</a> | <a href="https://github.com/TextItCorp/TextItCLI/raw/main/docs/TERMS_OF_SERVICE.md" download>Download</a></p>
 </div>
 
 ## 📋 Table of Contents
@@ -20,7 +20,7 @@
 
 ## 🌟 Introduction
 
-Welcome to TextIt, a secure social networking platform developed by TextIt Corporation ("we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of the TextIt application, website, and related services (collectively, the "Service").
+Welcome to TextIt 3.0, a secure command-line messaging platform developed by TextIt Corporation ("we," "us," or "our"). These Terms of Service ("Terms") govern your access to and use of the TextIt CLI application, related tools, and services (collectively, the "Service").
 
 ### 1.1 Acceptance of Terms
 
@@ -28,26 +28,38 @@ By accessing or using the Service, you agree to be bound by these Terms and our 
 
 ### 1.2 Service Description
 
-TextIt provides a secure platform for users to:
-- Create and manage personal profiles
-- Share text, images, and multimedia content
-- Connect with other users through follows and direct messages
-- Engage with content through reactions, comments, and shares
-- Access premium features through subscription plans
+TextIt 3.0 provides a secure, privacy-focused command-line interface for:
+- End-to-end encrypted messaging
+- Secure file transfers
+- Group communications
+- Self-destructing messages
+- Secure authentication and key management
+- Cross-platform compatibility
 
-### 1.3 Eligibility
+### 1.3 Key Features
+
+- **End-to-End Encryption**: All messages are encrypted using the Signal Protocol
+- **Zero-Knowledge Architecture**: We cannot access your message content
+- **Open Source**: Our core encryption is open for public audit
+- **Cross-Platform**: Available on Windows, macOS, and Linux
+- **Self-Hosted Options**: For enterprise and advanced users
+
+### 1.4 Eligibility
 
 To use the Service, you must:
-- Be at least 13 years of age (or the minimum legal age in your jurisdiction)
+- Be at least 16 years of age (or the minimum legal age in your jurisdiction)
 - Have the legal capacity to enter into a binding contract
 - Not be prohibited from receiving the Service under applicable laws
+- Comply with all applicable export control and sanctions laws
 
 ## 🔐 Account Terms
 
 ### 2.1 Account Creation
 
-To access certain features, you must create a TextIt account. During registration, you agree to:
+To access the Service, you must create a TextIt account. During registration, you agree to:
 - Provide accurate, current, and complete information
+- Secure your authentication credentials
+- Maintain the confidentiality of your private keys
 - Maintain and promptly update your information
 - Safeguard your account credentials
 - Maintain the security of your account
@@ -73,45 +85,46 @@ You may not:
 
 ### 3.1 User Content
 
-You retain ownership of all content you create, upload, or share on the Service ("User Content"). By posting User Content, you grant TextIt a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, distribute, and display such content in connection with the Service.
+You are solely responsible for the content you transmit through the Service ("User Content"). You retain all rights to your User Content, subject to the license granted below.
 
 ### 3.2 Prohibited Content
 
-You agree not to post, upload, or share content that:
-- Violates any applicable laws or regulations
-- Infringes upon intellectual property rights
-- Contains hate speech, harassment, or threats
-- Includes sexually explicit or pornographic material
-- Promotes violence or illegal activities
+You agree not to use the Service to transmit content that:
+- Violates any law or regulation
+- Infringes intellectual property rights
 - Contains malware, viruses, or harmful code
-- Violates privacy rights of others
-- Is deceptive, fraudulent, or misleading
+- Facilitates illegal activities
+- Harasses, threatens, or harms others
+- Attempts to compromise the security of the Service
+- Violates the privacy of others
+- Contains personally identifiable information without consent
 
-### 3.3 Content Moderation
+### 3.3 Automated Systems
 
-We reserve the right to:
-- Review and moderate User Content
-- Remove or disable access to any content that violates these Terms
-- Suspend or terminate accounts of repeat infringers
-- Report illegal content to law enforcement
+You agree not to:
+- Use automated systems to interact with the Service without authorization
+- Scrape, crawl, or index Service content without permission
+- Overload or disrupt the Service
+- Bypass rate limits or usage restrictions
 
 ## 🔒 Privacy & Data Protection
 
-### 4.1 Data Collection
+### 4.1 Privacy Policy
 
-We collect and process personal data in accordance with our [Privacy Policy](PRIVACY_POLICY.md). By using the Service, you consent to such processing.
+Your use of the Service is governed by our [Privacy Policy](PRIVACY_POLICY.md), which explains how we handle your information with our zero-knowledge architecture.
 
 ### 4.2 Data Security
 
-We implement industry-standard security measures to protect your data, including:
-- End-to-end encryption for private messages
-- Secure data storage with access controls
-- Regular security audits and penetration testing
-- Compliance with applicable data protection laws
+We implement state-of-the-art security measures including:
+- End-to-end encryption for all messages
+- Perfect forward secrecy
+- Secure key management
+- Regular security audits
+- Open-source cryptography
 
-### 4.3 Third-Party Services
+### 4.3 Data Minimization
 
-The Service may integrate with or link to third-party services. We are not responsible for the privacy practices or content of these services.
+We collect minimal data necessary to provide the Service. Most message content is encrypted and inaccessible to us.
 
 ## 🏛️ Intellectual Property
 
@@ -127,25 +140,33 @@ We grant you a limited, non-exclusive, non-transferable, revocable license to us
 
 We respect intellectual property rights. If you believe your work has been copied in a way that constitutes copyright infringement, please contact us at [legal@TextItCorporation.com](mailto:legal@TextItCorporation.com).
 
-## 🔄 Service Modifications
+## 🛠 Service Modifications
+
+### 6.1 Changes to Service
 
 We reserve the right to:
-- Modify, suspend, or discontinue the Service at any time
-- Change or remove features without notice
-- Impose limits on certain features or restrict access to parts or all of the Service
+- Update and improve the Service
+- Add, modify, or remove features
+- Impose reasonable usage limits
+- Suspend or terminate access for violations
 
-## 🚫 Termination
+### 6.2 Open Source Commitment
+
+Core encryption and security features will remain open source. We will provide advance notice of significant architectural changes.
+
+## ❌ Termination
 
 ### 7.1 By You
 
-You may stop using the Service at any time by deactivating your account.
+You may stop using our Service at any time by deleting your account using the `account delete` command.
 
 ### 7.2 By Us
 
-We may suspend or terminate your access to the Service if you:
-- Violate these Terms
-- Create risk or possible legal exposure for us
-- Engage in fraudulent or illegal activities
+We may suspend or terminate your access if you violate these Terms, including:
+- Attempting to compromise Service security
+- Using the Service for illegal activities
+- Violating others' intellectual property rights
+- Creating excessive load on our infrastructure
 
 ## ⚖️ Disclaimers & Limitations
 
@@ -159,11 +180,20 @@ TO THE MAXIMUM EXTENT PERMITTED BY LAW, TEXTIT CORPORATION SHALL NOT BE LIABLE F
 
 ### 8.3 Indemnification
 
-You agree to defend, indemnify, and hold harmless TextIt Corporation and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including without limitation reasonable attorney's fees, arising out of or in any way connected with your access to or use of the Service.
+You agree to defend, indemnify, and hold harmless TextIt Corporation and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorneys' fees, arising out of or in any way connected with your access to or use of the Service or your violation of these Terms.
 
 ## ⚖️ Governing Law
 
-These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions. Any legal action or proceeding arising under these Terms will be brought exclusively in the courts located in Ahmedabad, Gujarat, India.
+### 9.1 Jurisdiction
+
+These Terms shall be governed by the laws of India. The United Nations Convention on Contracts for the International Sale of Goods does not apply.
+
+### 9.2 Dispute Resolution
+
+Before filing any legal action, you agree to:
+1. Notify us in writing of the dispute
+2. Attempt informal resolution for 60 days
+3. Consider mediation before litigation Any legal action or proceeding arising under these Terms will be brought exclusively in the courts located in Ahmedabad, Gujarat, India.
 
 ## 📞 Contact Information
 
@@ -181,45 +211,17 @@ We may update these Terms from time to time. We will notify you of any changes b
 
 ---
 
+## 🔄 Version History
+
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| 3.0.0 | Aug 2025 | Major update for CLI focus, security policies |
+| 2.0 | Jul 2025 | Added arbitration clause, updated policies |
+| 1.0 | Jan 2025 | Initial release |
+
+---
+
 <div align="center">
-  <p>© 2025 TextIt Corporation. All rights reserved.</p>
-  <p><a href="https://www.TextITCorporation.com">www.TextITCorporation.com</a></p>
+  <p> 2025 TextIt Corporation. All rights reserved.</p>
+  <p><a href="https://www.textitcorp.com">www.textitcorp.com</a> | <a href="https://github.com/TextItCorp/TextItCLI" target="_blank">GitHub</a></p>
 </div>
-
-## 10. Limitation of Liability
-
-IN NO EVENT SHALL TEXTIT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, DATA, OR USE, ARISING OUT OF OR IN CONNECTION WITH THESE TERMS OR THE SERVICE, WHETHER BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, OR OTHERWISE.
-
-## 11. Indemnification
-
-You agree to defend, indemnify, and hold harmless TextIt and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorneys' fees, arising out of or in any way connected with your access to or use of the Service or your violation of these Terms.
-
-## 12. Modifications to the Service
-
-TextIt reserves the right to modify or discontinue, temporarily or permanently, the Service or any features or portions thereof without prior notice. You agree that TextIt will not be liable for any modification, suspension, or discontinuance of the Service.
-
-## 13. Modifications to the Terms
-
-TextIt reserves the right to modify these Terms at any time. We will provide notice of significant changes by posting the updated Terms on the Service and updating the "Last Updated" date. Your continued use of the Service after such changes constitutes your acceptance of the new Terms.
-
-## 14. Governing Law
-
-These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.
-
-## 15. Dispute Resolution
-
-Any dispute arising out of or relating to these Terms or the Service shall be resolved through binding arbitration in accordance with the rules of the Indian Arbitration Association. The arbitration shall be conducted in Mumbai, India.
-
-## 16. Severability
-
-If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law, and the remaining provisions will continue in full force and effect.
-
-## 17. Entire Agreement
-
-These Terms constitute the entire agreement between you and TextIt regarding the Service and supersede all prior and contemporaneous agreements, proposals, or representations, written or oral, concerning the subject matter of these Terms.
-
-## 18. Contact Information
-
-If you have any questions about these Terms, please contact us at:
-- Email: [legal@textit.example.com](mailto:legal@textit.example.com)
-- Address: TextIt Legal Department, 123 Main Street, Anytown, AN 12345, India

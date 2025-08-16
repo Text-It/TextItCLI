@@ -1,12 +1,12 @@
 # 📝 TextIt Feature Requests & Suggestions
 
 <div align="center">
-  <p><em>Last Updated: July 20, 2025 | <a href="#how-to-contribute">How to Contribute</a> | <a href="#status-legend">Status Legend</a></em></p>
+  <p><em>Last Updated: August 17, 2025 | Version 3.0.0 | <a href="#how-to-contribute">How to Contribute</a> | <a href="#status-legend">Status Legend</a></em></p>
 </div>
 
 ## 📋 Overview
 
-This document serves as a centralized location for tracking feature requests, enhancements, and suggestions for the TextIt platform. We welcome input from our community and value your ideas for making TextIt better.
+This document serves as a centralized location for tracking feature requests, enhancements, and suggestions for the TextIt CLI platform. We welcome input from our community and value your ideas for making TextIt 3.0 better. For TextIt's GUI version suggestions, please refer to our [GUI Suggestions Repository](https://github.com/TextItCorp/TextItGUI/suggestions).
 
 ## 📋 How to Use This Document
 
@@ -30,85 +30,95 @@ This document serves as a centralized location for tracking feature requests, en
 
 ## 🚀 Feature Requests
 
+### 🔹 Top Voted CLI Features
+
+1. **Command Autocompletion** (⭐️ 342) - Now available in v3.0.0!
+2. **Plugin System** (⭐️ 289) - In development
+3. **Secure File Transfer** (⭐️ 267) - Coming soon
+4. **Theming Support** (⭐️ 198) - Under review
+5. **Background Jobs** (⭐️ 156) - Planned for Q4 2025
+
 ### 🔹 Core Features
 
 | ID | Title | Status | Priority | Category |
 |----|-------|--------|----------|-----------|
-| FR-001 | Real-time collaboration features | 🟢 Planned | High | Core |
-| FR-002 | Advanced search functionality | 🟡 In Progress | High | Core |
-| FR-003 | Customizable dashboard | 🔵 Under Review | Medium | UI/UX |
-| FR-004 | Dark mode support | ✅ Completed | High | UI/UX |
+| FR-101 | Tab completion for commands | ✅ Completed | High | Core |
+| FR-102 | Command history and search | ✅ Completed | High | Core |
+| FR-103 | Custom command aliases | 🟢 Planned | Medium | Core |
+| FR-104 | Plugin system for extensions | 🟡 In Progress | High | Architecture |
+| FR-105 | Built-in help system | ✅ Completed | High | Documentation |
+| FR-106 | Output formatting options | 🔵 Under Review | Medium | UX |
+
+### 🔹 CLI-Specific Features
+
+| ID | Title | Status | Priority | Category |
+|----|-------|--------|----------|-----------|
+| CLI-101 | Command chaining with pipes | ✅ Completed | High | Core |
+| CLI-102 | Scripting support | ✅ Completed | High | Core |
+| CLI-103 | Output redirection to files | ✅ Completed | Medium | Core |
+| CLI-104 | Background job control | 🟢 Planned | Medium | Core |
+| CLI-105 | Terminal theming support | 🔵 Under Review | Low | UX |
 
 ### 🔹 Security & Privacy
 
 | ID | Title | Status | Priority | Category |
 |----|-------|--------|----------|-----------|
-| SEC-001 | End-to-end encryption | 🟢 Planned | Critical | Security |
-| SEC-002 | Multi-factor authentication | ✅ Completed | High | Security |
-| SEC-003 | Data export functionality | 🟡 In Progress | Medium | Privacy |
+| SEC-101 | End-to-end encryption for all messages | ✅ Completed | Critical | Security |
+| SEC-102 | Hardware security key support | 🟢 Planned | High | Security |
+| SEC-103 | Secure clipboard integration | 🔵 Under Review | Medium | Security |
+| SEC-104 | Encrypted local storage | 🟡 In Progress | High | Privacy |
+| SEC-105 | Secure file transfer protocol | 🟢 Planned | High | Security |
 
 ---
 
-## 📝 Submit a New Suggestion
+## 📝 How to Submit a Suggestion (CLI Focus)
+
+1. **Check existing issues** to avoid duplicates
+   ```bash
+   git grep -i "your feature idea"
+   ```
+2. **Use the template below** when creating a new suggestion
+3. **Be specific** about the CLI use case
+4. **Include examples** of command syntax if applicable
+5. **Mention** if it's a breaking change
 
 Use the following template to submit a new feature request or suggestion:
 
 ```markdown
-### [FR-XXX] Brief Title
+### [CLI Feature] Your Feature Title
 
-**Category:** [Core/Security/UI/UX/Performance/Other]
-**Priority:** [Critical/High/Medium/Low]
-**Status:** 🔵 Under Review
+**Category:** (Core/Plugin/Security/UX)
+**Priority:** (Critical/High/Medium/Low)
+**Type:** (Enhancement/New Feature/Bug Fix)
 
-#### Description
-A clear and concise description of the feature or enhancement.
-
-#### Problem Statement
-What problem does this solve? Why is this important?
-
-#### Proposed Solution
-Describe your proposed solution or feature.
-
-#### Alternatives Considered
-List any alternative solutions or features you've considered.
-
-#### Additional Context
-Add any other context, screenshots, or mockups about the feature request.
-
-#### Technical Considerations
-Any technical constraints or requirements to consider.
-
----
-*Submitted by: [Your Name/GitHub Username] | [Date]*
+#### Command Syntax
+```bash
+textit [command] [options] [arguments]
 ```
 
-## 📋 Example Suggestion
-
-### [FR-010] Dark Mode Support
-
-**Category:** UI/UX  
-**Priority:** High  
-**Status:** ✅ Completed (v2.1.0)
-
 #### Description
-Implement a system-wide dark mode to improve readability and reduce eye strain.
+[Detailed description of the CLI feature]
 
-#### Problem Statement
-Many users work in low-light environments where a dark color scheme would be more comfortable and reduce eye strain.
+#### Use Case
+```bash
+# Example usage scenario
+textit send --encrypt --self-destruct 5m user@example.com "Sensitive data"
+```
 
-#### Proposed Solution
-- Add a theme toggle in user settings
-- Support for system preference detection
-- Ensure proper contrast ratios for accessibility
-- Include smooth transitions between themes
+#### Expected Output
+```
+[✓] Message encrypted and sent to user@example.com
+[!] Message will self-destruct in 5 minutes
+```
 
 #### Technical Considerations
-- CSS variables for theming
-- Local storage for user preference
-- Testing across different browsers and devices
+- [ ] Requires new dependency
+- [ ] Backward compatible
+- [ ] Needs documentation update
 
----
-*Submitted by: @devuser | 2025-06-15*
+#### Additional Context
+[Any other relevant information]
+```
 
 ## 🤝 How to Contribute
 
@@ -130,7 +140,40 @@ For questions about the suggestion process, please contact [suggestions@TextItCo
 
 ---
 
+## 📅 CLI Release Roadmap
+
+### Q3 2025 (v3.0.0) - Now Available!
+- [x] New command syntax
+- [x] Improved error handling
+- [x] Enhanced security features
+- [x] Plugin architecture foundation
+
+### Q4 2025 (v3.1.0) - Planned
+- [ ] Plugin system beta
+- [ ] Advanced scripting capabilities
+- [ ] Performance optimizations
+- [ ] Expanded documentation
+
+### Q1 2026 (v3.2.0) - Future
+- [ ] Native package manager
+- [ ] Cross-platform UI components
+- [ ] Enterprise features
+- [ ] Enhanced debugging tools
+
+---
+
+## 🔄 Version History
+
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| 3.0.0 | Aug 2025 | Major CLI overhaul, new command structure |
+| 2.1.0 | Jul 2025 | Security enhancements, bug fixes |
+| 2.0.0 | May 2025 | Initial public release |
+
+---
+
 <div align="center">
-  <p>© 2025 TextIt Corporation. All rights reserved.</p>
-  <p><a href="https://www.TextITCorporation.com">www.TextITCorporation.com</a> | <a href="https://github.com/TextItCorp/TextIt">GitHub Repository</a></p>
+  <p> 2025 TextIt Corporation. All rights reserved.</p>
+  <p><a href="https://www.textitcorp.com">www.textitcorp.com</a> | <a href="https://github.com/TextItCorp/TextItCLI" target="_blank">GitHub</a> | <a href="https://twitter.com/TextItCLI" target="_blank">Twitter</a></p>
+  <p><small>Document Version: 3.0.0 | Last Updated: August 17, 2025</small></p>
 </div>
