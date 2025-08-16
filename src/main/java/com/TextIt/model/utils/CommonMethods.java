@@ -1,5 +1,7 @@
 package com.TextIt.model.utils;
 
+import com.TextIt.database.DataBase;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -16,6 +18,10 @@ public class CommonMethods {
     public static final String BOLD = "\u001B[1m";
     //Objects
     static Scanner scanner = new Scanner(System.in);
+    private static final DataBase db = new DataBase();
+    private static final DataBase.UserData userdata =db.new UserData();
+    private static final DataBase.Post userpost =db.new Post();
+    private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
     public static void pressEnterToContinue() {
         System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);
@@ -82,6 +88,43 @@ public class CommonMethods {
             line.append(" ");
         }
         System.out.println(line + borderDesign);
+    }
+    public  static void userProfile(int userid){
+
+        int borderLength = 50;
+        String headerTopBottomBorder = "=";
+        String bodyLeftRightBorder = "||";
+        String header = userdata.getUserName(userid) + "'s Profile";
+        int bodyContentLength = borderLength - bodyLeftRightBorder.length() * 2;
+
+        System.out.println(CYAN + BOLD);
+        System.out.println(headerTopBottomBorder.repeat(borderLength));
+        System.out.println(" ".repeat(borderLength / 2 - header.length() / 2) + header + "".repeat(borderLength / 2 - header.length() / 2));
+        System.out.println(headerTopBottomBorder.repeat(borderLength));
+        System.out.println(RESET);
+        System.out.println();
+
+        System.out.println(bodyLeftRightBorder + userdata.getRealName(userid) + " ".repeat(bodyContentLength - userdata.getRealName(userid).length() - userdata.getUserName(userid).length()) + userdata.getUserName(userid) + bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + userdata.getGender(userid) + " ".repeat(bodyContentLength- userdata.getGender(userid).length() - userdata.getLocation(userid).length())+ bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + "BIO -->" + " ".repeat(bodyContentLength - 7) + bodyLeftRightBorder);
+        CommonMethods.paragraphDisplay(userdata.getBio(userid),bodyLeftRightBorder,borderLength);
+        System.out.println(bodyLeftRightBorder + "Member Since: " + userdata.getMemberSince(userid) + " ".repeat(bodyContentLength-userdata.getMemberSince(userid)-14) + bodyLeftRightBorder);
+        System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3) + "Following: " + userfollows.getFollowingCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + "Followers: " + userfollows.getFollowersCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + bodyLeftRightBorder );
+        int repeatCount = Math.max(0,
+                (bodyContentLength - userdata.getXP(userid) - userdata.getLevel(userid) - 11) / 3
+        );
+
+        System.out.println(
+                bodyLeftRightBorder +
+                        "XP: " + userdata.getXP(userid) +
+                        " ".repeat(repeatCount) +
+                        "Level: " + userdata.getLevel(userid) +
+                        " ".repeat(repeatCount) +
+                        bodyLeftRightBorder
+        );
+        System.out.println(bodyLeftRightBorder + "Share: " + userdata.getUserShareCode(userid) + " ".repeat(bodyContentLength-userdata.getUserShareCode(userid).length()-6) + bodyLeftRightBorder);
+
+        System.out.println();
     }
 
 

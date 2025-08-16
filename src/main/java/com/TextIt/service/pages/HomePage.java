@@ -47,13 +47,13 @@ public class HomePage {
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + userID);
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " , String.valueOf(userID));
                     break;
                 case 2:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " + userID);
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID));
                     break;
                 case 3:
-                    search();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w" , String.valueOf(userID));
                     break;
                 case 4:
                     inbox();
@@ -127,13 +127,6 @@ public class HomePage {
     }
 
     private static void inbox() {
-    }
-
-    private static void search() {
-        System.out.println(color("Enter person name to search: ", GREEN));
-        String query = sc.nextLine();
-        System.out.println(YELLOW + "Search results for " + query + " :");
-        goToNext();
     }
 
     private static void reel() {
