@@ -1,6 +1,7 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
+import com.TextIt.service.data_structure.Hash_Map.HashMapp;
 import com.TextIt.service.user.UserData;
 import com.TextIt.model.utils.CommonMethods;
 import java.sql.*;
@@ -10,11 +11,11 @@ import java.util.Scanner;
 
 public class SearchPage {
 
-    private HashMap<String, UserData> userMap;
+    private HashMapp<String, String> userMap;
     private final DataBase database;
     private final Scanner scanner;
     public SearchPage() {
-        this.userMap = new HashMap<>();
+        this.userMap = new HashMapp<>();
         this.database = new DataBase();
         this.scanner = new Scanner(System.in);
         loadUser();
@@ -27,7 +28,7 @@ public class SearchPage {
             return;
         }
 
-        String query = "SELECT user_id, first_name, last_name, username, email FROM users";
+        String query = "SELECT userid, first_name, last_name, username, email FROM users";
 
         try (Connection conn = DriverManager.getConnection(database.getUrl(), database.getUsername(), database.getPassword())) {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -39,11 +40,12 @@ public class SearchPage {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
+                String userid = rs.getString("userid");
 
                 String fullName = firstName + " " + lastName;
                // UserData userData = new UserData(username, fullName, email);
 
-               // userMap.put(username, userData);
+               userMap.put(username, userid);
                 userCount++;
             }
 
@@ -55,28 +57,26 @@ public class SearchPage {
     }
 
 
-    public UserData searchByUserName(String username) {
+    public String searchByUserName(String username) {
         if (username == null || username.trim().isEmpty()) {
             System.out.println(CommonMethods.color("Username cannot be empty.", CommonMethods.RED));
             return null;
         }
 
-        String searchKey = username.toLowerCase().trim();
+        String searchKey = username.trim();
 
-        UserData foundUser = userMap.get(searchKey);
+        String foundUser = userMap.get(searchKey);
 
         if (foundUser != null) {
             System.out.println(CommonMethods.color("User found!", CommonMethods.GREEN));
-            displayUser(foundUser);
+            CommonMethods.userProfile(Integer.parseInt(foundUser));
         } else {
             System.out.println(CommonMethods.color(" No user found with username: " + username, CommonMethods.RED));
         }
 
         return foundUser;
     }
-    private void displayUser(UserData user) {
 
-    }
 
     public void Search() {
         while (true) {
@@ -130,7 +130,8 @@ public class SearchPage {
     }
 
     public int getUserCount() {
-        return userMap.size();
+        //return userMap.size();
+        return 1;
     }
 
     public static void main(String[] args) {
