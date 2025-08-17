@@ -1,4 +1,4 @@
-# <img src=".github/logo.png" alt="TextIt Logo" width="40"> TextIt - Secure Social Networking Platform
+# <img src="https://github.com/Text-It/TextItCLI/blob/main/src/main/java/com/TextIt/UI/LOGO.png" alt="TextIt Logo" width="40"> TextIt - Secure Social Networking Platform
 
 <div align="center">
   <img src="https://img.shields.io/badge/version-3.0.0-blue" alt="Version: 3.0.0">
