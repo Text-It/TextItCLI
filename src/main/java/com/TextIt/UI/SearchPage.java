@@ -88,7 +88,8 @@ public class SearchPage {
 
             System.out.println(CommonMethods.color("1. Search by exact username", CommonMethods.GREEN));
             System.out.println(CommonMethods.color("2. Refresh user data", CommonMethods.BLUE));
-            System.out.println(CommonMethods.color("3. Back to main menu", CommonMethods.RED));
+            System.out.println(CommonMethods.color("3 Past Link here", CommonMethods.CYAN));
+            System.out.println(CommonMethods.color("4. Back to main menu", CommonMethods.RED));
             System.out.print(CommonMethods.color("Enter your choice (1-3): ", CommonMethods.BOLD));
 
             String choice = scanner.nextLine().trim();
@@ -101,6 +102,9 @@ public class SearchPage {
                     refresh();
                     break;
                 case "3":
+                    // link past to show them uer_profile/user_post (from the Link)
+                    break;
+                case "4":
                     System.out.println(CommonMethods.color("Returning to main menu...", CommonMethods.GREEN));
                     return;
                 default:
