@@ -3,6 +3,7 @@ package com.TextIt.database;
 import com.TextIt.model.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
+import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import org.postgresql.PGConnection;
 import org.postgresql.PGNotification;
 
@@ -641,8 +642,8 @@ public class DataBase {
             }
         }
 
-        public List<Integer> getPostIds(int limit, int offset) {
-            List<Integer> ids = new ArrayList<>();
+        public DoublyLinkedList<Integer> getPostIds(int limit, int offset) {
+            DoublyLinkedList<Integer> ids = new DoublyLinkedList<>();
             String query = "SELECT post_id FROM posts ORDER BY post_point  DESC LIMIT ? OFFSET ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
                  PreparedStatement pst = conn.prepareStatement(query)) {
@@ -650,7 +651,7 @@ public class DataBase {
                 pst.setInt(2, offset);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    ids.add(rs.getInt("post_id"));
+                    ids.insertLast(rs.getInt("post_id"));
                 }
             } catch (SQLException e) {
                 System.err.println("Error fetching post ids: " + e.getMessage());

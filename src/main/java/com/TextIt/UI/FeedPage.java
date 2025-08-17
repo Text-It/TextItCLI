@@ -2,9 +2,11 @@ package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
+import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
 import java.util.List;
 import java.util.Scanner;
+
 
 public class FeedPage {
 
@@ -29,7 +31,7 @@ public class FeedPage {
         // pagination variables
         int pageSize = 1;   // show 1 post at a time
         int offset = 0;
-        List<Integer> buffer = postdb.getPostIds(pageSize, offset);
+        DoublyLinkedList<Integer> buffer = postdb.getPostIds(pageSize, offset);
         int bufferIndex = 0;
 
         //Some predifined texts
@@ -88,7 +90,7 @@ public class FeedPage {
                 return;
             }
 
-            int postId = buffer.get(bufferIndex);
+            int postId = buffer.index(bufferIndex);
 
             //Fetched Data From DataBase
             String userName = postdb.getPostUsername(postId);
@@ -195,7 +197,7 @@ public class FeedPage {
                         bufferIndex++;
                     } else {
                         offset += pageSize;
-                        List<Integer> nextBatch = postdb.getPostIds(pageSize, offset);
+                        DoublyLinkedList<Integer> nextBatch = postdb.getPostIds(pageSize, offset);
                         if (!nextBatch.isEmpty()) {
                             buffer = nextBatch;
                             bufferIndex = 0;

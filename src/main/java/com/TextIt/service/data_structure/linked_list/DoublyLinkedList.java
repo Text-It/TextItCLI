@@ -4,6 +4,7 @@ package com.TextIt.service.data_structure.linked_list;
 public class DoublyLinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
+    private int size = 0;
 
     // Insert At the First of the DoublyLinkedList
     public void insertFirst(T data) {
@@ -14,13 +15,15 @@ public class DoublyLinkedList<T> {
             Node<T> n = new Node<>(data);
             if (head == null) {
                 head = n;
-                tail = head;// tail points to where head is
+                tail = head;
+                // tail points to where head is
 
             } else {
                 n.next = head;
                 head.prev = n;
                 head = n;
             }
+            size++;
         } catch (Exception e) {
             System.err.println("Error while inserting: " + e.getMessage());
         }
@@ -45,6 +48,7 @@ public class DoublyLinkedList<T> {
                 head = n;
                 tail = head;
             }
+            size++;
         } catch (Exception e) {
             System.err.println("Error wile insertingATLast: " + e.getMessage());
         }
@@ -67,6 +71,7 @@ public class DoublyLinkedList<T> {
                 head.prev.next = null;
                 head.prev = null;
             }
+            size--;
             return val;
         } catch (Exception e) {
             System.err.println("Error while deleting: " + e.getMessage());
@@ -85,11 +90,13 @@ public class DoublyLinkedList<T> {
                 val = tail.data;
                 tail = null;
                 head = null;
+                size--;
                 return val;
             } else {
                 val = tail.data;
                 tail = tail.prev;
                 tail.next = null;
+                size--;
             }
             return val;
         } catch (Exception e) {
@@ -107,6 +114,24 @@ public class DoublyLinkedList<T> {
             System.out.println(temp.data+"->");
             temp=temp.next;
         }
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+
+    public int size() {
+        return size;
+    }
+
+    public T index(int index) {
+        Node<T> temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+
+        }
+        return temp.data;
     }
 
     static class Node<T> {
