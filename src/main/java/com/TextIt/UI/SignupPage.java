@@ -98,10 +98,11 @@ public class SignupPage {
             }
 
         } while (true);
+        String shareCode = username + (int) (Math.random() * 1000000000);
         {
             DataBase db = new DataBase();
             DataBase.Profile profile = db.new Profile();
-            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email)) {
+            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email , shareCode)) {
                 System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
                 openInNewCMD("com.TextIt.UI.HomePage " + connectivity.featchId(username));
             }
