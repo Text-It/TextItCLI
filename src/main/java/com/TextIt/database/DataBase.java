@@ -236,11 +236,11 @@ public class DataBase {
         }
 
 
-        public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email) {
+        public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email , String shareCode) {
             String hashedPassword = Hashing.generateHashCode(password); // Hash the password
             LocalDate currentDate = LocalDate.now();                    // Account creation date
 
-            String query = "INSERT INTO users (first_name, last_name, username, password_hash, mobile_number, email, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO users (first_name, last_name, username, password_hash, mobile_number, email, created_at,user_url) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
 
@@ -253,6 +253,7 @@ public class DataBase {
                 ps.setString(5, mobileNumber);
                 ps.setString(6, email.toLowerCase());
                 ps.setDate(7, java.sql.Date.valueOf(currentDate));
+                ps.setString(8, shareCode);
 
                 ps.executeUpdate();
                 System.out.println("User registered successfully.");
@@ -340,7 +341,7 @@ public class DataBase {
         }
 
         public String getGender(int userID) {
-            String query = "select Gender from users where userID = ?";
+            String query = "select gender from users where userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
                 pst.setInt(1, userID);
@@ -351,7 +352,7 @@ public class DataBase {
             } catch (SQLException e) {
                 System.err.println("Error fetching gender for = " + userID);
             }
-            return null;
+            return "not set yet";
         }
 
         public String getLocation(int userID) {
@@ -584,8 +585,6 @@ public class DataBase {
                 return false;
             }
         }
-
-
     }
 
     public class Career{
@@ -1048,7 +1047,7 @@ public class DataBase {
         public ChatListener(String username) throws Exception {
             this.conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-            // ✅ Required for LISTEN to take effect immediately
+            // Required for LISTEN to take effect immediately
             this.conn.setAutoCommit(true);
 
             this.pgConn = conn.unwrap(PGConnection.class);
