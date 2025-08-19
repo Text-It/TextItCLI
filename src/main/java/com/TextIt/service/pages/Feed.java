@@ -11,7 +11,7 @@ public class Feed {
         DataBase db  = new DataBase();
             ArrayList<String> postArry  = new ArrayList<>();
         try(Connection con = DriverManager.getConnection(db.getUrl(),db.getUsername(),db.getPassword())){
-           String query = "Select content from  Posts ; ";
+           String query = "Select content from  Posts  ";
             Statement st = con.createStatement();
             ResultSet rs =st.executeQuery(query);
             int i = 0;
