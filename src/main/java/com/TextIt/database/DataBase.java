@@ -4,6 +4,7 @@ import com.TextIt.model.Message.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
+import com.TextIt.service.pages.SignUpAuth;
 import org.postgresql.PGConnection;
 import org.postgresql.PGNotification;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -385,6 +388,95 @@ public class DataBase {
             return null;
         }
 
+        public boolean updateBio(int userID, String bio) {
+            String query = "UPDATE users SET user_bio = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, bio);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating bio: " + e.getMessage());
+                return false;
+            }
+        }
+
+        public boolean updateLocation(int userID, String location) {
+            String query = "UPDATE users SET user_location = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, location);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating location: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean updateGender(int userID, String gender) {
+            String query = "UPDATE users SET gender = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, gender);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating gender: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean updateFirstName(int userID, String firstName) {
+            String query = "UPDATE users SET first_name = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, firstName);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating first name: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean updateLastName(int userID, String lastName) {
+            String query = "UPDATE users SET last_name = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, lastName);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating last name: " + e.getMessage());
+            }
+            return false;
+        }
+
+        public boolean updateUserName(int userID , String userName){
+            SignUpAuth sua = new SignUpAuth();
+            if (sua.verifyUsername(userName)){
+                String query = "UPDATE users SET username = ? WHERE userID = ?";
+                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                    PreparedStatement pst = conn.prepareStatement(query);
+                    pst.setString(1, userName);
+                    pst.setInt(2, userID);
+                    int rowsUpdated = pst.executeUpdate();
+                    return rowsUpdated > 0;
+                } catch (SQLException e) {
+                    System.err.println("Error occurred while updating username: " + e.getMessage());
+                    return false;
+                }
+            }else {
+                return false;
+            }
+        }
+
 
 
         public String getFirstName(int userID) {
@@ -432,7 +524,7 @@ public class DataBase {
             return -1;
         }
 
-        public int getMemberSince(int userID) {
+        public String getMemberSince(int userID) {
             String query = "SELECT created_at FROM users WHERE userID = ?";
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -441,19 +533,44 @@ public class DataBase {
                 pst.setInt(1, userID);
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) {
-                        java.sql.Date date = rs.getDate(1); // Directly get as Date
-                        java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
+                        Date date = rs.getDate("created_at");
                         if (date != null) {
-                            return today.toLocalDate().getYear() - date.toLocalDate().getYear(); // Extract only year
+                            LocalDate createdAt = date.toLocalDate();
+                            LocalDate today = LocalDate.now();
+
+                            // Calculate difference
+                            Period period = Period.between(createdAt, today);
+                            int years = period.getYears();
+                            int months = period.getMonths();
+
+                            // Format "Jan 2021"
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
+                            String formattedDate = createdAt.format(formatter);
+
+                            // Build nice string
+                            StringBuilder sb = new StringBuilder("");
+                            sb.append(formattedDate);
+                            if (years > 0 || months > 0) {
+                                sb.append(" (");
+                                if (years > 0) sb.append(years).append(years == 1 ? " year" : " years");
+                                if (months > 0) {
+                                    if (years > 0) sb.append(", ");
+                                    sb.append(months).append(months == 1 ? " month" : " months");
+                                }
+                                sb.append(" ago)");
+                            }
+
+                            return sb.toString();
                         }
                     }
                 }
             } catch (SQLException e) {
-                System.err.println("Error fetching member since year for userID = " + userID);
+                System.err.println("❌ Error fetching memberSince for userID=" + userID + ": " + e.getMessage());
             }
 
-            return -1; // Indicates not found or error
+            return "Member since: Unknown";
         }
+
 
         public String getUserShareCode(int userID) {
             String query = "select user_url from users where userID = ?";

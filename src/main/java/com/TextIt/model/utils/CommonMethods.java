@@ -89,43 +89,105 @@ public class CommonMethods {
         }
         System.out.println(line + borderDesign);
     }
-    public  static void userProfile(int userid){
+    public static void userProfile(int userId) {
+        int boxLength = 70;
+        String border = "||";
+        int spaceLeftForContent = boxLength - border.length() * 2;
 
-        int borderLength = 50;
-        String headerTopBottomBorder = "=";
-        String bodyLeftRightBorder = "||";
-        String header = userdata.getUserName(userid) + "'s Profile";
-        int bodyContentLength = borderLength - bodyLeftRightBorder.length() * 2;
+        // ===== Page Headers =====
+        String pageHeader = userdata.getUserName(userId) + "'s Profile";
+        String pageDescription = "Welcome to " + userdata.getUserName(userId) + "'s space";
 
-        System.out.println(CYAN + BOLD);
-        System.out.println(headerTopBottomBorder.repeat(borderLength));
-        System.out.println(" ".repeat(borderLength / 2 - header.length() / 2) + header + "".repeat(borderLength / 2 - header.length() / 2));
-        System.out.println(headerTopBottomBorder.repeat(borderLength));
-        System.out.println(RESET);
-        System.out.println();
+        // ===== Section Labels =====
+        String realNameLabel = "Name: ";
+        String usernameLabel = "Username: ";
+        String genderLabel = "Gender: ";
+        String locationLabel = "Location: ";
+        String bioLabel = "BIO: ";
+        String memberSinceLabel = "Member Since: ";
+        String postsLabel = "Posts: ";
+        String followingLabel = "Following: ";
+        String followersLabel = "Followers: ";
+        String xpLabel = "XP: ";
+        String levelLabel = "Level: ";
+        String shareLabel = "Share: ";
 
-        System.out.println(bodyLeftRightBorder + userdata.getRealName(userid) + " ".repeat(bodyContentLength - userdata.getRealName(userid).length() - userdata.getUserName(userid).length()) + userdata.getUserName(userid) + bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + userdata.getGender(userid) + " ".repeat(bodyContentLength- userdata.getGender(userid).length() - userdata.getLocation(userid).length())+ bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + "BIO -->" + " ".repeat(bodyContentLength - 7) + bodyLeftRightBorder);
-        CommonMethods.paragraphDisplay(userdata.getBio(userid),bodyLeftRightBorder,borderLength);
-        System.out.println(bodyLeftRightBorder + "Member Since: " + userdata.getMemberSince(userid) + " ".repeat(bodyContentLength-userdata.getMemberSince(userid)-14) + bodyLeftRightBorder);
-        System.out.println(bodyLeftRightBorder + "Posts: " + userpost.getPostCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3) + "Following: " + userfollows.getFollowingCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + "Followers: " + userfollows.getFollowersCount(userid) + " ".repeat((bodyContentLength-userpost.getPostCount(userid)-userfollows.getFollowingCount(userid)-userfollows.getFollowersCount(userid)-29)/3)  + bodyLeftRightBorder );
-        int repeatCount = Math.max(0,
-                (bodyContentLength - userdata.getXP(userid) - userdata.getLevel(userid) - 11) / 3
-        );
+        // ===== Lengths =====
+        int headerLength = pageHeader.length();
+        int descriptionLength = pageDescription.length();
+        int realNameLength = realNameLabel.length();
+        int usernameLength = usernameLabel.length();
+        int genderLength = genderLabel.length();
+        int locationLength = locationLabel.length();
+        int bioLabelLength = bioLabel.length();
+        int memberSinceLength = memberSinceLabel.length();
+        int postsLength = postsLabel.length();
+        int followingLength = followingLabel.length();
+        int followersLength = followersLabel.length();
+        int xpLength = xpLabel.length();
+        int levelLength = levelLabel.length();
+        int shareLength = shareLabel.length();
 
-        System.out.println(
-                bodyLeftRightBorder +
-                        "XP: " + userdata.getXP(userid) +
-                        " ".repeat(repeatCount) +
-                        "Level: " + userdata.getLevel(userid) +
-                        " ".repeat(repeatCount) +
-                        bodyLeftRightBorder
-        );
-        System.out.println(bodyLeftRightBorder + "Share: " + userdata.getUserShareCode(userid) + " ".repeat(bodyContentLength-userdata.getUserShareCode(userid).length()-6) + bodyLeftRightBorder);
+        // ===== User Data =====
+        String realName = userdata.getRealName(userId);
+        String username = "@" + userdata.getUserName(userId);
+        String gender = userdata.getGender(userId);
+        String location = userdata.getLocation(userId);
+        String bio = userdata.getBio(userId);
+        String memberSince = userdata.getMemberSince(userId); // int → string
+        String posts = String.valueOf(userpost.getPostCount(userId));
+        String following = String.valueOf(userfollows.getFollowingCount(userId));
+        String followers = String.valueOf(userfollows.getFollowersCount(userId));
+        String xp = String.valueOf(userdata.getXP(userId));
+        String level = String.valueOf(userdata.getLevel(userId));
+        String shareCode = userdata.getUserShareCode(userId);
 
-        System.out.println();
+        // ===== Rendering =====
+        CommonMethods.clearConsole();
+        System.out.println("=".repeat(boxLength));
+        System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader);
+        System.out.println(" ".repeat((boxLength - descriptionLength) / 2) + pageDescription);
+        System.out.println("=".repeat(boxLength));
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Real Name + Username
+        String separator = " ".repeat((spaceLeftForContent - realName.length() - username.length() - realNameLength - usernameLength) / 3);
+        System.out.println(border + separator + realNameLabel + realName + separator + usernameLabel + username + separator + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Gender + Location
+        separator = " ".repeat((spaceLeftForContent - gender.length() - location.length() - genderLength - locationLength) / 3);
+        System.out.println(border + separator + genderLabel + gender + separator + locationLabel + location + separator + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Bio
+        System.out.println(border + bioLabel + " ".repeat(spaceLeftForContent - bioLabelLength) + border);
+        CommonMethods.paragraphDisplay(bio, border, spaceLeftForContent);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+        System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Member Since
+        System.out.println(border + memberSinceLabel + memberSince + " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Posts / Following / Followers
+        separator = " ".repeat((spaceLeftForContent - posts.length() - following.length() - followers.length() - postsLength - followingLength - followersLength) / 4);
+        System.out.println(border + separator + postsLabel + posts + separator + followingLabel + following + separator + followersLabel + followers + separator + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // XP + Level
+        separator = " ".repeat((spaceLeftForContent - xp.length() - level.length() - xpLength - levelLength) / 3);
+        System.out.println(border + separator + xpLabel + xp + separator + levelLabel + level + separator + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Share Code
+        System.out.println(border + shareLabel + shareCode + " ".repeat(spaceLeftForContent - (shareLength + shareCode.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        System.out.println("=".repeat(boxLength));
     }
+
 
     public static void clearConsole() {
         try {

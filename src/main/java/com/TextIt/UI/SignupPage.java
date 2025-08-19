@@ -99,6 +99,7 @@ public class SignupPage {
 
         } while (true);
         String shareCode = username + (int) (Math.random() * 1000000000);
+        System.out.println("URL -> " + shareCode);
         {
             DataBase db = new DataBase();
             DataBase.Profile profile = db.new Profile();
