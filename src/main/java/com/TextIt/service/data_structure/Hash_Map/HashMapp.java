@@ -33,7 +33,7 @@ public class HashMapp<K,V> {
             return;
         }
 
-        Entry<K, V> current = entries[index];
+        Entry current = entries[index];
         Entry<K, V> prev = null;
 
         while (current != null) {
