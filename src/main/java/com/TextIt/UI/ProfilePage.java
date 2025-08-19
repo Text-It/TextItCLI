@@ -9,10 +9,6 @@ import static com.TextIt.model.utils.CommonMethods.*;
 public class ProfilePage {
 
     static Scanner sc = new Scanner(System.in);
-    private static final DataBase db = new DataBase();
-    private static final DataBase.UserData userdata =db.new UserData();
-    private static final DataBase.Post userpost =db.new Post();
-    private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
     public static void main(String[] args) {
         int userid = Integer.parseInt(args[0]);

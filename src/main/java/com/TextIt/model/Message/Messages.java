@@ -1,4 +1,4 @@
-package com.TextIt.model;
+package com.TextIt.model.Message;
 
 
 public class Messages {
