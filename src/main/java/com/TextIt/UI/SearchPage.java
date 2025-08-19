@@ -2,20 +2,18 @@ package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
 import com.TextIt.service.data_structure.Hash_Map.HashMapp;
-import com.TextIt.service.user.UserData;
 import com.TextIt.model.utils.CommonMethods;
 import java.sql.*;
-import java.util.HashMap;
 import java.util.Scanner;
 
 
 public class SearchPage {
 
-    private HashMapp<String, String> userMap;
+    private final HashMapp<String, String> userData;
     private final DataBase database;
     private final Scanner scanner;
     public SearchPage() {
-        this.userMap = new HashMapp<>();
+        this.userData = new HashMapp<>();
         this.database = new DataBase();
         this.scanner = new Scanner(System.in);
         loadUser();
@@ -43,9 +41,8 @@ public class SearchPage {
                 String userid = rs.getString("userid");
 
                 String fullName = firstName + " " + lastName;
-               // UserData userData = new UserData(username, fullName, email);
 
-               userMap.put(username, userid);
+               userData.put(username, userid);
                 userCount++;
             }
 
@@ -58,14 +55,14 @@ public class SearchPage {
 
 
     public String searchByUserName(String username) {
-        if (username == null || username.trim().isEmpty()) {
+        if (username == null ) {
             System.out.println(CommonMethods.color("Username cannot be empty.", CommonMethods.RED));
             return null;
         }
 
         String searchKey = username.trim();
 
-        String foundUser = userMap.get(searchKey);
+        String foundUser = userData.get(searchKey);
 
         if (foundUser != null) {
             System.out.println(CommonMethods.color("User found!", CommonMethods.GREEN));
@@ -73,7 +70,6 @@ public class SearchPage {
         } else {
             System.out.println(CommonMethods.color(" No user found with username: " + username, CommonMethods.RED));
         }
-
         return foundUser;
     }
 
@@ -128,7 +124,7 @@ public class SearchPage {
     }
     private void refresh() {
         System.out.println(CommonMethods.color(" Refreshing user data from database...", CommonMethods.BLUE));
-        userMap.clear();
+        userData.clear();
         loadUser();
         System.out.println(CommonMethods.color(" User data refreshed successfully!", CommonMethods.GREEN));
     }
