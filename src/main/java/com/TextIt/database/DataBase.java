@@ -402,6 +402,46 @@ public class DataBase {
             }
         }
 
+        public boolean updatePassword(int userid , String password) {
+            String query = "UPDATE users SET password_hash = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, password);
+                pst.setInt(2, userid);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating password: " + e.getMessage());
+                return false;
+            }
+        }
+        public boolean updateMobileNumber(int userID, String mobileNumber) {
+            String query = "UPDATE users SET mobile_number = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, mobileNumber);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating mobile number: " + e.getMessage());
+                return false;
+            }
+        }
+        public boolean updateEmail(int userID, String email) {
+            String query = "UPDATE users SET email = ? WHERE userID = ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setString(1, email);
+                pst.setInt(2, userID);
+                int rowsUpdated = pst.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                System.err.println("Error occurred while updating email: " + e.getMessage());
+                return false;
+            }
+        }
+
         public boolean updateLocation(int userID, String location) {
             String query = "UPDATE users SET user_location = ? WHERE userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
