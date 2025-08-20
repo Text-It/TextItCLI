@@ -3,6 +3,7 @@ package com.TextIt.model.utils;
 import com.TextIt.database.DataBase;
 
 import java.io.File;
+import java.sql.*;
 import java.util.Scanner;
 
 public class CommonMethods {
@@ -19,7 +20,7 @@ public class CommonMethods {
     //Objects
     static Scanner scanner = new Scanner(System.in);
     private static final DataBase db = new DataBase();
-    private static final DataBase.UserData userdata =db.new UserData();
+    public static final DataBase.UserData userdata =db.new UserData();
     private static final DataBase.Post userpost =db.new Post();
     private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
@@ -202,91 +203,27 @@ public class CommonMethods {
         }
     }
 
-    public static void editProfile(int userId) {
-        boolean editing = true;
-
-        while (editing) {
-            // Fetch latest values from DB
-            String firstName = userdata.getFirstName(userId);
-            String lastName = userdata.getLastName(userId);
-            String username = userdata.getUserName(userId);
-            String gender = userdata.getGender(userId);
-            String location = userdata.getLocation(userId);
-            String bio = userdata.getBio(userId);
-
-            int boxLength = 70;
-            String border = "||";
-            int spaceLeftForContent = boxLength - border.length() * 2;
-
-            String pageHeader = "Edit Profile";
-            int headerLength = pageHeader.length();
-
-            // Render Profile Edit Menu
-            System.out.println("=".repeat(boxLength));
-            System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader + " ".repeat((boxLength - headerLength) / 2));
-            System.out.println("=".repeat(boxLength));
-
-            System.out.println(border + " 1) First Name : " + firstName + " ".repeat(spaceLeftForContent - 15 - firstName.length()) + border);
-            System.out.println(border + " 2) Last Name  : " + lastName + " ".repeat(spaceLeftForContent - 15 - lastName.length()) + border);
-            System.out.println(border + " 3) Username   : " + username + " ".repeat(spaceLeftForContent - 15 - username.length()) + border);
-            System.out.println(border + " 4) Gender     : " + gender + " ".repeat(spaceLeftForContent - 15 - gender.length()) + border);
-            System.out.println(border + " 5) Location   : " + location + " ".repeat(spaceLeftForContent - 15 - location.length()) + border);
-            System.out.println(border + " 6) Bio        : " + bio + " ".repeat(spaceLeftForContent - 15 - bio.length()) + border);
-            System.out.println("-".repeat(boxLength));
-            System.out.println(border + " 7) Exit " + " ".repeat(spaceLeftForContent - 7) + border);
-            System.out.println("=".repeat(boxLength));
-
-            // User choice
-            System.out.print("Enter the number of the field you want to edit: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            switch (choice) {
-                case 1 -> {
-                    System.out.print("Enter new First Name: ");
-                    String newFirst = scanner.nextLine();
-                    userdata.updateFirstName(userId, newFirst);
-                    System.out.println("First name updated!");
-                }
-                case 2 -> {
-                    System.out.print("Enter new Last Name: ");
-                    String newLast = scanner.nextLine();
-                    userdata.updateLastName(userId, newLast);
-                    System.out.println("Last name updated!");
-                }
-                case 3 -> {
-                    System.out.print("Enter new Username: ");
-                    String newUsername = scanner.nextLine();
-                    userdata.updateUserName(userId, newUsername);
-                    System.out.println("Username updated!");
-                }
-                case 4 -> {
-                    System.out.print("Enter new Gender: ");
-                    String newGender = scanner.nextLine();
-                    userdata.updateGender(userId, newGender);
-                    System.out.println("Gender updated!");
-                }
-                case 5 -> {
-                    System.out.print("Enter new Location: ");
-                    String newLocation = scanner.nextLine();
-                    userdata.updateLocation(userId, newLocation);
-                    System.out.println("Location updated!");
-                }
-                case 6 -> {
-                    System.out.print("Enter new Bio: ");
-                    String newBio = scanner.nextLine();
-                    userdata.updateBio(userId, newBio);
-                    System.out.println("Bio updated!");
-                }
-                case 7 -> {
-                    System.out.println("Exiting Edit Profile.");
-                    editing = false;
-                }
-                default -> System.out.println("Invalid choice. Please try again.");
-            }
+    public static int featchIdForNotification(String content , String type) throws SQLException {
+        DataBase db = new DataBase();
+        Connection conn = DriverManager.getConnection(db.getUrl(),db.getUsername(), db.getPassword());
+        if(type.equalsIgnoreCase("message")) {
+            PreparedStatement ps = conn.prepareStatement("select id from messages where  message= ? ");
+            ps.setString(1, content);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }else if (type.equalsIgnoreCase("Comment")) {
+            PreparedStatement ps = conn.prepareStatement("select c_id from comments where content = ? ");
+            ps.setString(1, content);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }else{
+            System.out.println("Unsupported notification type: " + type);
+            return -1;
         }
-    }
 
+    }
 
 
 

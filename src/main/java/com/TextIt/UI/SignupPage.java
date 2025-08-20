@@ -1,6 +1,7 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
+import com.TextIt.inbox.NotificationListener;
 import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.SignUpAuth;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public class SignupPage {
     private static final Scanner scanner = new Scanner(System.in);
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println(GREEN + BOLD + """
                 ╔════════════════════════════════════════╗
                 ║               Sign Up                  ║
@@ -94,6 +95,10 @@ public class SignupPage {
                 pressEnterToContinue();
             } else {
                 System.out.println("✅ Terms accepted. Proceeding with account creation...");
+                NotificationListener listener = new NotificationListener( username);
+                Thread t = new Thread(listener);
+                t.setDaemon(true);
+                t.start();
                 break;
             }
 
@@ -105,7 +110,7 @@ public class SignupPage {
             DataBase.Profile profile = db.new Profile();
             if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email , shareCode)) {
                 System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
-                openInNewCMD("com.TextIt.UI.HomePage " + connectivity.featchId(username));
+                openInNewCMD("com.TextIt.service.pages.HomePage " + connectivity.featchId(username));
             }
             else {
                 System.out.println(RED + BOLD + "\nSign up failed. Please try again." + RESET);

@@ -39,8 +39,8 @@ public class HomePage {
             System.out.println(YELLOW + "6. " + color("Career at TextIT", BLUE));
             System.out.println(YELLOW + "7. " + color("Logout", BLUE));
             System.out.println(YELLOW + "8. " + color("Setting", BLUE));
-            System.out.println(YELLOW + "9. " + color("Help", BLUE));
-            System.out.println(YELLOW + "10. " + color("Chat", BLUE));
+            System.out.println(YELLOW + "9. " + color("Chat", BLUE));
+            System.out.println(YELLOW + "10. " + color("Help", BLUE));
             System.out.println(YELLOW + "11. " + color("Exit", RED));
 
             System.out.println(color("Enter your choice: ", GREEN));
@@ -56,7 +56,7 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w" , String.valueOf(userID));
                     break;
                 case 4:
-                    inbox();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.InboxPage " , String.valueOf(userID));
                     break;
                 case 5:
                     CommonMethods.openInNewCMD("com.TextIt.UI.Post " + userID);
@@ -71,10 +71,10 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.SettingsPage " + userID);
                     break;
                 case 9:
-                    help();
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ChatUI " + userID);
                     break;
                 case 10:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.ChatUI " + userID);
+                    help();
                     break;
                 case 11:
                     System.out.println(RED + "Exiting TextIT..." + RESET);

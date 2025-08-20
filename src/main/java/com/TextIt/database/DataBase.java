@@ -83,8 +83,28 @@ public class DataBase {
             return false;
         }
     }
+    public int featchIdByPostId(int postId) {
+        String sql = "SELECT userid FROM posts WHERE post_id =? " ;
 
-    public int featchId(String userData) {
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
+            PreparedStatement statement = con.prepareStatement(sql);
+            // for comparing email to database email Only
+
+                statement.setInt(1,postId);
+                ResultSet rs = statement.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+                return -1;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+        public int featchId(String userData) {
         Profile profile = new Profile();
         boolean emailExists = false;
 
@@ -1252,9 +1272,9 @@ public class DataBase {
     }
 
     public class Chats{
-        Connection conn;
-        public Chats() throws Exception {
-            this.conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+
+        public Chats()  {
+
         }
 
         public void send(String sender, String receiver, String msg) throws SQLException {
@@ -1270,6 +1290,7 @@ public class DataBase {
 
             // get chat history
             public List<Messages> getMessages(String user1, String user2) throws SQLException {
+                Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
                 List<Messages> messages = new ArrayList<>();
 
                 String sql = "SELECT sender, receiver, message, sent_at " + "FROM messages " + "WHERE (sender = ? AND receiver = ?)  ";
@@ -1296,6 +1317,21 @@ public class DataBase {
                 return messages;
             }
         }
+
+        // byUser: You Account And toUser: To another account
+    public void addNotification(int byUserId,int toUserId ,String type, int refId) throws SQLException {
+        String sql = "INSERT INTO notifications (to_user_id,by_user_id, type, ref_id) VALUES (?, ?, ?,?)";
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, toUserId);
+            ps.setInt(2, byUserId);
+            ps.setString(3, type);       // "message" or "comment"
+            ps.setInt(4, refId);         // message_id or comment_id
+            ps.executeUpdate();
+        }
+    }
+
+
 
     }
 
