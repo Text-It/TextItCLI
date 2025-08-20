@@ -1,6 +1,6 @@
 package com.TextIt.database;
 
-import com.TextIt.model.Messages;
+import com.TextIt.model.Message.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;

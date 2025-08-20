@@ -32,7 +32,7 @@ public class HomePage {
             System.out.println(color("Hello, " + userdata.getUserName(userID) + "!", YELLOW));
             System.out.println(color("Select option to explore the world of TextIT", GREEN));
             System.out.println(YELLOW + "1. " + color("Profile", BLUE));
-            System.out.println(YELLOW + "2. " + color("Reel", BLUE));
+            System.out.println(YELLOW + "2. " + color("Post", BLUE));
             System.out.println(YELLOW + "3. " + color("Search", BLUE));
             System.out.println(YELLOW + "4. " + color("Inbox", BLUE));
             System.out.println(YELLOW + "5. " + color("Create Post", BLUE));

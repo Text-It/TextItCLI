@@ -4,7 +4,7 @@ package com.TextIt.UI;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.pages.HomePage;
 import com.TextIt.service.session.SessionManger;
-import java.sql.SQLException;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -34,7 +34,7 @@ public class AuthCLI {
             if (java.nio.file.Files.exists(dependencyDir)) {
                 try (java.util.stream.Stream<java.nio.file.Path> walk = java.nio.file.Files.walk(dependencyDir)) {
                     String deps = walk.filter(path -> path.toString().endsWith(".jar"))
-                            .map(p -> "\"" + p.toString() + "\"")
+                            .map(p -> "\"" + p + "\"")
                             .collect(java.util.stream.Collectors.joining(";"));
                     if (!deps.isEmpty()) {
                         classpath.append(";").append(deps);
@@ -50,7 +50,7 @@ public class AuthCLI {
             
             // Build the full command
             String javaCommand = String.format("\"%s\" -cp %s %s", 
-                javaBin, classpath.toString(), className);
+                javaBin, classpath, className);
                 
             // For debugging
             System.out.println("Launching: " + className);
@@ -78,7 +78,7 @@ public class AuthCLI {
         }
     }
 
-    public void showWelcomeScreen() throws SQLException {
+    public void showWelcomeScreen()  {
 
         while (true) {
             if(sessionManger.autoLogin()){
