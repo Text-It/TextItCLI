@@ -3,6 +3,7 @@ package com.TextIt.model.utils;
 import com.TextIt.database.DataBase;
 
 import java.io.File;
+import java.sql.*;
 import java.util.Scanner;
 
 public class CommonMethods {
@@ -19,7 +20,7 @@ public class CommonMethods {
     //Objects
     static Scanner scanner = new Scanner(System.in);
     private static final DataBase db = new DataBase();
-    private static final DataBase.UserData userdata =db.new UserData();
+    public static final DataBase.UserData userdata =db.new UserData();
     private static final DataBase.Post userpost =db.new Post();
     private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
@@ -200,6 +201,28 @@ public class CommonMethods {
         } catch (Exception e) {
             System.out.println("Unable to clear console: " + e.getMessage());
         }
+    }
+
+    public static int featchIdForNotification(String content , String type) throws SQLException {
+        DataBase db = new DataBase();
+        Connection conn = DriverManager.getConnection(db.getUrl(),db.getUsername(), db.getPassword());
+        if(type.equalsIgnoreCase("message")) {
+            PreparedStatement ps = conn.prepareStatement("select id from messages where  message= ? ");
+            ps.setString(1, content);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }else if (type.equalsIgnoreCase("Comment")) {
+            PreparedStatement ps = conn.prepareStatement("select c_id from comments where content = ? ");
+            ps.setString(1, content);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }else{
+            System.out.println("Unsupported notification type: " + type);
+            return -1;
+        }
+
     }
 
 

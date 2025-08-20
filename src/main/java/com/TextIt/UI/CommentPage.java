@@ -3,6 +3,7 @@ package com.TextIt.UI;
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ public class CommentPage {
     private static final DataBase db = new DataBase();
     private static final DataBase.Comment commentdb = db.new Comment();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         int userID = Integer.parseInt(args[0]);
         int postID = Integer.parseInt(args[1]);
 
@@ -80,6 +81,7 @@ public class CommentPage {
                     System.out.print("Enter your comment: ");
                     String newComment = sc.nextLine();
                     commentdb.addComment(postID, userID, newComment);
+                    db.addNotification(userID,db.featchIdByPostId(postID),"message", CommonMethods.featchIdForNotification(newComment,"message"));
                     // reset pagination after adding new comment
                     offset = 0;
                     buffer = commentdb.getComments(postID, pageSize, offset);

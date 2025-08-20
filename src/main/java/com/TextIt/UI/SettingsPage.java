@@ -306,7 +306,7 @@ public class SettingsPage {
         String bio = userdata.getBio(UserId);
         String mobile = userdata.getMobileNumber(UserId);
         String email = accountManager.getCurrentEmail(UserId);
-        int memberSince = userdata.getMemberSince(UserId);
+        int memberSince = Integer.parseInt(userdata.getMemberSince(UserId));
         String shareCode = userdata.getUserShareCode(UserId);
 
         username = getValueOrDefault(username, "Username not set");

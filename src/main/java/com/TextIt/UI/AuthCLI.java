@@ -1,6 +1,8 @@
 package com.TextIt.UI;
 
 
+import com.TextIt.database.DataBase;
+import com.TextIt.inbox.NotificationListener;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.pages.HomePage;
 import com.TextIt.service.session.SessionManger;
@@ -14,6 +16,8 @@ public class AuthCLI {
     //Objects Of Different Classes
     private final Scanner scanner = new Scanner(System.in);
     private final SessionManger sessionManger = new SessionManger();
+    private final DataBase dataBase = new DataBase();
+    private final DataBase.UserData userDb = dataBase.new UserData();
 
 
     public static void openInNewCMD(String className) {
@@ -78,11 +82,16 @@ public class AuthCLI {
         }
     }
 
-    public void showWelcomeScreen()  {
+    public void showWelcomeScreen() throws Exception {
 
         while (true) {
             if(sessionManger.autoLogin()){
                 // homePage
+                String username = userDb.getUserName(SessionManger.getUserid());
+                NotificationListener listener =  new NotificationListener( username);
+                Thread t = new Thread(listener);
+                t.setDaemon(true);
+                t.start();
                 HomePage.main(new String[]{String.valueOf(SessionManger.getUserid())});
                 break;
             }
