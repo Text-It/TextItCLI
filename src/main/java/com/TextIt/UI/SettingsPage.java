@@ -1,8 +1,16 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
+import com.TextIt.model.utils.CommonMethods;
+import com.TextIt.security.Hashing;
+import com.TextIt.security.OTPHandler;
+import com.TextIt.service.pages.LoginAuth;
+import com.TextIt.service.pages.SignUpAuth;
+
 import java.util.Scanner;
+
 import static com.TextIt.model.utils.CommonMethods.*;
+import static com.TextIt.model.utils.CommonMethods.pressEnterToContinue;
 
 public class SettingsPage {
 
@@ -10,18 +18,19 @@ public class SettingsPage {
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata = db.new UserData();
     private static final DataBase.AccountManager accountManager = db.new AccountManager();
-    private static int UserId;
+    private static final DataBase.Profile profile =db.new Profile();
+    private static int userID;
 
     public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println(YELLOW + "No user ID provided. Using demo user ID 1." + RESET);
-            UserId = 1;
+            userID = 1;
         } else {
             try {
-                UserId = Integer.parseInt(args[0]);
+                userID = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
                 System.out.println(RED + "Invalid user ID: " + args[0] + ". Using demo user ID 1." + RESET);
-                UserId = 1;
+                userID = 1;
             }
         }
 
@@ -85,7 +94,7 @@ public class SettingsPage {
     }
 
     private static void displaySettings() {
-        String username = userdata.getUserName(UserId);
+        String username = userdata.getUserName(userID);
         if (username == null) {
             username = "Unknown User";
         }
@@ -105,7 +114,7 @@ public class SettingsPage {
             System.out.println();
 
             // Display current account info
-            displayAccountInfo();
+            displayAccountInfo(userID);
 
             System.out.println(CYAN + "[1] " + RESET + "Change Password");
             System.out.println(CYAN + "[2] " + RESET + "Update Email");
@@ -129,10 +138,10 @@ public class SettingsPage {
                     updatePhoneNumber();
                     break;
                 case "4":
-                    editProfileInfo();
+                    CommonMethods.editProfile(userID);
                     break;
                 case "5":
-                    viewAccountDetails();
+                    viewAccountDetails(userID);
                     break;
                 case "6":
                     return;
@@ -143,50 +152,103 @@ public class SettingsPage {
         }
     }
 
-    private static void displayAccountInfo() {
-        String username = userdata.getUserName(UserId);
-        String realName = userdata.getRealName(UserId);
-        String email = accountManager.getCurrentEmail(UserId);
-        String mobile = userdata.getMobileNumber(UserId);
-        String shareCode = userdata.getUserShareCode(UserId);
+    public static void displayAccountInfo(int userId) {
+        int boxLength = 70;
+        String border = "||";
+        int spaceLeftForContent = boxLength - border.length() * 2;
 
-        System.out.println(YELLOW + "Current Account: " + RESET);
-        System.out.println("  Username: " + CYAN + getValueOrDefault(username, "No username set") + RESET);
-        System.out.println("  Name: " + CYAN + getValueOrDefault(realName, "Name not provided") + RESET);
-        System.out.println("  Email: " + CYAN + getValueOrDefault(email, "Email not set") + RESET);
-        System.out.println("  Mobile: " + CYAN + getValueOrDefault(mobile, "Phone not added") + RESET);
-        System.out.println("  Share Code: " + CYAN + getValueOrDefault(shareCode, "Code not generated") + RESET);
-        System.out.println();
+        // ===== Page Headers =====
+        String pageHeader = "Account Information";
+        String pageDescription = "Details for @" + userdata.getUserName(userId);
+
+        // ===== Labels =====
+        String usernameLabel = "Username: ";
+        String realNameLabel = "Name: ";
+        String emailLabel = "Email: ";
+        String mobileLabel = "Mobile: ";
+        String shareCodeLabel = "Share Code: ";
+
+        // ===== Data =====
+        String username = userdata.getUserName(userId);
+        String realName = userdata.getRealName(userId);
+        String email = userdata.getEmail(userId);
+        String mobile = userdata.getMobileNumber(userId);
+        String shareCode = userdata.getUserShareCode(userId);
+
+        // ===== Lengths =====
+        int usernameLength = usernameLabel.length();
+        int realNameLength = realNameLabel.length();
+        int emailLength = emailLabel.length();
+        int mobileLength = mobileLabel.length();
+        int shareCodeLength = shareCodeLabel.length();
+
+        // ===== Rendering =====
+        CommonMethods.clearConsole();
+        System.out.println("=".repeat(boxLength));
+        System.out.println(" ".repeat((boxLength - pageHeader.length()) / 2) + pageHeader);
+        System.out.println(" ".repeat((boxLength - pageDescription.length()) / 2) + pageDescription);
+        System.out.println("=".repeat(boxLength));
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Username
+        System.out.println(border + usernameLabel + username +
+                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Real Name
+        System.out.println(border + realNameLabel + realName +
+                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Email
+        System.out.println(border + emailLabel + email +
+                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Mobile
+        System.out.println(border + mobileLabel + mobile +
+                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Share Code
+        System.out.println(border + shareCodeLabel + shareCode +
+                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        System.out.println("=".repeat(boxLength));
     }
 
+
     private static void changePassword() {
+
+        LoginAuth la = new LoginAuth();
+        SignUpAuth signup = new SignUpAuth();
+        Scanner scanner = new Scanner(System.in);
+        String newPassword ="";
+        String conformPassword="";
+
         System.out.println(GREEN + "\n═══ CHANGE PASSWORD ═══" + RESET);
 
         System.out.print("Enter current password: ");
-        String currentPassword = sc.nextLine();
+        String currentPassword = scanner.nextLine();
 
-        if (currentPassword.trim().isEmpty()) {
-            System.out.println(RED + "Current password cannot be empty!" + RESET);
-            pressEnterToContinue();
-            return;
-        }
+        if(la.verifyPassword(currentPassword)){
+            do {
+                System.out.print(YELLOW + "Enter your new password: " + RESET);
+                newPassword = scanner.nextLine();
+                System.out.print(YELLOW + "Enter conformed password: " + RESET);
+                conformPassword = scanner.nextLine();
+                if(!newPassword.equals(conformPassword)){
+                    System.out.println("New password and confirm password must be the same.");
+                }
 
-        System.out.print("Enter new password: ");
-        String newPassword = sc.nextLine();
+            } while (!(signup.verifyPassword(newPassword) && newPassword.equals(conformPassword)));
 
-        System.out.print("Confirm new password: ");
-        String confirmPassword = sc.nextLine();
+            String hashedPassword = Hashing.generateHashCode(newPassword);
 
-        if (!newPassword.equals(confirmPassword)) {
-            System.out.println(RED + " Passwords don't match!" + RESET);
-        } else if (newPassword.length() < 6) {
-            System.out.println(RED + " Password must be at least 6 characters!" + RESET);
-        } else {
-            boolean success = accountManager.updatePassword(UserId, currentPassword, newPassword);
-            if (success) {
-                System.out.println(GREEN + " Password changed successfully!" + RESET);
-            } else {
-                System.out.println(RED + "Failed to change password. Please check your current password." + RESET);
+            if(userdata.updatePassword(userID, hashedPassword)){
+                System.out.println(GREEN + "\nPassword updated successfully" + RESET);
+                CommonMethods.pressEnterToContinue();
             }
         }
 
@@ -194,141 +256,160 @@ public class SettingsPage {
     }
 
     private static void updateEmail() {
+
+        SignUpAuth newUser = new SignUpAuth();
+        Scanner scanner = new Scanner(System.in);
+        String email ="";
+        String generatedOtp ="";
+
+
         System.out.println(GREEN + "\n═══ UPDATE EMAIL ═══" + RESET);
 
-        String currentEmail = accountManager.getCurrentEmail(UserId);
-        System.out.println("Current email: " + CYAN + getValueOrDefault(currentEmail, "No email find") + RESET);
+        String currentEmail = userdata.getEmail(userID);
+        System.out.println("Current email: " + CYAN + userdata.getEmail(userID) + RESET);
         System.out.println();
 
-        System.out.print("Enter new email address: ");
-        String newEmail = sc.nextLine().trim();
+        while (true) {
 
-        if (newEmail.isEmpty()) {
-            System.out.println(YELLOW + "No changes made." + RESET);
-        } else if (!newEmail.contains("@") || !newEmail.contains(".") || newEmail.length() < 5) {
-            System.out.println(RED + " Invalid email format!" + RESET);
-        } else {
-            boolean success = accountManager.updateEmail(UserId, newEmail);
-            if (success) {
-                System.out.println(GREEN + " Email updated to: " + newEmail + RESET);
-            } else {
-                System.out.println(RED + "Failed to update email. Email may already be in use." + RESET);
+            do {                                                // valid if email is valid or not
+                System.out.print(YELLOW + "Enter email: " + RESET);
+                email = scanner.nextLine();
+            } while (!newUser.verifyEmail(email));
+
+            generatedOtp = OTPHandler.generateOTP(6);       // generate a 6 digit otp
+
+            if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
+                break;
+            }}
+            if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
+                return;
             }
-        }
 
-        pressEnterToContinue();
+            if(userdata.updateEmail(userID,email)){
+                System.out.println(GREEN + "Email updated successfully" + RESET);
+                CommonMethods.pressEnterToContinue();
+            }
+
     }
 
     private static void updatePhoneNumber() {
         System.out.println(GREEN + "\n═══ UPDATE PHONE NUMBER ═══" + RESET);
 
-        String currentMobile = userdata.getMobileNumber(UserId);
-        System.out.println("Current mobile: " + CYAN + getValueOrDefault(currentMobile, "[No phone number added]") + RESET);
+        SignUpAuth newUser = new SignUpAuth();
+        Scanner scanner = new Scanner(System.in);
+        String phoneNumber ="";
+
+        String currentMobile = userdata.getMobileNumber(userID);
+        System.out.println("Current mobile: " + CYAN + userdata.getMobileNumber(userID) + RESET);
         System.out.println();
 
-        System.out.print("Enter new phone number (10 digits, starting with 6-9): ");
-        String newPhone = sc.nextLine().trim();
+        do {
+            System.out.print(YELLOW + "Enter phone number: " + RESET);
+            phoneNumber = scanner.nextLine();
+        } while (!newUser.verifyPhoneNumber(phoneNumber));
 
-        if (newPhone.isEmpty()) {
-            System.out.println(YELLOW + "No changes made." + RESET);
-        } else {
-            boolean isValid = true;
-
-            if (newPhone.length() != 10) {
-                isValid = false;
-            } else if (newPhone.charAt(0) < '6' || newPhone.charAt(0) > '9') {
-                isValid = false;
-            } else {
-                for (int i = 0; i < newPhone.length(); i++) {
-                    if (!Character.isDigit(newPhone.charAt(i))) {
-                        isValid = false;
-                        break;
-                    }
-                }
-            }
-
-            if (!isValid) {
-                System.out.println(RED + "Invalid phone number! Must be 10 digits, start with 6-9, and contain only numbers." + RESET);
-            } else {
-                boolean success = accountManager.updateMobileNumber(UserId, newPhone);
-                if (success) {
-                    System.out.println(GREEN + " Phone number updated to: " + newPhone + RESET);
-                } else {
-                    System.out.println(RED + " Failed to update phone number. Number may already be in use." + RESET);
-                }
-            }
+        if (userdata.updateMobileNumber(userID, phoneNumber)) {
+            System.out.println(GREEN + "Phone number updated successfully" + RESET);
+            CommonMethods.pressEnterToContinue();
         }
 
-        pressEnterToContinue();
     }
 
-    private static void editProfileInfo() {
-        System.out.println(GREEN + "\n═══ EDIT PROFILE INFORMATION ═══" + RESET);
 
-        String currentFirstName = userdata.getFirstName(UserId);
-        String currentLastName = userdata.getLastName(UserId);
-        String currentBio = userdata.getBio(UserId);
+    private static void viewAccountDetails(int userId) {
+        int boxLength = 70;
+        String border = "||";
+        int spaceLeftForContent = boxLength - border.length() * 2;
 
-        System.out.println("Current Information:");
-        System.out.println("  First Name: " + CYAN + getValueOrDefault(currentFirstName, "First name not provided") + RESET);
-        System.out.println("  Last Name: " + CYAN + getValueOrDefault(currentLastName, "Last name not provided") + RESET);
-        System.out.println("  Bio: " + CYAN + getValueOrDefault(currentBio, "No bio written yet") + RESET);
-        System.out.println();
+        // ===== Page Headers =====
+        String pageHeader = "Account Information";
+        String pageDescription = "Overview of @" + userdata.getUserName(userId);
 
-        System.out.print("Enter new first name (or press Enter to keep current): ");
-        String newFirstName = sc.nextLine();
+        // ===== Labels =====
+        String usernameLabel = "Username: ";
+        String realNameLabel = "Name: ";
+        String emailLabel = "Email: ";
+        String mobileLabel = "Mobile: ";
+        String bioLabel = "Bio: ";
+        String memberSinceLabel = "Member Since: ";
+        String shareCodeLabel = "Share Code: ";
 
-        System.out.print("Enter new last name (or press Enter to keep current): ");
-        String newLastName = sc.nextLine();
+        // ===== User Data (handle nulls manually) =====
+        String username = userdata.getUserName(userId);
+        if (username == null || username.isBlank()) username = "Username not set";
 
-        System.out.print("Enter new bio (or press Enter to keep current): ");
-        String newBio = sc.nextLine();
+        String realName = userdata.getRealName(userId);
+        if (realName == null || realName.isBlank()) realName = "Name not provided";
 
-        boolean success = accountManager.updateProfileInfo(UserId,
-                newFirstName.trim().isEmpty() ? null : newFirstName,
-                newLastName.trim().isEmpty() ? null : newLastName,
-                newBio.trim().isEmpty() ? null : newBio);
+        String email = userdata.getEmail(userId);
+        if (email == null || email.isBlank()) email = "Email not configured";
 
-        if (success) {
-            System.out.println(GREEN + " Profile information updated successfully!" + RESET);
-        } else {
-            System.out.println(YELLOW + "No changes were made to your profile." + RESET);
-        }
+        String mobile = userdata.getMobileNumber(userId);
+        if (mobile == null || mobile.isBlank()) mobile = "Phone not added";
 
-        pressEnterToContinue();
-    }
+        String bio = userdata.getBio(userId);
+        if (bio == null || bio.isBlank()) bio = "No bio added yet";
 
-    private static void viewAccountDetails() {
-        System.out.println(GREEN + "\n═══ ACCOUNT DETAILS ═══" + RESET);
+        String memberSince = userdata.getMemberSince(userId);
+        if (memberSince == null || memberSince.isBlank()) memberSince = "Unknown";
 
-        String username = userdata.getUserName(UserId);
-        String realName = userdata.getRealName(UserId);
-        String bio = userdata.getBio(UserId);
-        String mobile = userdata.getMobileNumber(UserId);
-        String email = accountManager.getCurrentEmail(UserId);
-        int memberSince = Integer.parseInt(userdata.getMemberSince(UserId));
-        String shareCode = userdata.getUserShareCode(UserId);
+        String shareCode = userdata.getUserShareCode(userId);
+        if (shareCode == null || shareCode.isBlank()) shareCode = "Not generated";
 
-        username = getValueOrDefault(username, "Username not set");
-        realName = getValueOrDefault(realName, "Name not provided");
-        bio = getValueOrDefault(bio, "No bio added yet");
-        mobile = getValueOrDefault(mobile, "Phone not added");
-        email = getValueOrDefault(email, "Email not configured");
-        shareCode = getValueOrDefault(shareCode, "Share code not generated");
+        // ===== Lengths =====
+        int usernameLength = usernameLabel.length();
+        int realNameLength = realNameLabel.length();
+        int emailLength = emailLabel.length();
+        int mobileLength = mobileLabel.length();
+        int bioLabelLength = bioLabel.length();
+        int memberSinceLength = memberSinceLabel.length();
+        int shareCodeLength = shareCodeLabel.length();
 
-        System.out.println("┌─────────────────────────────────────────────┐");
-        System.out.println("│                ACCOUNT INFO                 │");
-        System.out.println("├─────────────────────────────────────────────┤");
-        System.out.println("│ Username: " + CYAN + username + RESET + " ".repeat(Math.max(1, 32 - username.length())) + "│");
-        System.out.println("│ Real Name: " + CYAN + realName + RESET + " ".repeat(Math.max(1, 31 - realName.length())) + "│");
-        System.out.println("│ Email: " + CYAN + email + RESET + " ".repeat(Math.max(1, 36 - email.length())) + "│");
-        String displayBio = bio.length() > 30 ? bio.substring(0, 30) + "..." : bio;
-        System.out.println("│ Bio: " + CYAN + displayBio + RESET + " ".repeat(Math.max(1, 37 - displayBio.length())) + "│");
-        System.out.println("│ Mobile: " + CYAN + mobile + RESET + " ".repeat(Math.max(1, 34 - mobile.length())) + "│");
-        String memberText = memberSince > 0 ? memberSince + " years" : "Recently joined";
-        System.out.println("│ Member Since: " + CYAN + memberText + RESET + " ".repeat(Math.max(1, 25 - memberText.length())) + "│");
-        System.out.println("│ Share Code: " + CYAN + shareCode + RESET + " ".repeat(Math.max(1, 30 - shareCode.length())) + "│");
-        System.out.println("└─────────────────────────────────────────────┘");
+        // ===== Rendering =====
+        CommonMethods.clearConsole();
+        System.out.println("=".repeat(boxLength));
+        System.out.println(" ".repeat((boxLength - pageHeader.length()) / 2) + pageHeader);
+        System.out.println(" ".repeat((boxLength - pageDescription.length()) / 2) + pageDescription);
+        System.out.println("=".repeat(boxLength));
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Username
+        System.out.println(border + usernameLabel + username +
+                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Real Name
+        System.out.println(border + realNameLabel + realName +
+                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Email
+        System.out.println(border + emailLabel + email +
+                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Mobile
+        System.out.println(border + mobileLabel + mobile +
+                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Bio
+        System.out.println(border + bioLabel +
+                " ".repeat(spaceLeftForContent - bioLabelLength) + border);
+        CommonMethods.paragraphDisplay(bio, border, spaceLeftForContent);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Member Since
+        System.out.println(border + memberSinceLabel + memberSince +
+                " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // Share Code
+        System.out.println(border + shareCodeLabel + shareCode +
+                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        System.out.println("=".repeat(boxLength));
 
         pressEnterToContinue();
     }
@@ -678,7 +759,7 @@ public class SettingsPage {
             System.out.println(GREEN + BOLD + "═══ SESSION OPTIONS ═══" + RESET);
             System.out.println();
 
-            String username = userdata.getUserName(UserId);
+            String username = userdata.getUserName(userID);
             System.out.println("Current Session: " + CYAN + username + RESET);
             System.out.println();
 
@@ -722,11 +803,11 @@ public class SettingsPage {
 
         switch (choice) {
             case "1":
-                UserId = 1;
+                userID = 1;
                 System.out.println(GREEN + " Switched to GM_VRAJ" + RESET);
                 break;
             case "2":
-                UserId = 2;
+                userID = 2;
                 System.out.println(GREEN + " Switched to Dhruv_HARAMI" + RESET);
                 break;
             case "3":
@@ -769,11 +850,5 @@ public class SettingsPage {
     private static void pressEnterToContinue() {
         System.out.print(YELLOW + "\nPress Enter to continue..." + RESET);
         sc.nextLine();
-    }
-    private static String getValueOrDefault(String value, String defaultValue) {
-        if (value == null || value.trim().isEmpty() || "null".equalsIgnoreCase(value)) {
-            return defaultValue;
-        }
-        return value;
     }
 }
