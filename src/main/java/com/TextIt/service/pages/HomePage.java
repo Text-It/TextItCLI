@@ -50,7 +50,7 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " , String.valueOf(userID));
                     break;
                 case 2:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID));
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID) , "true");
                     break;
                 case 3:
                     CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w" , String.valueOf(userID));

@@ -17,7 +17,6 @@ public class SettingsPage {
     static Scanner sc = new Scanner(System.in);
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata = db.new UserData();
-    private static final DataBase.AccountManager accountManager = db.new AccountManager();
     private static final DataBase.Profile profile =db.new Profile();
     private static int userID;
 

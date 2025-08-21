@@ -26,8 +26,7 @@ public class ProfilePage {
             String choice = sc.nextLine();
             switch (choice) {
                 case "1":
-                    FeedPage fp = new FeedPage();
-                    fp.onlyUserPosts(userid);
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " + userid + " " + "false");
                     break;
                 case "2":
                     CommonMethods.editProfile(userid);

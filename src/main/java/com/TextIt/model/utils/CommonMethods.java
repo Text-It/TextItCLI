@@ -245,38 +245,40 @@ public class CommonMethods {
                 case 1 -> {
                     System.out.print("Enter new First Name: ");
                     String newFirst = scanner.nextLine();
-                    userdata.updateFirstName(userId, newFirst);
+                    if(userdata.updateFirstName(userId, newFirst)){
                     System.out.println("First name updated!");
+                    }
                 }
                 case 2 -> {
                     System.out.print("Enter new Last Name: ");
                     String newLast = scanner.nextLine();
-                    userdata.updateLastName(userId, newLast);
-                    System.out.println("Last name updated!");
+                    if(userdata.updateLastName(userId, newLast)){
+                    System.out.println("Last name updated!");}
                 }
                 case 3 -> {
                     System.out.print("Enter new Username: ");
                     String newUsername = scanner.nextLine();
-                    userdata.updateUserName(userId, newUsername);
-                    System.out.println("Username updated!");
+                    if (userdata.updateUserName(userId, newUsername)){
+                    System.out.println("Username updated!");}
                 }
                 case 4 -> {
                     System.out.print("Enter new Gender: ");
                     String newGender = scanner.nextLine();
-                    userdata.updateGender(userId, newGender);
-                    System.out.println("Gender updated!");
+                    if(userdata.updateGender(userId, newGender)) {
+                        System.out.println("Gender updated!");
+                    }
                 }
                 case 5 -> {
                     System.out.print("Enter new Location: ");
                     String newLocation = scanner.nextLine();
-                    userdata.updateLocation(userId, newLocation);
-                    System.out.println("Location updated!");
+                    if(userdata.updateLocation(userId, newLocation)){
+                    System.out.println("Location updated!");}
                 }
                 case 6 -> {
                     System.out.print("Enter new Bio: ");
                     String newBio = scanner.nextLine();
-                    userdata.updateBio(userId, newBio);
-                    System.out.println("Bio updated!");
+                    if(userdata.updateBio(userId, newBio)){
+                    System.out.println("Bio updated!");}
                 }
                 case 7 -> {
                     System.out.println("Exiting Edit Profile.");

@@ -1,5 +1,6 @@
 package com.TextIt.database;
 
+
 import com.TextIt.model.Message.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.security.Hashing;
@@ -17,7 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 
 /**
  * The {@code DataBase} class contains static nested classes to manage user-related
@@ -37,7 +37,6 @@ public class DataBase {
             loadDB();
         } catch (ClassNotFoundException e) {
             System.err.println("PostgresSQL JDBC Driver not found. x");
-            e.printStackTrace();
         }
     }
 
@@ -70,11 +69,13 @@ public class DataBase {
 
         } catch (IOException e) {
             System.err.println("Problem in loading database.properties file");
-            e.printStackTrace();
         }
 
     }
 
+    /**
+     * @return true inverted answer
+     */
     public boolean isServerReachable() {
         try (Connection _ = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             return true;
@@ -83,19 +84,20 @@ public class DataBase {
             return false;
         }
     }
+
     public int featchIdByPostId(int postId) {
-        String sql = "SELECT userid FROM posts WHERE post_id =? " ;
+        String sql = "SELECT userid FROM posts WHERE post_id =? ";
 
         try (Connection con = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
             PreparedStatement statement = con.prepareStatement(sql);
             // for comparing email to database email Only
 
-                statement.setInt(1,postId);
-                ResultSet rs = statement.executeQuery();
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-                return -1;
+            statement.setInt(1, postId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return -1;
 
 
         } catch (SQLException e) {
@@ -104,7 +106,7 @@ public class DataBase {
     }
 
 
-        public int featchId(String userData) {
+    public int featchId(String userData) {
         Profile profile = new Profile();
         boolean emailExists = false;
 
@@ -146,9 +148,22 @@ public class DataBase {
         return -1;
     }
 
-    public class UserFollows{
+    // byUser: You Account And toUser: To another account
+    public void addNotification(int byUserId, int toUserId, String type, int refId) throws SQLException {
+        String sql = "INSERT INTO notifications (to_user_id,by_user_id, type, ref_id) VALUES (?, ?, ?,?)";
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, toUserId);
+            ps.setInt(2, byUserId);
+            ps.setString(3, type);       // "message" or "comment"
+            ps.setInt(4, refId);         // message_id or comment_id
+            ps.executeUpdate();
+        }
+    }
 
-        public int getFollowersCount(int userID){
+    public class UserFollows {
+
+        public int getFollowersCount(int userID) {
             String query = "select count(*) from user_follows where following_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -163,7 +178,7 @@ public class DataBase {
             return -1;
         }
 
-        public int getFollowingCount(int userID){
+        public int getFollowingCount(int userID) {
             String query = "select count(*) from user_follows where follower_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -178,7 +193,7 @@ public class DataBase {
             return -1;
         }
 
-        public boolean followUser(int followerID, int followingID){
+        public boolean followUser(int followerID, int followingID) {
             String query = "INSERT INTO user_follows (follower_id, following_id) VALUES (?, ?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -192,7 +207,7 @@ public class DataBase {
             return false;
         }
 
-        public boolean unFollowUser(int followerID, int followingID){
+        public boolean unFollowUser(int followerID, int followingID) {
             String query = "DELETE FROM user_follows WHERE follower_id = ? AND following_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -207,9 +222,9 @@ public class DataBase {
         }
     }
 
-    public class Like{
+    public class Like {
 
-        public boolean incrementLikesCount(int userid ,int postID){
+        public boolean incrementLikesCount(int userid, int postID) {
             String query = "INSERT INTO likes (userid, post_id) VALUES (?, ?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -223,7 +238,6 @@ public class DataBase {
             return false;
         }
     }
-
 
     /**
      * The {@code Profile} class handles verification of unique user details
@@ -248,7 +262,7 @@ public class DataBase {
                 statement.setString(1, input);
                 try (ResultSet rs = statement.executeQuery()) {
                     return rs.next(); // true = available
-                }catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println("Error occurred while fetching user profile: " + e.getMessage());
                     return false;
                 }
@@ -259,7 +273,7 @@ public class DataBase {
         }
 
 
-        public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email , String shareCode) {
+        public boolean registerUser(String firstName, String lastName, String username, String password, String mobileNumber, String email, String shareCode) {
             String hashedPassword = Hashing.generateHashCode(password); // Hash the password
             LocalDate currentDate = LocalDate.now();                    // Account creation date
 
@@ -307,7 +321,7 @@ public class DataBase {
         }
     }
 
-    public class ReShare{
+    public class ReShare {
         public boolean reSharePost(int postID, int userID) {
             String getOriginalQuery = "SELECT original_post_id FROM reshare WHERE post_id = ?";
             String insertQuery = "INSERT INTO reshare (post_id, userid, original_post_id) VALUES (?, ?, ?)";
@@ -422,7 +436,7 @@ public class DataBase {
             }
         }
 
-        public boolean updatePassword(int userid , String password) {
+        public boolean updatePassword(int userid, String password) {
             String query = "UPDATE users SET password_hash = ? WHERE userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -435,6 +449,7 @@ public class DataBase {
                 return false;
             }
         }
+
         public boolean updateMobileNumber(int userID, String mobileNumber) {
             String query = "UPDATE users SET mobile_number = ? WHERE userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -448,6 +463,7 @@ public class DataBase {
                 return false;
             }
         }
+
         public boolean updateEmail(int userID, String email) {
             String query = "UPDATE users SET email = ? WHERE userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -518,9 +534,9 @@ public class DataBase {
             return false;
         }
 
-        public boolean updateUserName(int userID , String userName){
+        public boolean updateUserName(int userID, String userName) {
             SignUpAuth sua = new SignUpAuth();
-            if (sua.verifyUsername(userName)){
+            if (sua.verifyUsername(userName)) {
                 String query = "UPDATE users SET username = ? WHERE userID = ?";
                 try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                     PreparedStatement pst = conn.prepareStatement(query);
@@ -532,11 +548,10 @@ public class DataBase {
                     System.err.println("Error occurred while updating username: " + e.getMessage());
                     return false;
                 }
-            }else {
+            } else {
                 return false;
             }
         }
-
 
 
         public String getFirstName(int userID) {
@@ -587,8 +602,7 @@ public class DataBase {
         public String getMemberSince(int userID) {
             String query = "SELECT created_at FROM users WHERE userID = ?";
 
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
 
                 pst.setInt(1, userID);
                 try (ResultSet rs = pst.executeQuery()) {
@@ -608,7 +622,7 @@ public class DataBase {
                             String formattedDate = createdAt.format(formatter);
 
                             // Build nice string
-                            StringBuilder sb = new StringBuilder("");
+                            StringBuilder sb = new StringBuilder();
                             sb.append(formattedDate);
                             if (years > 0 || months > 0) {
                                 sb.append(" (");
@@ -625,7 +639,7 @@ public class DataBase {
                     }
                 }
             } catch (SQLException e) {
-                System.err.println("❌ Error fetching memberSince for userID=" + userID + ": " + e.getMessage());
+                System.err.println("Error fetching memberSince for userID=" + userID + ": " + e.getMessage());
             }
 
             return "Member since: Unknown";
@@ -663,7 +677,7 @@ public class DataBase {
             return null;
         }
 
-        public String getEmail(int userID){
+        public String getEmail(int userID) {
             String query = "select email from users where userID = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -678,7 +692,7 @@ public class DataBase {
             return null;
         }
 
-        public String getRealName(int userID){
+        public String getRealName(int userID) {
             return getFirstName(userID) + " " + getLastName(userID);
         }
 
@@ -701,12 +715,8 @@ public class DataBase {
     public class Comment {
         public List<String[]> getComments(int postID, int limit, int offset) {
             List<String[]> list = new ArrayList<>();
-            String query = "SELECT u.username, c.content, c.created_at " +
-                    "FROM comments c JOIN users u ON c.userid = u.userid " +
-                    "WHERE c.post_id = ? ORDER BY c.created_at DESC " +
-                    "LIMIT ? OFFSET ?";
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            String query = "SELECT u.username, c.content, c.created_at " + "FROM comments c JOIN users u ON c.userid = u.userid " + "WHERE c.post_id = ? ORDER BY c.created_at DESC " + "LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
                 pst.setInt(1, postID);
                 pst.setInt(2, limit);
                 pst.setInt(3, offset);
@@ -748,8 +758,7 @@ public class DataBase {
 
         public boolean addComment(int postID, int userID, String text) {
             String query = "INSERT INTO comments (post_id, userid, content) VALUES (?, ?, ?)";
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
 
                 pst.setInt(1, postID);    // the post being commented on
                 pst.setInt(2, userID);    // the user who is commenting
@@ -764,26 +773,23 @@ public class DataBase {
         }
     }
 
-    public class Career{
+    public class Career {
 
         public boolean saveApplication(int userId, String role, String resumePath) {
             String query = "INSERT INTO career_applications (userid, role_applied, resume_path) VALUES (?, ?, ?)";
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)){
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setInt(1, userId);
                 ps.setString(2, role);
                 ps.setString(3, resumePath);
                 ps.executeUpdate();
                 return true;
-            }
-             catch (SQLException e) {
+            } catch (SQLException e) {
                 System.err.println("Error saving application: " + e.getMessage());
                 return false;
             }
         }
     }
-
-
 
     public class Post {
 
@@ -803,7 +809,7 @@ public class DataBase {
             return -1;
         }
 
-        public boolean insertPost(int userID, String postContent , String shareCode) {
+        public boolean insertPost(int userID, String postContent, String shareCode) {
             String query = "INSERT INTO posts (userID, content,post_url) VALUES (?, ? ,?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -821,8 +827,7 @@ public class DataBase {
         public DoublyLinkedList<Integer> getPostIds(int limit, int offset) {
             DoublyLinkedList<Integer> ids = new DoublyLinkedList<>();
             String query = "SELECT post_id FROM posts ORDER BY post_point  DESC LIMIT ? OFFSET ?";
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
                 pst.setInt(1, limit);
                 pst.setInt(2, offset);
                 ResultSet rs = pst.executeQuery();
@@ -835,11 +840,10 @@ public class DataBase {
             return ids;
         }
 
-        public DoublyLinkedList<Integer> getPostIdsforParticularUser(int limit, int offset , int userID) {
+        public DoublyLinkedList<Integer> getPostIdsforParticularUser(int limit, int offset, int userID) {
             DoublyLinkedList<Integer> ids = new DoublyLinkedList<>();
             String query = "SELECT post_id FROM posts WHERE userID = ? ORDER BY post_point  DESC LIMIT ? OFFSET ?";
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
                 pst.setInt(1, limit);
                 pst.setInt(2, offset);
                 pst.setInt(3, userID);
@@ -852,7 +856,6 @@ public class DataBase {
             }
             return ids;
         }
-
 
 
         public int getPostCommentsCount(int postid) {
@@ -869,7 +872,8 @@ public class DataBase {
             }
             return -1;
         }
-        public int getUserId(int postid){
+
+        public int getUserId(int postid) {
             String query = "select userid from posts where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -945,7 +949,7 @@ public class DataBase {
             return null;
         }
 
-        public String getPostUsername(int postId){
+        public String getPostUsername(int postId) {
             String query = "select username from users where userid = (select userid from posts where post_id = ?)";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -959,7 +963,8 @@ public class DataBase {
             }
             return "Unknown user";
         }
-        public int getPostViewCount(int postId){
+
+        public int getPostViewCount(int postId) {
             String query = "select view_count from posts where post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -974,7 +979,7 @@ public class DataBase {
             return -1;
         }
 
-        public boolean updatePostViewCount(int postId){
+        public boolean updatePostViewCount(int postId) {
             String query = "UPDATE posts SET view_count = view_count + 1 WHERE post_id = ?";
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
                 PreparedStatement pst = conn.prepareStatement(query);
@@ -991,8 +996,7 @@ public class DataBase {
         public String getPostTime(int postId) {
             String query = "SELECT created_at FROM posts WHERE post_id = ?";
 
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                 PreparedStatement pst = conn.prepareStatement(query)) {
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD); PreparedStatement pst = conn.prepareStatement(query)) {
 
                 pst.setInt(1, postId);
                 ResultSet rs = pst.executeQuery();
@@ -1021,216 +1025,6 @@ public class DataBase {
             }
 
             return "Unknown time";
-        }
-
-
-    }
-    /**
-     * The {@code AccountManager} class handles account management operations
-     * such as updating passwords, email, phone numbers, and profile information.
-     */
-    public class AccountManager {
-
-        /**
-         * Updates the user's password after verifying the current password.
-         *
-         * @param userId          The ID of the user
-         * @param currentPassword The current password for verification
-         * @param newPassword     The new password to set
-         * @return true if password was updated successfully, false otherwise
-         */
-        public boolean updatePassword(int userId, String currentPassword, String newPassword) {
-            // First verify the current password
-            if (!verifyCurrentPassword(userId, currentPassword)) {
-                return false;
-            }
-
-            String hashedNewPassword = Hashing.generateHashCode(newPassword);
-            String query = "UPDATE users SET password_hash = ? WHERE user_id = ?";
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(query);
-                pst.setString(1, hashedNewPassword);
-                pst.setInt(2, userId);
-
-                int rowsUpdated = pst.executeUpdate();
-                return rowsUpdated > 0;
-
-            } catch (SQLException e) {
-                System.err.println("Error updating password for user ID = " + userId + ": " + e.getMessage());
-                return false;
-            }
-        }
-
-        /**
-         * Updates the user's email address.
-         *
-         * @param userId   The ID of the user
-         * @param newEmail The new email address
-         * @return true if email was updated successfully, false otherwise
-         */
-        public boolean updateEmail(int userId, String newEmail) {
-            // Check if email is already in use by another user
-            Profile profile = new Profile();
-            if (profile.isAvailable("email", newEmail.toLowerCase())) {
-                System.out.println("Email is already in use by another account.");
-                return false;
-            }
-
-            String query = "UPDATE users SET email = ? WHERE user_id = ?";
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(query);
-                pst.setString(1, newEmail.toLowerCase());
-                pst.setInt(2, userId);
-
-                int rowsUpdated = pst.executeUpdate();
-                return rowsUpdated > 0;
-
-            } catch (SQLException e) {
-                System.err.println("Error updating email for user ID = " + userId + ": " + e.getMessage());
-                return false;
-            }
-        }
-
-        /**
-         * Updates the user's mobile number.
-         *
-         * @param userId          The ID of the user
-         * @param newMobileNumber The new mobile number
-         * @return true if mobile number was updated successfully, false otherwise
-         */
-        public boolean updateMobileNumber(int userId, String newMobileNumber) {
-            // Check if mobile number is already in use by another user
-            Profile profile = new Profile();
-            if (profile.isAvailable("mobile_number", newMobileNumber)) {
-                System.out.println("Mobile number is already in use by another account.");
-                return false;
-            }
-
-            String query = "UPDATE users SET mobile_number = ? WHERE user_id = ?";
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(query);
-                pst.setString(1, newMobileNumber);
-                pst.setInt(2, userId);
-
-                int rowsUpdated = pst.executeUpdate();
-                return rowsUpdated > 0;
-
-            } catch (SQLException e) {
-                System.err.println("Error updating mobile number for user ID = " + userId + ": " + e.getMessage());
-                return false;
-            }
-        }
-
-        /**
-         * Updates the user's profile information (first name, last name, bio).
-         *
-         * @param userId    The ID of the user
-         * @param firstName The new first name (null to keep current)
-         * @param lastName  The new last name (null to keep current)
-         * @param bio       The new bio (null to keep current)
-         * @return true if profile was updated successfully, false otherwise
-         */
-        public boolean updateProfileInfo(int userId, String firstName, String lastName, String bio) {
-            StringBuilder queryBuilder = new StringBuilder("UPDATE users SET ");
-            boolean hasUpdates = false;
-
-            if (firstName != null && !firstName.trim().isEmpty()) {
-                queryBuilder.append("first_name = ?");
-                hasUpdates = true;
-            }
-
-            if (lastName != null && !lastName.trim().isEmpty()) {
-                if (hasUpdates) queryBuilder.append(", ");
-                queryBuilder.append("last_name = ?");
-                hasUpdates = true;
-            }
-
-            if (bio != null && !bio.trim().isEmpty()) {
-                if (hasUpdates) queryBuilder.append(", ");
-                queryBuilder.append("user_bio = ?");
-                hasUpdates = true;
-            }
-
-            if (!hasUpdates) {
-                return false;
-            }
-
-            queryBuilder.append(" WHERE user_id = ?");
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(queryBuilder.toString());
-
-                int paramIndex = 1;
-                if (firstName != null && !firstName.trim().isEmpty()) {
-                    pst.setString(paramIndex++, firstName.trim());
-                }
-                if (lastName != null && !lastName.trim().isEmpty()) {
-                    pst.setString(paramIndex++, lastName.trim());
-                }
-                if (bio != null && !bio.trim().isEmpty()) {
-                    pst.setString(paramIndex++, bio.trim());
-                }
-                pst.setInt(paramIndex, userId);
-
-                int rowsUpdated = pst.executeUpdate();
-                return rowsUpdated > 0;
-
-            } catch (SQLException e) {
-                System.err.println("Error updating profile info for user ID = " + userId + ": " + e.getMessage());
-                return false;
-            }
-        }
-
-        /**
-         * Gets the current email address for a user.
-         *
-         * @param userId The ID of the user
-         * @return The user's email address or null if not found
-         */
-        public String getCurrentEmail(int userId) {
-            String query = "SELECT email FROM users WHERE user_id = ?";
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1, userId);
-                ResultSet rs = pst.executeQuery();
-
-                if (rs.next()) {
-                    return rs.getString(1);
-                }
-            } catch (SQLException e) {
-                System.err.println("Error fetching email for user ID = " + userId);
-            }
-            return null;
-        }
-
-        /**
-         * Verifies if the provided password matches the user's current password.
-         *
-         * @param userId          The ID of the user
-         * @param currentPassword The password to verify
-         * @return true if password matches, false otherwise
-         */
-        private boolean verifyCurrentPassword(int userId, String currentPassword) {
-            String query = "SELECT password_hash FROM users WHERE user_id = ?";
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-                PreparedStatement pst = conn.prepareStatement(query);
-                pst.setInt(1, userId);
-                ResultSet rs = pst.executeQuery();
-
-                if (rs.next()) {
-                    String storedHash = rs.getString(1);
-                    String providedHash = Hashing.generateHashCode(currentPassword);
-                    return storedHash.equals(providedHash);
-                }
-            } catch (SQLException e) {
-                System.err.println("Error verifying password for user ID = " + userId);
-            }
-            return false;
         }
     }
 
@@ -1263,7 +1057,7 @@ public class DataBase {
 
                     PGNotification[] notifications = pgConn.getNotifications();
 
-                    if (notifications != null ) {
+                    if (notifications != null) {
                         for (PGNotification n : notifications) {
 
                             String[] parts = n.getParameter().split(":", 3);
@@ -1289,9 +1083,9 @@ public class DataBase {
         }
     }
 
-    public class Chats{
+    public class Chats {
 
-        public Chats()  {
+        public Chats() {
 
         }
 
@@ -1306,50 +1100,29 @@ public class DataBase {
             }
         }
 
-            // get chat history
-            public List<Messages> getMessages(String user1, String user2) throws SQLException {
-                Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                List<Messages> messages = new ArrayList<>();
+        // get chat history
+        public List<Messages> getMessages(String user1, String user2) throws SQLException {
+            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            List<Messages> messages = new ArrayList<>();
 
-                String sql = "SELECT sender, receiver, message, sent_at " + "FROM messages " + "WHERE (sender = ? AND receiver = ?)  ";
+            String sql = "SELECT sender, receiver, message, sent_at " + "FROM messages " + "WHERE (sender = ? AND receiver = ?)  ";
 
-                try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setString(1, user2);
-                    ps.setString(2, user1);
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, user2);
+                ps.setString(2, user1);
 //                    ps.setString(3, user2);
 //                    ps.setString(4, user1);
 
-                    try (ResultSet rs = ps.executeQuery()) {
-                        while (rs.next()) {
-                            Messages m = new Messages(
-                                    rs.getString("sender"),
-                                    rs.getString("receiver"),
-                                    rs.getString("message"),
-                                    rs.getString("sent_at")
-                            );
-                            messages.add(m);
-                        }
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Messages m = new Messages(rs.getString("sender"), rs.getString("receiver"), rs.getString("message"), rs.getString("sent_at"));
+                        messages.add(m);
                     }
                 }
-
-                return messages;
             }
-        }
 
-        // byUser: You Account And toUser: To another account
-    public void addNotification(int byUserId,int toUserId ,String type, int refId) throws SQLException {
-        String sql = "INSERT INTO notifications (to_user_id,by_user_id, type, ref_id) VALUES (?, ?, ?,?)";
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, toUserId);
-            ps.setInt(2, byUserId);
-            ps.setString(3, type);       // "message" or "comment"
-            ps.setInt(4, refId);         // message_id or comment_id
-            ps.executeUpdate();
+            return messages;
         }
     }
-
-
-
-    }
+}
 
