@@ -199,12 +199,6 @@ public class SignUpAuth implements Authentication {
         return true;
     }
 
-    public boolean verifyAddress(String input){
-
-        return true;
-    }
-
-
 
     /**
      * This method is used to find whether a character is found in the provided input field
