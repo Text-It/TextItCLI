@@ -8,6 +8,10 @@ import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.pages.SignUpAuth;
 
 import java.util.Scanner;
+import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
 import static com.TextIt.model.utils.CommonMethods.*;
 
@@ -233,16 +237,12 @@ public class SettingsPage {
     }
 
     private static void updateEmail() {
-
         SignUpAuth newUser = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
         String email = "";
         String generatedOtp = "";
 
-
         System.out.println(GREEN + "\n═══ UPDATE EMAIL ═══" + RESET);
-
-        String currentEmail = userdata.getEmail(userID);
         System.out.println("Current email: " + CYAN + userdata.getEmail(userID) + RESET);
         System.out.println();
 
@@ -277,7 +277,6 @@ public class SettingsPage {
         Scanner scanner = new Scanner(System.in);
         String phoneNumber = "";
 
-        String currentMobile = userdata.getMobileNumber(userID);
         System.out.println("Current mobile: " + CYAN + userdata.getMobileNumber(userID) + RESET);
         System.out.println();
 
@@ -301,7 +300,7 @@ public class SettingsPage {
 
         // ===== Page Headers =====
         String pageHeader = "Account Information";
-        String pageDescription = "Overview of @" + userdata.getUserName(userId);
+        String pageDescription = "@" + userdata.getUserName(userId);
 
         // ===== Labels =====
         String usernameLabel = "Username: ";
@@ -381,55 +380,259 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println("=".repeat(boxLength));
-
         pressEnterToContinue();
     }
 
-
-    static void aboutAndLegal() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ ABOUT & LEGAL ═══" + RESET);
-        System.out.println();
-
-        System.out.println("╔═══════════════════════════════════════════╗");
-        System.out.println("║               TextItCLI                   ║");
-        System.out.println("║         Console Blogging Platform         ║");
-        System.out.println("╠═══════════════════════════════════════════╣");
-        System.out.println("║  Version: " + CYAN + "2.0.0" + RESET + "   ║");
-        System.out.println("║  Build: " + CYAN + "2025.01.14" + RESET + "║");
-        System.out.println("║  Developer: " + CYAN + "TextIt Corporation" + RESET + "         ║");
-        System.out.println("║  License: " + CYAN + "TCEL-1.0" + RESET + "                     ║");
-        System.out.println("╚═══════════════════════════════════════════╝");
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Terms of Service");
-        System.out.println(CYAN + "[2] " + RESET + "Privacy Policy");
-        System.out.println(CYAN + "[3] " + RESET + "Contact Developer Support");
-        System.out.println(CYAN + "[4] " + RESET + "Check for Updates");
-        System.out.println(CYAN + "[5] " + RESET + "Open Source Licenses");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(CYAN + "Terms of Service: Please visit www.TextITCorporation.com/terms" + RESET);
-                break;
-            case "2":
-                System.out.println(CYAN + "Privacy Policy: Please visit www.TextITCorporation.com/privacy" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Support: support@TextItCorporation.com | +91 99999-88888" + RESET);
-                break;
-            case "4":
-                System.out.println(GREEN + " You're running the latest version!" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "PostgreSQL, Java OpenJDK, Maven dependencies" + RESET);
-                break;
+    private static String readFileContent(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path)) {
+                return "Document not found. Please check the documentation directory.";
+            }
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            return "Error reading file: " + e.getMessage();
         }
+    }
 
-        pressEnterToContinue();
+    private static void displayHeader(String title) {
+        int width = 60;
+        String line = "═".repeat(width);
+        String paddedTitle = " ".repeat((width - title.length() - 2) / 2) + title + " ".repeat((width - title.length() - 1) / 2);
+        
+        System.out.println("╔" + line + "╗");
+        System.out.println("║" + CYAN + BOLD + paddedTitle + RESET + "║");
+        System.out.println("╚" + line + "╝\n");
+    }
+
+    private static void displayDocument(String title, String filePath) {
+        try {
+            // Create a temporary file to store the content
+            Path tempFile = Files.createTempFile("TextIt_", ".txt");
+            String content = readFileContent(filePath);
+            Files.writeString(tempFile, content, StandardOpenOption.WRITE);
+            
+            // Open the file with the default system editor
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder pb;
+            
+            if (os.contains("win")) {
+                // Windows
+                pb = new ProcessBuilder("notepad.exe", tempFile.toString());
+            } else if (os.contains("mac")) {
+                // macOS
+                pb = new ProcessBuilder("open", "-t", tempFile.toString());
+            } else {
+                // Linux/Unix
+                pb = new ProcessBuilder("xdg-open", tempFile.toString());
+            }
+            
+            // Start the process and wait for it to finish
+            Process process = pb.start();
+            
+            // Wait for the user to close the editor
+            System.out.println(YELLOW + "Opening " + title + " in your default text editor..." + RESET);
+            System.out.println("Please close the text editor when you're done viewing.");
+            process.waitFor();
+            
+            // Clean up the temporary file
+            Files.deleteIfExists(tempFile);
+            
+        } catch (IOException | InterruptedException e) {
+            System.out.println(RED + "Error opening document: " + e.getMessage() + RESET);
+            System.out.println(YELLOW + "Falling back to console display..." + RESET);
+            
+            // Fallback to console display if opening the editor fails
+            try {
+                String content = readFileContent(filePath);
+                clearScreen();
+                displayHeader(title);
+                
+                // Simple word wrap for console output
+                int maxWidth = 78;
+                String[] words = content.split("\\s+");
+                StringBuilder line = new StringBuilder();
+                
+                for (String word : words) {
+                    if (line.length() + word.length() > maxWidth) {
+                        System.out.println(line.toString().trim());
+                        line = new StringBuilder();
+                    }
+                    line.append(word).append(" ");
+                }
+                if (line.length() > 0) {
+                    System.out.println(line.toString().trim());
+                }
+                
+                System.out.println("\n" + CYAN + "Press Enter to return to the previous menu..." + RESET);
+                sc.nextLine();
+            } catch (Exception ex) {
+                System.out.println(RED + "Error displaying document: " + ex.getMessage() + RESET);
+                pressEnterToContinue();
+            }
+        }
+    }
+
+    private static void aboutAndLegal() {
+        while (true) {
+            clearScreen();
+            displayHeader("ABOUT & LEGAL");
+            
+            // System Information
+            System.out.println(BOLD + "TextItCLI - Console Blogging Platform\n" + RESET);
+            System.out.println(CYAN + "Version: " + RESET + "2.0.0 (2025.01.14)");
+            System.out.println(CYAN + "Java Version: " + RESET + System.getProperty("java.version"));
+            System.out.println(CYAN + "OS: " + RESET + System.getProperty("os.name") + " " + System.getProperty("os.version"));
+            System.out.println(CYAN + "Developer: " + RESET + "TextIt Corporation\n");
+            
+            // Main Menu
+            System.out.println(BOLD + "DOCUMENTATION" + RESET);
+            System.out.println(CYAN + "[1] " + RESET + "Terms of Service");
+            System.out.println(CYAN + "[2] " + RESET + "Privacy Policy");
+            System.out.println(CYAN + "[3] " + RESET + "Code of Conduct");
+            System.out.println(CYAN + "[4] " + RESET + "Contributing Guidelines");
+            
+            System.out.println("\n" + BOLD + "SUPPORT" + RESET);
+            System.out.println(CYAN + "[5] " + RESET + "Contact Support");
+            System.out.println(CYAN + "[6] " + RESET + "Security Information");
+            System.out.println(CYAN + "[7] " + RESET + "Check for Updates");
+            
+            System.out.println("\n" + BOLD + "LEGAL" + RESET);
+            System.out.println(CYAN + "[8] " + RESET + "Open Source Licenses");
+            System.out.println(CYAN + "[9] " + RESET + "Trademark Information");
+            System.out.println(CYAN + "[0] " + RESET + "Back to Settings\n");
+
+            System.out.print(PURPLE + "Enter your choice: " + RESET);
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    displayDocument("TERMS OF SERVICE", "docs/TERMS_OF_SERVICE.md");
+                    break;
+                case "2":
+                    displayDocument("PRIVACY POLICY", "docs/PRIVACY_POLICY.md");
+                    break;
+                case "3":
+                    displayDocument("CODE OF CONDUCT", "docs/CODE_OF_CONDUCT.md");
+                    break;
+                case "4":
+                    displayDocument("CONTRIBUTING GUIDELINES", "docs/CONTRIBUTING.md");
+                    break;
+                case "5":
+                    // Create a temporary file for the support information
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Support", ".txt");
+                        String supportInfo = "For support, please contact us at:\n\n" +
+                            "Email: support@textit.com\n" +
+                            "Website: https://www.textit.com/support\n\n" +
+                            "Our support team is available 24/7 to assist you with any questions or issues you may have.";
+                        Files.writeString(tempFile, supportInfo, StandardOpenOption.WRITE);
+                        displayDocument("CONTACT SUPPORT", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error displaying support information: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "6":
+                    displayDocument("SECURITY INFORMATION", "docs/SECURITY.md");
+                    break;
+                case "7":
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Update", ".txt");
+                        StringBuilder updateMessage = new StringBuilder("Checking for updates...\n\n");
+                        
+                        try {
+                            // Run git fetch to get the latest changes
+                            Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main")
+                                .directory(new File(System.getProperty("user.dir")))
+                                .start();
+                            
+                            int fetchExitCode = fetchProcess.waitFor();
+                            
+                            if (fetchExitCode == 0) {
+                                // Check if there are any updates
+                                Process statusProcess = new ProcessBuilder("git", "status", "-uno")
+                                    .directory(new File(System.getProperty("user.dir")))
+                                    .start();
+                                
+                                String statusOutput = new String(statusProcess.getInputStream().readAllBytes());
+                                
+                                if (statusOutput.contains("Your branch is behind")) {
+                                    updateMessage.append("⚠ Updates available!\n\n");
+                                    updateMessage.append("Would you like to update now? (y/n): ");
+                                    Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
+                                    displayDocument("CHECK FOR UPDATES", tempFile.toString());
+                                    
+                                    // Get user confirmation
+                                    System.out.print("\n\n" + PURPLE + "Update now? (y/n): " + RESET);
+                                    String confirm = sc.nextLine().trim().toLowerCase();
+                                    
+                                    if (confirm.equals("y") || confirm.equals("yes")) {
+                                        Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main")
+                                            .directory(new File(System.getProperty("user.dir")))
+                                            .start();
+                                            
+                                        int pullExitCode = pullProcess.waitFor();
+                                        
+                                        if (pullExitCode == 0) {
+                                            updateMessage.append("\n\n✓ Update successful! Please restart the application to apply changes.\n");
+                                        } else {
+                                            updateMessage.append("\n\n✗ Failed to update. Please try again later.\n");
+                                        }
+                                    } else {
+                                        updateMessage.append("\n\nUpdate cancelled. You can update later by checking for updates again.\n");
+                                    }
+                                } else {
+                                    updateMessage.append("✓ You are using the latest version of TextItCLI\n");
+                                }
+                            } else {
+                                updateMessage.append("⚠ Could not check for updates. Make sure Git is installed and you have an internet connection.\n");
+                            }
+                        } catch (Exception e) {
+                            updateMessage.append("⚠ Error checking for updates: ").append(e.getMessage()).append("\n");
+                        }
+                        
+                        updateMessage.append("\nLast checked: ").append(java.time.LocalDateTime.now()).append("\n\n");
+                        updateMessage.append("For the latest news and updates, please visit our website.");
+                        
+                        Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
+                        displayDocument("CHECK FOR UPDATES", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error checking for updates: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "8":
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Licenses", ".txt");
+                        String licenses = "TextItCLI uses the following open source components:\n\n" +
+                            "1. Apache Commons Lang - Apache License 2.0\n" +
+                            "2. SQLite JDBC - MIT License\n" +
+                            "3. JLine - BSD License\n\n" +
+                            "For detailed license information, please visit:\n" +
+                            "https://www.textit.com/licenses";
+                        Files.writeString(tempFile, licenses, StandardOpenOption.WRITE);
+                        displayDocument("OPEN SOURCE LICENSES", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error displaying license information: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "9":
+                    displayDocument("TRADEMARK INFORMATION", "docs/TRADEMARK.md");
+                    break;
+                case "0":
+                    return; // Return to settings menu
+                default:
+                    System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    break;
+            }
+        }
     }
 
     static void sessionOptions() {
