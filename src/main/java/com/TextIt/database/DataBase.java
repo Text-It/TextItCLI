@@ -835,6 +835,24 @@ public class DataBase {
             return ids;
         }
 
+        public DoublyLinkedList<Integer> getPostIdsforParticularUser(int limit, int offset , int userID) {
+            DoublyLinkedList<Integer> ids = new DoublyLinkedList<>();
+            String query = "SELECT post_id FROM posts WHERE userID = ? ORDER BY post_point  DESC LIMIT ? OFFSET ?";
+            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                 PreparedStatement pst = conn.prepareStatement(query)) {
+                pst.setInt(1, limit);
+                pst.setInt(2, offset);
+                pst.setInt(3, userID);
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    ids.insertLast(rs.getInt("post_id"));
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching post ids: " + e.getMessage());
+            }
+            return ids;
+        }
+
 
 
         public int getPostCommentsCount(int postid) {

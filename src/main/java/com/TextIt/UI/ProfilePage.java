@@ -1,8 +1,8 @@
 package com.TextIt.UI;
 
-import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import java.util.Scanner;
+
 import static com.TextIt.model.utils.CommonMethods.*;
 
 
@@ -26,7 +26,8 @@ public class ProfilePage {
             String choice = sc.nextLine();
             switch (choice) {
                 case "1":
-                    view_posts();
+                    FeedPage fp = new FeedPage();
+                    fp.onlyUserPosts(userid);
                     break;
                 case "2":
                     CommonMethods.editProfile(userid);
@@ -49,11 +50,6 @@ public class ProfilePage {
                     System.out.println(RED + "Invalid choice. Please try again." + RESET);
             }
         }
-    }
-
-    private static void view_posts() {
-        System.out.println(CYAN + "Viewing posts....." + RESET);
-        CommonMethods.pressEnterToContinue();
     }
 
 //    private static void update_mood() {
