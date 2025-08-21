@@ -48,10 +48,5 @@ public class ChatUI {
         }else{
             System.out.println("Either invalid username or profile is not available");
         }
-
-
-
-
-
     }
 }

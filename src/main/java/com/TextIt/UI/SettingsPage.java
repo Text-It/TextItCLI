@@ -10,14 +10,13 @@ import com.TextIt.service.pages.SignUpAuth;
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
-import static com.TextIt.model.utils.CommonMethods.pressEnterToContinue;
 
 public class SettingsPage {
 
-    static Scanner sc = new Scanner(System.in);
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata = db.new UserData();
-    private static final DataBase.Profile profile =db.new Profile();
+    private static final DataBase.Profile profile = db.new Profile();
+    static Scanner sc = new Scanner(System.in);
     private static int userID;
 
     public static void main(String[] args) {
@@ -47,13 +46,9 @@ public class SettingsPage {
             System.out.println();
 
             System.out.println(CYAN + "[1] " + RESET + "Account Management");
-            System.out.println(CYAN + "[2] " + RESET + "Privacy & Security");
-            System.out.println(CYAN + "[3] " + RESET + "Appearance & Themes");
-            System.out.println(CYAN + "[4] " + RESET + "Notification Settings");
-            System.out.println(CYAN + "[5] " + RESET + "App Preferences");
-            System.out.println(CYAN + "[6] " + RESET + "About & Legal");
-            System.out.println(CYAN + "[7] " + RESET + "Session Options");
-            System.out.println(CYAN + "[8] " + RED + "Exit Settings");
+            System.out.println(CYAN + "[2] " + RESET + "Session Options");
+            System.out.println(CYAN + "[3] " + RESET + "About & Legal");
+            System.out.println(CYAN + "[4] " + RED + "Exit Settings");
             System.out.println();
 
             System.out.print(PURPLE + "Enter your choice: " + RESET);
@@ -65,24 +60,12 @@ public class SettingsPage {
                     accountManagement();
                     break;
                 case "2":
-                    privacyAndSecurity();
-                    break;
-                case "3":
-                    appearanceAndThemes();
-                    break;
-                case "4":
-                    notificationSettings();
-                    break;
-                case "5":
-                    appPreferences();
-                    break;
-                case "6":
-                    aboutAndLegal();
-                    break;
-                case "7":
                     sessionOptions();
                     break;
-                case "8":
+                case "3":
+                    aboutAndLegal();
+                    break;
+                case "4":
                     System.out.println(GREEN + "\n Settings saved. Goodbye!" + RESET);
                     return;
                 default:
@@ -190,28 +173,23 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(border + usernameLabel + username +
-                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + usernameLabel + username + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(border + realNameLabel + realName +
-                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + realNameLabel + realName + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(border + emailLabel + email +
-                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + emailLabel + email + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(border + mobileLabel + mobile +
-                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + mobileLabel + mobile + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareCodeLabel + shareCode +
-                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + shareCodeLabel + shareCode + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println("=".repeat(boxLength));
@@ -223,21 +201,21 @@ public class SettingsPage {
         LoginAuth la = new LoginAuth();
         SignUpAuth signup = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String newPassword ="";
-        String conformPassword="";
+        String newPassword = "";
+        String conformPassword = "";
 
         System.out.println(GREEN + "\n═══ CHANGE PASSWORD ═══" + RESET);
 
         System.out.print("Enter current password: ");
         String currentPassword = scanner.nextLine();
 
-        if(la.verifyPassword(currentPassword)){
+        if (la.verifyPassword(currentPassword)) {
             do {
                 System.out.print(YELLOW + "Enter your new password: " + RESET);
                 newPassword = scanner.nextLine();
                 System.out.print(YELLOW + "Enter conformed password: " + RESET);
                 conformPassword = scanner.nextLine();
-                if(!newPassword.equals(conformPassword)){
+                if (!newPassword.equals(conformPassword)) {
                     System.out.println("New password and confirm password must be the same.");
                 }
 
@@ -245,7 +223,7 @@ public class SettingsPage {
 
             String hashedPassword = Hashing.generateHashCode(newPassword);
 
-            if(userdata.updatePassword(userID, hashedPassword)){
+            if (userdata.updatePassword(userID, hashedPassword)) {
                 System.out.println(GREEN + "\nPassword updated successfully" + RESET);
                 CommonMethods.pressEnterToContinue();
             }
@@ -258,8 +236,8 @@ public class SettingsPage {
 
         SignUpAuth newUser = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String email ="";
-        String generatedOtp ="";
+        String email = "";
+        String generatedOtp = "";
 
 
         System.out.println(GREEN + "\n═══ UPDATE EMAIL ═══" + RESET);
@@ -279,15 +257,16 @@ public class SettingsPage {
 
             if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
                 break;
-            }}
-            if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
-                return;
             }
+        }
+        if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
+            return;
+        }
 
-            if(userdata.updateEmail(userID,email)){
-                System.out.println(GREEN + "Email updated successfully" + RESET);
-                CommonMethods.pressEnterToContinue();
-            }
+        if (userdata.updateEmail(userID, email)) {
+            System.out.println(GREEN + "Email updated successfully" + RESET);
+            CommonMethods.pressEnterToContinue();
+        }
 
     }
 
@@ -296,7 +275,7 @@ public class SettingsPage {
 
         SignUpAuth newUser = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String phoneNumber ="";
+        String phoneNumber = "";
 
         String currentMobile = userdata.getMobileNumber(userID);
         System.out.println("Current mobile: " + CYAN + userdata.getMobileNumber(userID) + RESET);
@@ -373,39 +352,32 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(border + usernameLabel + username +
-                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + usernameLabel + username + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(border + realNameLabel + realName +
-                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + realNameLabel + realName + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(border + emailLabel + email +
-                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + emailLabel + email + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(border + mobileLabel + mobile +
-                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + mobileLabel + mobile + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Bio
-        System.out.println(border + bioLabel +
-                " ".repeat(spaceLeftForContent - bioLabelLength) + border);
+        System.out.println(border + bioLabel + " ".repeat(spaceLeftForContent - bioLabelLength) + border);
         CommonMethods.paragraphDisplay(bio, border, spaceLeftForContent);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Member Since
-        System.out.println(border + memberSinceLabel + memberSince +
-                " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
+        System.out.println(border + memberSinceLabel + memberSince + " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareCodeLabel + shareCode +
-                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + shareCodeLabel + shareCode + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println("=".repeat(boxLength));
@@ -413,298 +385,6 @@ public class SettingsPage {
         pressEnterToContinue();
     }
 
-    static void privacyAndSecurity() {
-        while (true) {
-            clearScreen();
-            System.out.println(GREEN + BOLD + "═══ PRIVACY & SECURITY ═══" + RESET);
-            System.out.println();
-
-            System.out.println(CYAN + "[1] " + RESET + "Enable/Disable 2FA (Two-Factor Auth)");
-            System.out.println(CYAN + "[2] " + RESET + "Profile Visibility Control");
-            System.out.println(CYAN + "[3] " + RESET + "Block / Unblock Users");
-            System.out.println(CYAN + "[4] " + RESET + "Show/Hide Activity Status");
-            System.out.println(CYAN + "[5] " + RESET + "Data Privacy Settings");
-            System.out.println(CYAN + "[6] " + RED + "Back to Main Settings");
-            System.out.println();
-
-            System.out.print(PURPLE + "Enter your choice: " + RESET);
-            String choice = sc.nextLine().trim();
-
-            switch (choice) {
-                case "1":
-                    toggle2FA();
-                    break;
-                case "2":
-                    profileVisibility();
-                    break;
-                case "3":
-                    blockUnblockUsers();
-                    break;
-                case "4":
-                    activityStatus();
-                    break;
-                case "5":
-                    dataPrivacy();
-                    break;
-                case "6":
-                    return;
-                default:
-                    System.out.println(RED + "Invalid option. Please try again." + RESET);
-                    pressEnterToContinue();
-            }
-        }
-    }
-
-    private static void toggle2FA() {
-        System.out.println(GREEN + "\n═══ TWO-FACTOR AUTHENTICATION ═══" + RESET);
-        System.out.println(YELLOW + "Status: " + GREEN + "Disabled" + RESET + " (Demo mode)");
-        System.out.println();
-        System.out.println("1. Enable 2FA");
-        System.out.println("2. Disable 2FA");
-        System.out.println("3. Back");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " 2FA enabled! (Demo )" + RESET);
-                break;
-            case "2":
-                System.out.println(YELLOW + " 2FA disabled! (Demo )" + RESET);
-                break;
-        }
-
-        if (!choice.equals("3")) {
-            pressEnterToContinue();
-        }
-    }
-
-    private static void profileVisibility() {
-        System.out.println(GREEN + "\n═══ PROFILE VISIBILITY ═══" + RESET);
-        System.out.println("Current Setting: " + CYAN + "Public" + RESET);
-        System.out.println();
-        System.out.println("1. Public - Anyone can see your profile");
-        System.out.println("2. Friends Only - Only followers can see details");
-        System.out.println("3. Private - Only you can see your profile");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choiceInput = sc.nextLine().trim();
-
-        int choice = -1;
-        try {
-            choice = Integer.parseInt(choiceInput);
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-
-        String[] options = {"", "Public", "Friends Only", "Private"};
-
-        if (choice >= 1 && choice <= 3) {
-            System.out.println(GREEN + "✓ Profile visibility set to: " + options[choice] + RESET);
-        } else {
-            System.out.println(RED + "✗ Invalid choice! Please select 1, 2, or 3." + RESET);
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void blockUnblockUsers() {
-        System.out.println(GREEN + "\n═══ BLOCKED USERS ═══" + RESET);
-        System.out.println("Currently blocked users: " + CYAN + "None" + RESET);
-        System.out.println();
-        System.out.println("1. Block a user");
-        System.out.println("2. Unblock a user");
-        System.out.println("3. View blocked list");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.print("Enter username to block: ");
-                String userBlock = sc.nextLine();
-                System.out.println(GREEN + " User '" + userBlock + "' blocked! (Demo mode)" + RESET);
-                break;
-            case "2":
-                System.out.println(YELLOW + "No users currently blocked." + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Blocked users: None" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void activityStatus() {
-        System.out.println(GREEN + "\n═══ ACTIVITY STATUS ═══" + RESET);
-        System.out.println("Current Setting: " + GREEN + "Visible" + RESET);
-        System.out.println();
-        System.out.println("1. Show activity status to everyone");
-        System.out.println("2. Show activity status to friends only");
-        System.out.println("3. Hide activity status completely");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choiceInput = sc.nextLine().trim();
-
-        int choice = -1;
-        try {
-            choice = Integer.parseInt(choiceInput);
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-
-        String[] options = {"", "Everyone", "Friends Only", "Hidden"};
-        if (choice >= 1 && choice <= 3) {
-            System.out.println(GREEN + " Activity status set to: " + options[choice] + RESET);
-        } else {
-            System.out.println(RED + " Invalid choice! Please select 1, 2, or 3." + RESET);
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void dataPrivacy() {
-        System.out.println(GREEN + "\n═══ DATA PRIVACY ═══" + RESET);
-        System.out.println("1. Download my data");
-        System.out.println("2. Delete my data");
-        System.out.println("3. Data usage analytics");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + "Data export initiated! (Demo )" + RESET);
-                break;
-            case "2":
-                System.out.println(RED + "This will permanently delete your data! (Demo )" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Data usage: 2.5MB storage used (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void appearanceAndThemes() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ APPEARANCE & THEMES ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Current Theme: " + CYAN + "Light Mode" + RESET);
-        System.out.println();
-        System.out.println(CYAN + "[1] " + RESET + "Dark Mode");
-        System.out.println(CYAN + "[2] " + RESET + "Light Mode");
-        System.out.println(CYAN + "[3] " + RESET + "Auto (System)");
-        System.out.println(CYAN + "[4] " + RESET + "Color Customization");
-        System.out.println(CYAN + "[5] " + RESET + "Font Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Switched to Dark Mode! (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(GREEN + " Switched to Light Mode! (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Theme set to Auto! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Color themes: Blue, Green, Purple, Red (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Font sizes: Small, Medium, Large (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void notificationSettings() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ NOTIFICATION SETTINGS ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Current Settings:");
-        System.out.println("  Push Notifications: " + GREEN + "Enabled" + RESET);
-        System.out.println("  Email Alerts: " + YELLOW + "Disabled" + RESET);
-        System.out.println("  Sound: " + GREEN + "Enabled" + RESET);
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Toggle Push Notifications");
-        System.out.println(CYAN + "[2] " + RESET + "Toggle Email Alerts");
-        System.out.println(CYAN + "[3] " + RESET + "Toggle Sound Notifications");
-        System.out.println(CYAN + "[4] " + RESET + "Custom Activity Reminders");
-        System.out.println(CYAN + "[5] " + RESET + "Quiet Hours Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Push notifications toggled! (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(GREEN + " Email alerts toggled! (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Sound notifications toggled! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Reminder options: Daily, Weekly, Custom (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Quiet hours: 10 PM - 8 AM (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void appPreferences() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ APP PREFERENCES ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Storage Used: " + CYAN + "2.5MB" + RESET);
-        System.out.println("Cache Size: " + YELLOW + "0.8MB" + RESET);
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Clear Cache & Temp Files");
-        System.out.println(CYAN + "[2] " + RESET + "Language Settings");
-        System.out.println(CYAN + "[3] " + RESET + "Auto-save Settings");
-        System.out.println(CYAN + "[4] " + RESET + "Backup & Restore");
-        System.out.println(CYAN + "[5] " + RESET + "Performance Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Cache cleared! Freed 0.8MB (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(CYAN + "Available languages: English, Spanish, French (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Auto-save enabled! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Backup options: Local, Cloud (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Performance: Optimized for speed (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
 
     static void aboutAndLegal() {
         clearScreen();
@@ -762,10 +442,9 @@ public class SettingsPage {
             System.out.println("Current Session: " + CYAN + username + RESET);
             System.out.println();
 
-            System.out.println(CYAN + "[1] " + RESET + "Switch Account");
-            System.out.println(CYAN + "[2] " + YELLOW + "Logout");
-            System.out.println(CYAN + "[3] " + RED + "Delete My Account");
-            System.out.println(CYAN + "[4] " + RESET + "Back to Main Settings");
+            System.out.println(CYAN + "[1] " + YELLOW + "Logout");
+            System.out.println(CYAN + "[2] " + RED + "Delete My Account");
+            System.out.println(CYAN + "[3] " + RESET + "Back to Main Settings");
             System.out.println();
 
             System.out.print(PURPLE + "Enter your choice: " + RESET);
@@ -773,15 +452,12 @@ public class SettingsPage {
 
             switch (choice) {
                 case "1":
-                    switchAccount();
-                    break;
-                case "2":
                     logout();
                     return;
-                case "3":
+                case "2":
                     deleteAccount();
                     break;
-                case "4":
+                case "3":
                     return;
                 default:
                     System.out.println(RED + "Invalid option. Please try again." + RESET);
@@ -790,32 +466,6 @@ public class SettingsPage {
         }
     }
 
-    private static void switchAccount() {
-        System.out.println(GREEN + "\n═══ SWITCH ACCOUNT ═══" + RESET);
-        System.out.println(YELLOW + "Available accounts: (Demo)" + RESET);
-        System.out.println("1. GM_VRAJ");
-        System.out.println("2. Dhruv_HARAMI");
-        System.out.println("3. Add new account");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                userID = 1;
-                System.out.println(GREEN + " Switched to GM_VRAJ" + RESET);
-                break;
-            case "2":
-                userID = 2;
-                System.out.println(GREEN + " Switched to Dhruv_HARAMI" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Redirecting to signup... (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
 
     private static void logout() {
         System.out.println(YELLOW + "\n Logging out..." + RESET);
@@ -844,10 +494,5 @@ public class SettingsPage {
         for (int i = 0; i < 4; i++) {
             System.out.println();
         }
-    }
-
-    private static void pressEnterToContinue() {
-        System.out.print(YELLOW + "\nPress Enter to continue..." + RESET);
-        sc.nextLine();
     }
 }

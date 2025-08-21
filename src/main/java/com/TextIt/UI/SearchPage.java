@@ -129,10 +129,6 @@ public class SearchPage {
         System.out.println(CommonMethods.color(" User data refreshed successfully!", CommonMethods.GREEN));
     }
 
-    public int getUserCount() {
-        //return userMap.size();
-        return 1;
-    }
 
     public static void main(String[] args) {
         SearchPage sp = new SearchPage();
