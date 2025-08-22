@@ -119,42 +119,68 @@ public class FeedPage {
             //Update View Count
             postdb.updatePostViewCount(postId);
 
-            // === Your exact UI code kept intact ===
+            // Header Section
             System.out.println("-".repeat(boxLength));
-            System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader + " ".repeat((boxLength - headerLength) / 2));
-            System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription + " ".repeat((boxLength - discriptionLength) / 2));
+            System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader);
+            System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription);
             System.out.println("-".repeat(boxLength));
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
-            String separator = " ".repeat((spaceLeftForContent - userNameLength - postTimeLength - whoPostedLength - timePostedLength) / 3);
-
-            System.out.println(border + separator + whoPosted + userName + separator + timePosted + postTime + separator + border);
+            // User and Post Time
+            int userTimeTotalWidth = whoPostedLength + userNameLength + timePostedLength + postTimeLength;
+            int userTimePadding = spaceLeftForContent - userTimeTotalWidth;
+            int userTimeSeparator = Math.max(1, userTimePadding / 3);
+            System.out.println(border + 
+                whoPosted + userName + 
+                " ".repeat(userTimeSeparator) + 
+                timePosted + postTime + 
+                " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) + 
+                border
+            );
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
             System.out.println("-".repeat(boxLength));
+
+            // Post Content
             System.out.println(border + content + " ".repeat(spaceLeftForContent - contentLength) + border);
             CommonMethods.paragraphDisplay(postContent, border, spaceLeftForContent);
             System.out.println(border + "-".repeat(spaceLeftForContent) + border);
 
-            separator = " ".repeat((spaceLeftForContent - postCommentsCountLength - postLikesCountLength - commentLength - likeLength) / 3);
-            System.out.println(border + separator + comment + postCommentsCount + separator + like + postLikesCount + separator + border);
+            // Likes and Comments
+            int stats1TotalWidth = commentLength + postCommentsCountLength + likeLength + postLikesCountLength;
+            int stats1Padding = spaceLeftForContent - stats1TotalWidth;
+            int stats1Separator = Math.max(1, stats1Padding / 3);
+            System.out.println(border + 
+                comment + postCommentsCount + 
+                " ".repeat(stats1Separator) + 
+                like + postLikesCount + 
+                " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) + 
+                border
+            );
 
-            separator = " ".repeat((spaceLeftForContent - postResharesCountLength - postViewCountLength - reShareLength - viewsLength) / 3);
-            System.out.println(border + separator + reShare + postResharesCount + separator + views + postViewCount + separator + border);
+            // Reshares and Views
+            int stats2TotalWidth = reShareLength + postResharesCountLength + viewsLength + postViewCountLength;
+            int stats2Padding = spaceLeftForContent - stats2TotalWidth;
+            int stats2Separator = Math.max(1, stats2Padding / 3);
+            System.out.println(border + 
+                reShare + postResharesCount + 
+                " ".repeat(stats2Separator) + 
+                views + postViewCount + 
+                " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) + 
+                border
+            );
+            
             System.out.println(border + "-".repeat(spaceLeftForContent) + border);
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+            
+            // Options Header
             System.out.println(border + options + " ".repeat(spaceLeftForContent - optionsLength) + border);
 
-            separator = " ".repeat((spaceLeftForContent - option1Length - option2Length) / 3);
-            System.out.println(border + separator + option1 + separator + option2 + separator + border);
-
-            separator = " ".repeat((spaceLeftForContent - option3Length - option4Length) / 3);
-            System.out.println(border + separator + option3 + separator + option4 + separator + border);
-
-            separator = " ".repeat((spaceLeftForContent - option5Length - option6Length) / 3);
-            System.out.println(border + separator + option5 + separator + option6 + separator + border);
-
-            separator = " ".repeat((spaceLeftForContent - option7Length - option8Length) / 3);
-            System.out.println(border + separator + option7 + separator + option8 + separator + border);
+            // Option Rows (2 options per row)
+            printOptionRow(option1, option1Length, option2, option2Length, border, spaceLeftForContent);
+            printOptionRow(option3, option3Length, option4, option4Length, border, spaceLeftForContent);
+            printOptionRow(option5, option5Length, option6, option6Length, border, spaceLeftForContent);
+            printOptionRow(option7, option7Length, option8, option8Length, border, spaceLeftForContent);
+            
             System.out.println("-".repeat(boxLength));
 
             System.out.println("Select an option: ");
@@ -234,23 +260,35 @@ public class FeedPage {
         }
     }
 
-    public static boolean likePost(int userid, int postid) {
+    private static boolean likePost(int userid, int postid) {
         if (likedb.incrementLikesCount(userid, postid)) {
             return true;
         }
         System.out.println("Error in liking post. Please try again later.");
         return false;
     }
-
-    public static boolean reSharePost(int userid, int postid, String content) {
-        String shareCode = userdb.getUserName(userid) + (int) (Math.random() * 1000000000);
-
+    
+    private static boolean reSharePost(int userid, int postid, String content) {
         if (resharedb.reSharePost(postid, userid)) {
-            if (postdb.insertPost(userid, content, shareCode)) {
-                return true;
-            }
+            return true;
         }
         System.out.println("Error in resharing post. Please try again later.");
         return false;
+    }
+    
+    private static void printOptionRow(String option1, int option1Length, 
+                                     String option2, int option2Length,
+                                     String border, int spaceLeftForContent) {
+        int totalWidth = option1Length + option2Length;
+        int padding = spaceLeftForContent - totalWidth;
+        int separator = Math.max(1, padding / 3);
+        
+        System.out.println(border + 
+            option1 + 
+            " ".repeat(separator) + 
+            option2 + 
+            " ".repeat(spaceLeftForContent - totalWidth - separator) + 
+            border
+        );
     }
 }

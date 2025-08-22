@@ -93,27 +93,47 @@ public class CommonMethods {
     }
 
     public static void paragraphDisplay(String text, String borderDesign, int boxWidth) {
+        if (text == null || text.trim().isEmpty()) {
+            System.out.println(borderDesign + " ".repeat(boxWidth) + borderDesign);
+            return;
+        }
 
-        String[] words = text.split(" ");
-        StringBuffer line = new StringBuffer(borderDesign);
+        String[] words = text.split("\\s+");
+        StringBuilder line = new StringBuilder(borderDesign);
+        int currentLineLength = borderDesign.length();
+        int spaceLeft = boxWidth - borderDesign.length();
 
-        for (int i = 0; i < words.length; i++) {
-            if (line.length() + words[i].length() + borderDesign.length() > boxWidth) {
-                while (line.length() <= boxWidth) {
+        for (String word : words) {
+            // If adding this word would exceed the line length, start a new line
+            if (currentLineLength + word.length()  > boxWidth) {
+                // Fill the remaining space with spaces
+                while (currentLineLength -1 < boxWidth) {
                     line.append(" ");
+                    currentLineLength++;
                 }
+                // Add the right border and start a new line
                 System.out.println(line + borderDesign);
-                line = new StringBuffer(borderDesign + " " + words[i]);
-            } else {
-                line.append(" ");
-                line.append(words[i]);
+                line = new StringBuilder(borderDesign);
+                currentLineLength = borderDesign.length();
             }
+            
+            // Add the word to the current line
+            if (currentLineLength > borderDesign.length()) {
+                line.append(" ");
+                currentLineLength++;
+            }
+            line.append(word);
+            currentLineLength += word.length();
         }
-        // Fill the remaining spaces in the last line
-        while (line.length() <= boxWidth) {
-            line.append(" ");
+
+        // Handle the last line
+        if (currentLineLength > borderDesign.length()) {
+            while (currentLineLength -1 < boxWidth) {
+                line.append(" ");
+                currentLineLength++;
+            }
+            System.out.println(line + borderDesign);
         }
-        System.out.println(line + borderDesign);
     }
     public static void userProfile(int userId) {
         int boxLength = 70;
@@ -177,22 +197,27 @@ public class CommonMethods {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name + Username
-        String separator = " ".repeat((spaceLeftForContent - realName.length() - username.length() - realNameLength - usernameLength) / 3);
+        int totalContentWidth = realNameLabel.length() + realName.length() + usernameLabel.length() + username.length();
+        int totalPadding = spaceLeftForContent - totalContentWidth;
+        int separatorWidth = Math.max(1, totalPadding / 3);
+        String separator = " ".repeat(separatorWidth);
         System.out.println(
-                border + separator +
+                border +
                 YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET +
                 separator + YELLOW + usernameLabel + RESET + BLUE + username + RESET +
-                separator + border
+                " ".repeat(spaceLeftForContent - totalContentWidth - separatorWidth) + border
         );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Gender + Location
-        separator = " ".repeat((spaceLeftForContent - gender.length() - location.length() - genderLength - locationLength) / 3);
+        int genderLocationTotalWidth = genderLabel.length() + gender.length() + locationLabel.length() + location.length();
+        int genderLocationPadding = spaceLeftForContent - genderLocationTotalWidth;
+        int genderLocationSeparator = Math.max(1, genderLocationPadding / 3);
         System.out.println(
-                border + separator +
+                border +
                 YELLOW + genderLabel + RESET + BRIGHT_WHITE + gender + RESET +
-                separator + YELLOW + locationLabel + RESET + BRIGHT_WHITE + location + RESET +
-                separator + border
+                " ".repeat(genderLocationSeparator) + YELLOW + locationLabel + RESET + BRIGHT_WHITE + location + RESET +
+                " ".repeat(spaceLeftForContent - genderLocationTotalWidth - genderLocationSeparator) + border
         );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
@@ -211,23 +236,28 @@ public class CommonMethods {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Posts / Following / Followers
-        separator = " ".repeat((spaceLeftForContent - posts.length() - following.length() - followers.length() - postsLength - followingLength - followersLength) / 4);
+        int statsTotalWidth = postsLabel.length() + posts.length() + followingLabel.length() + 
+                            following.length() + followersLabel.length() + followers.length();
+        int statsPadding = spaceLeftForContent - statsTotalWidth;
+        int statsSeparator = Math.max(1, statsPadding / 4);
         System.out.println(
-                border + separator +
+                border +
                 YELLOW + postsLabel + RESET + GREEN + posts + RESET +
-                separator + YELLOW + followingLabel + RESET + GREEN + following + RESET +
-                separator + YELLOW + followersLabel + RESET + GREEN + followers + RESET +
-                separator + border
+                " ".repeat(statsSeparator) + YELLOW + followingLabel + RESET + GREEN + following + RESET +
+                " ".repeat(statsSeparator) + YELLOW + followersLabel + RESET + GREEN + followers + RESET +
+                " ".repeat(spaceLeftForContent - statsTotalWidth - (2 * statsSeparator)) + border
         );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // XP + Level
-        separator = " ".repeat((spaceLeftForContent - xp.length() - level.length() - xpLength - levelLength) / 3);
+        int xpLevelTotalWidth = xpLabel.length() + xp.length() + levelLabel.length() + level.length();
+        int xpLevelPadding = spaceLeftForContent - xpLevelTotalWidth;
+        int xpLevelSeparator = Math.max(1, xpLevelPadding / 3);
         System.out.println(
-                border + separator +
+                border +
                 YELLOW + xpLabel + RESET + BRIGHT_GREEN + xp + RESET +
-                separator + YELLOW + levelLabel + RESET + BRIGHT_GREEN + level + RESET +
-                separator + border
+                " ".repeat(xpLevelSeparator) + YELLOW + levelLabel + RESET + BRIGHT_GREEN + level + RESET +
+                " ".repeat(spaceLeftForContent - xpLevelTotalWidth - xpLevelSeparator) + border
         );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
