@@ -21,9 +21,6 @@ public class ChatUI {
     public static void main(String[] args) throws Exception {
 
 
-
-
-
         while (true) {
             System.out.println(BOLD+PURPLE+"-------- MESSAGING --------"+RESET);
             String sender = userdb.getUserName(Integer.parseInt(args[0]));
