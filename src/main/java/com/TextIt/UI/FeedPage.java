@@ -7,6 +7,8 @@ import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.TextIt.model.utils.CommonMethods.*;
+
 
 public class FeedPage {
 
@@ -91,7 +93,7 @@ public class FeedPage {
             CommonMethods.clearConsole(); // ✅ clear screen before each render
 
             if (buffer.isEmpty()) {
-                System.out.println("No posts available.");
+                System.out.println(RED + "No posts available." + RESET);
                 CommonMethods.pressEnterToContinue();
                 return;
             }
@@ -120,10 +122,10 @@ public class FeedPage {
             postdb.updatePostViewCount(postId);
 
             // Header Section
-            System.out.println("-".repeat(boxLength));
-            System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader);
-            System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription);
-            System.out.println("-".repeat(boxLength));
+            System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(boxLength) + RESET);
+            System.out.println(" ".repeat((boxLength - headerLength) / 2) + BRIGHT_WHITE + BOLD + pageHeader + RESET);
+            System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + BRIGHT_CYAN + pageDiscription + RESET);
+            System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(boxLength) + RESET);
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
             // User and Post Time
@@ -131,28 +133,29 @@ public class FeedPage {
             int userTimePadding = spaceLeftForContent - userTimeTotalWidth;
             int userTimeSeparator = Math.max(1, userTimePadding / 3);
             System.out.println(border + 
-                whoPosted + userName + 
+                YELLOW + whoPosted + RESET + BLUE + userName + RESET + 
                 " ".repeat(userTimeSeparator) + 
-                timePosted + postTime + 
+                YELLOW + timePosted + RESET + BRIGHT_WHITE + postTime + RESET + 
                 " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) + 
                 border
             );
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
-            System.out.println("-".repeat(boxLength));
+            System.out.println(GRAY + "-".repeat(boxLength) + RESET);
 
             // Post Content
-            System.out.println(border + content + " ".repeat(spaceLeftForContent - contentLength) + border);
+            System.out.println(border + YELLOW + content + RESET + " ".repeat(spaceLeftForContent - contentLength) + border);
             CommonMethods.paragraphDisplay(postContent, border, spaceLeftForContent);
-            System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+            System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+            System.out.println(border + GRAY + "-".repeat(spaceLeftForContent) + RESET + border);
 
             // Likes and Comments
             int stats1TotalWidth = commentLength + postCommentsCountLength + likeLength + postLikesCountLength;
             int stats1Padding = spaceLeftForContent - stats1TotalWidth;
             int stats1Separator = Math.max(1, stats1Padding / 3);
             System.out.println(border + 
-                comment + postCommentsCount + 
+                YELLOW + comment + RESET + GREEN + postCommentsCount + RESET + 
                 " ".repeat(stats1Separator) + 
-                like + postLikesCount + 
+                YELLOW + like + RESET + BRIGHT_RED + postLikesCount + RESET + 
                 " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) + 
                 border
             );
@@ -162,18 +165,18 @@ public class FeedPage {
             int stats2Padding = spaceLeftForContent - stats2TotalWidth;
             int stats2Separator = Math.max(1, stats2Padding / 3);
             System.out.println(border + 
-                reShare + postResharesCount + 
+                YELLOW + reShare + RESET + BRIGHT_PURPLE + postResharesCount + RESET + 
                 " ".repeat(stats2Separator) + 
-                views + postViewCount + 
+                YELLOW + views + RESET + BRIGHT_CYAN + postViewCount + RESET + 
                 " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) + 
                 border
             );
             
-            System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+            System.out.println(border + GRAY + "-".repeat(spaceLeftForContent) + RESET + border);
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
             
             // Options Header
-            System.out.println(border + options + " ".repeat(spaceLeftForContent - optionsLength) + border);
+            System.out.println(border + BRIGHT_YELLOW + BOLD + options + RESET + " ".repeat(spaceLeftForContent - optionsLength) + border);
 
             // Option Rows (2 options per row)
             printOptionRow(option1, option1Length, option2, option2Length, border, spaceLeftForContent);
@@ -181,15 +184,15 @@ public class FeedPage {
             printOptionRow(option5, option5Length, option6, option6Length, border, spaceLeftForContent);
             printOptionRow(option7, option7Length, option8, option8Length, border, spaceLeftForContent);
             
-            System.out.println("-".repeat(boxLength));
+            System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(boxLength) + RESET);
 
-            System.out.println("Select an option: ");
+            System.out.print(GREEN + "Select an option: " + RESET);
             int option;
 
             try {
                 option = sc.nextInt();
             }catch (InputMismatchException e){
-                System.out.println("Invalid option, try again!");
+                System.out.println(RED + "Invalid option, try again!" + RESET);
                 continue;
             }finally {
                 sc.nextLine();
@@ -199,12 +202,12 @@ public class FeedPage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.CommentPage " + userID + " " + postId);
                     break;
                 case 2:
-                    System.out.println("Liking...");
+                    System.out.println(YELLOW + "Liking..." + RESET);
                     if (!likePost(userID, postId)) CommonMethods.pressEnterToContinue();
 
                     break;
                 case 3:
-                    System.out.println("ReSharing...");
+                    System.out.println(YELLOW + "ReSharing..." + RESET);
                     if (!reSharePost(userID, postId, postContent)) CommonMethods.pressEnterToContinue();
 
                     break;
@@ -212,11 +215,11 @@ public class FeedPage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " + postdb.getUserId(postId));
                     break;
                 case 5:
-                    System.out.println("Reporting...");
+                    System.out.println(YELLOW + "Reporting..." + RESET);
                     CommonMethods.pressEnterToContinue();
                     break;
                 case 6:
-                    System.out.println("ShareCode is: " + postdb.getShareCode(postId));
+                    System.out.println(BLUE + "ShareCode is: " + RESET + BRIGHT_PURPLE + postdb.getShareCode(postId) + RESET);
                     CommonMethods.pressEnterToContinue();
                     break;
                 case 7: // Previous Post
@@ -231,7 +234,7 @@ public class FeedPage {
                         }
                         bufferIndex = buffer.size() - 1;
                     } else {
-                        System.out.println("Already at the first post.");
+                        System.out.println(YELLOW + "Already at the first post." + RESET);
                         CommonMethods.pressEnterToContinue();
                     }
                     break;
@@ -250,7 +253,7 @@ public class FeedPage {
                             buffer = nextBatch;
                             bufferIndex = 0;
                         } else {
-                            System.out.println("No more posts.");
+                            System.out.println(YELLOW + "No more posts." + RESET);
                             CommonMethods.pressEnterToContinue();
                             offset -= pageSize;
                         }
@@ -262,17 +265,19 @@ public class FeedPage {
 
     private static boolean likePost(int userid, int postid) {
         if (likedb.incrementLikesCount(userid, postid)) {
+            System.out.println(GREEN + "✓ Post liked successfully!" + RESET);
             return true;
         }
-        System.out.println("Error in liking post. Please try again later.");
+        System.out.println(RED + "Error in liking post. Please try again later." + RESET);
         return false;
     }
     
     private static boolean reSharePost(int userid, int postid, String content) {
         if (resharedb.reSharePost(postid, userid)) {
+            System.out.println(GREEN + "✓ Post reshared successfully!" + RESET);
             return true;
         }
-        System.out.println("Error in resharing post. Please try again later.");
+        System.out.println(RED + "Error in resharing post. Please try again later." + RESET);
         return false;
     }
     
@@ -284,9 +289,9 @@ public class FeedPage {
         int separator = Math.max(1, padding / 3);
         
         System.out.println(border + 
-            option1 + 
+            CYAN + option1 + RESET + 
             " ".repeat(separator) + 
-            option2 + 
+            CYAN + option2 + RESET + 
             " ".repeat(spaceLeftForContent - totalWidth - separator) + 
             border
         );
