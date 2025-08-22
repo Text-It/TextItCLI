@@ -54,9 +54,9 @@ public class SettingsPage {
             System.out.println(GREEN + "└─────────────────────────────────────────────┘" + RESET);
             System.out.println();
 
-            System.out.println(CYAN + "[1] " + RESET + "Account Management");
-            System.out.println(CYAN + "[2] " + RESET + "Session Options");
-            System.out.println(CYAN + "[3] " + RESET + "About & Legal");
+            System.out.println(CYAN + "[1] " + YELLOW + "Account Management");
+            System.out.println(CYAN + "[2] " + YELLOW + "Session Options");
+            System.out.println(CYAN + "[3] " + YELLOW + "About & Legal");
             System.out.println(CYAN + "[4] " + RED + "Exit Settings");
             System.out.println();
 
@@ -107,11 +107,11 @@ public class SettingsPage {
             // Display current account info
             displayAccountInfo(userID);
 
-            System.out.println(CYAN + "[1] " + RESET + "Change Password");
-            System.out.println(CYAN + "[2] " + RESET + "Update Email");
-            System.out.println(CYAN + "[3] " + RESET + "Update Phone Number");
-            System.out.println(CYAN + "[4] " + RESET + "Edit Profile Information");
-            System.out.println(CYAN + "[5] " + RESET + "View Account Details");
+            System.out.println(CYAN + "[1] " + YELLOW + "Change Password");
+            System.out.println(CYAN + "[2] " + YELLOW + "Update Email");
+            System.out.println(CYAN + "[3] " + YELLOW + "Update Phone Number");
+            System.out.println(CYAN + "[4] " + YELLOW + "Edit Profile Information");
+            System.out.println(CYAN + "[5] " + YELLOW + "View Account Details");
             System.out.println(CYAN + "[6] " + RED + "Back to Main Settings");
             System.out.println();
 
@@ -175,33 +175,48 @@ public class SettingsPage {
 
         // ===== Rendering =====
         CommonMethods.clearConsole();
-        System.out.println("=".repeat(boxLength));
-        System.out.println(" ".repeat((boxLength - pageHeader.length()) / 2) + pageHeader);
-        System.out.println(" ".repeat((boxLength - pageDescription.length()) / 2) + pageDescription);
-        System.out.println("=".repeat(boxLength));
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
+        System.out.println(" ".repeat((boxLength - pageHeader.length()) / 2) + BRIGHT_WHITE + BOLD + pageHeader + RESET);
+        System.out.println(" ".repeat((boxLength - pageDescription.length()) / 2) + BRIGHT_CYAN + pageDescription + RESET);
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(border + usernameLabel + username + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(
+            border + YELLOW + usernameLabel + RESET + BLUE + username + RESET + 
+            " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(border + realNameLabel + realName + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(
+            border + YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET + 
+            " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(border + emailLabel + email + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(
+            border + YELLOW + emailLabel + RESET + BRIGHT_WHITE + email + RESET + 
+            " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(border + mobileLabel + mobile + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(
+            border + YELLOW + mobileLabel + RESET + BRIGHT_WHITE + mobile + RESET + 
+            " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareCodeLabel + shareCode + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(
+            border + YELLOW + shareCodeLabel + RESET + BRIGHT_PURPLE + shareCode + RESET + 
+            " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
-        System.out.println("=".repeat(boxLength));
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
     }
 
 
@@ -513,30 +528,30 @@ public class SettingsPage {
             displayHeader("ABOUT & LEGAL");
             
             // System Information
-            System.out.println(BOLD + "TextItCLI - Console Blogging Platform\n" + RESET);
-            System.out.println(CYAN + "Version: " + RESET + "3.0.0 (2025.08.17)");
-            System.out.println(CYAN + "Java Version: " + RESET + System.getProperty("java.version"));
-            System.out.println(CYAN + "OS: " + RESET + System.getProperty("os.name") + " " + System.getProperty("os.version"));
-            System.out.println(CYAN + "Developer: " + RESET + "TextIt Corporation\n");
+            System.out.println(BRIGHT_PURPLE + "TextItCLI - Console Blogging Platform\n" + RESET);
+            System.out.println(CYAN + "Version: " + YELLOW + "3.0.0 (2025.08.17)");
+            System.out.println(CYAN + "Java Version: " + YELLOW + System.getProperty("java.version"));
+            System.out.println(CYAN + "OS: " + YELLOW + System.getProperty("os.name") + " " + System.getProperty("os.version"));
+            System.out.println(CYAN + "Developer: " + YELLOW + "TextIt Corporation\n");
             
             // Main Menu
-            System.out.println(BOLD + "DOCUMENTATION" + RESET);
-            System.out.println(CYAN + "[1] " + RESET + "Terms of Service");
-            System.out.println(CYAN + "[2] " + RESET + "Privacy Policy");
-            System.out.println(CYAN + "[3] " + RESET + "Code of Conduct");
-            System.out.println(CYAN + "[4] " + RESET + "Contributing Guidelines");
+            System.out.println(BLUE + "DOCUMENTATION" + RESET);
+            System.out.println(CYAN + "[1] " + YELLOW + "Terms of Service");
+            System.out.println(CYAN + "[2] " + YELLOW + "Privacy Policy");
+            System.out.println(CYAN + "[3] " + YELLOW + "Code of Conduct");
+            System.out.println(CYAN + "[4] " + YELLOW + "Contributing Guidelines");
             
-            System.out.println("\n" + BOLD + "SUPPORT" + RESET);
-            System.out.println(CYAN + "[5] " + RESET + "Contact Support");
-            System.out.println(CYAN + "[6] " + RESET + "Security Information");
-            System.out.println(CYAN + "[7] " + RESET + "Check for Updates");
+            System.out.println("\n" + BLUE + "SUPPORT" + RESET);
+            System.out.println(CYAN + "[5] " + YELLOW + "Contact Support");
+            System.out.println(CYAN + "[6] " + YELLOW + "Security Information");
+            System.out.println(CYAN + "[7] " + YELLOW + "Check for Updates");
             
-            System.out.println("\n" + BOLD + "LEGAL" + RESET);
-            System.out.println(CYAN + "[8] " + RESET + "Open Source Licenses");
-            System.out.println(CYAN + "[9] " + RESET + "Trademark Information");
-            System.out.println(CYAN + "[0] " + RESET + "Back to Settings\n");
+            System.out.println("\n" + BLUE + "LEGAL" + RESET);
+            System.out.println(CYAN + "[8] " + YELLOW + "Open Source Licenses");
+            System.out.println(CYAN + "[9] " + YELLOW + "Trademark Information");
+            System.out.println(CYAN + "[0] " + YELLOW + "Back to Settings\n");
 
-            System.out.print(PURPLE + "Enter your choice: " + RESET);
+            System.out.print(GREEN + "Enter your choice: " + RESET);
             String choice = sc.nextLine();
 
             switch (choice) {
