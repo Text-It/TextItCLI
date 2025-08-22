@@ -56,7 +56,7 @@ public class AuthCLI {
                 |        ██║   ███████╗██╔╝ ██╗    ██║    ██║     ██║                          |
                 |        ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚═╝    ╚═╝     ╚═╝                          |
                 |                                                                              |
-                |                  ✉️   Welcome to TEXTIT - Chat Smarter ✉️                    |
+                |                       Welcome to TEXTIT - Chat Smarter                       |
                 |                                                                              |
                 +==============================================================================+
                 """ + RESET);
@@ -72,15 +72,15 @@ public class AuthCLI {
         System.out.println(BRIGHT_BLUE + BOLD + "\n🎯 Main Menu - Choose Your Path:" + RESET);
         System.out.println();
         
-        CommonMethods.printChoice(1, "🌟 Create New Account", BRIGHT_GREEN);
-        CommonMethods.printChoice(2, "🔐 Login to Your Account", BRIGHT_BLUE);
-        CommonMethods.printChoice(3, "❌ Exit Application", BRIGHT_RED);
+        CommonMethods.printChoice(1, " Create New Account", BRIGHT_GREEN);
+        CommonMethods.printChoice(2, " Login to Your Account", BRIGHT_BLUE);
+        CommonMethods.printChoice(3, " Exit Application", BRIGHT_RED);
         
         CommonMethods.printDivider();
     }
     
     private int getUserChoice() {
-        System.out.print(BRIGHT_PURPLE + BOLD + "\n🎮 Enter your choice (1-3): " + RESET);
+        System.out.print(BRIGHT_PURPLE + BOLD + "\n Enter your choice (1-3): " + RESET);
         
         int choice = 0;
         try {
@@ -116,12 +116,13 @@ public class AuthCLI {
         clearConsole();
         System.out.println(BRIGHT_CYAN + BOLD + """
                 +==============================================================================+ 
-                |                                                                                |
-                |                          👋 Thank You for Using TextIt! 👋                     |                                                                                |
-                |                    We hope you enjoyed your experience!                        |
-                |                                                                                |
-                |                        Come back soon for more connections!                    |
-                |                                                                                |
+                |                                                                              |
+                |                         Thank You for Using TextIt!                          |                                                                                |
+                |                                                                              |                                                                                |
+                |                    We hope you enjoyed your experience!                      |
+                |                                                                              |
+                |                    Come back soon for more connections!                      |
+                |                                                                              |
                 +==============================================================================+
                 """ + RESET);
         
