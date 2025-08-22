@@ -7,6 +7,8 @@ import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.TextIt.model.utils.CommonMethods.viewPost;
+
 
 public class FeedPage {
 
@@ -62,7 +64,7 @@ public class FeedPage {
         int likeLength = like.length();
         int commentLength = comment.length();
         int viewsLength = views.length();
-        int shareLength = share.length();
+        //int shareLength = share.length();
         int reShareLength = reShare.length();
         int optionsLength = options.length();
 
@@ -89,6 +91,8 @@ public class FeedPage {
 
         while (true) {
             CommonMethods.clearConsole(); // ✅ clear screen before each render
+
+
 
             if (buffer.isEmpty()) {
                 System.out.println("No posts available.");
@@ -130,12 +134,12 @@ public class FeedPage {
             int userTimeTotalWidth = whoPostedLength + userNameLength + timePostedLength + postTimeLength;
             int userTimePadding = spaceLeftForContent - userTimeTotalWidth;
             int userTimeSeparator = Math.max(1, userTimePadding / 3);
-            System.out.println(border + 
-                whoPosted + userName + 
-                " ".repeat(userTimeSeparator) + 
-                timePosted + postTime + 
-                " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) + 
-                border
+            System.out.println(border +
+                    whoPosted + userName +
+                    " ".repeat(userTimeSeparator) +
+                    timePosted + postTime +
+                    " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) +
+                    border
             );
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
             System.out.println("-".repeat(boxLength));
@@ -149,31 +153,28 @@ public class FeedPage {
             int stats1TotalWidth = commentLength + postCommentsCountLength + likeLength + postLikesCountLength;
             int stats1Padding = spaceLeftForContent - stats1TotalWidth;
             int stats1Separator = Math.max(1, stats1Padding / 3);
-            System.out.println(border + 
-                comment + postCommentsCount + 
-                " ".repeat(stats1Separator) + 
-                like + postLikesCount + 
-                " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) + 
-                border
+            System.out.println(border +
+                    comment + postCommentsCount +
+                    " ".repeat(stats1Separator) +
+                    like + postLikesCount +
+                    " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) +
+                    border
             );
 
             // Reshares and Views
             int stats2TotalWidth = reShareLength + postResharesCountLength + viewsLength + postViewCountLength;
             int stats2Padding = spaceLeftForContent - stats2TotalWidth;
             int stats2Separator = Math.max(1, stats2Padding / 3);
-            System.out.println(border + 
-                reShare + postResharesCount + 
-                " ".repeat(stats2Separator) + 
-                views + postViewCount + 
-                " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) + 
-                border
+            System.out.println(border +
+                    reShare + postResharesCount +
+                    " ".repeat(stats2Separator) +
+                    views + postViewCount +
+                    " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) +
+                    border
             );
-            
+
             System.out.println(border + "-".repeat(spaceLeftForContent) + border);
             System.out.println(border + " ".repeat(spaceLeftForContent) + border);
-            
-            // Options Header
-            System.out.println(border + options + " ".repeat(spaceLeftForContent - optionsLength) + border);
 
             // Option Rows (2 options per row)
             printOptionRow(option1, option1Length, option2, option2Length, border, spaceLeftForContent);
@@ -276,9 +277,9 @@ public class FeedPage {
         return false;
     }
     
-    private static void printOptionRow(String option1, int option1Length, 
-                                     String option2, int option2Length,
-                                     String border, int spaceLeftForContent) {
+    static void printOptionRow(String option1, int option1Length,
+                               String option2, int option2Length,
+                               String border, int spaceLeftForContent) {
         int totalWidth = option1Length + option2Length;
         int padding = spaceLeftForContent - totalWidth;
         int separator = Math.max(1, padding / 3);

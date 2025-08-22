@@ -1,6 +1,7 @@
 package com.TextIt.model.utils;
 
 import com.TextIt.database.DataBase;
+import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
 import java.io.File;
 import java.sql.*;
@@ -411,6 +412,148 @@ public class CommonMethods {
             e.printStackTrace();
             return -1;
         }
+    }
+    public static void viewPost(String userid , String feedtype){
+         DataBase db = new DataBase();
+         DataBase.UserData userdb = db.new UserData();
+         DataBase.Post postdb = db.new Post();
+         DataBase.Like likedb = db.new Like();
+         DataBase.ReShare resharedb = db.new ReShare();
+        CommonMethods.clearConsole(); // ✅ clear screen before each render
+
+
+        int userID = Integer.parseInt(userid);
+        boolean feedType = Boolean.parseBoolean(feedtype);
+        DoublyLinkedList<Integer> buffer;
+        int boxLength = 70;
+        String border = "||";
+        int spaceLeftForContent = boxLength - border.length() * 2;
+
+        // pagination variables
+        int pageSize = 1;   // show 1 post at a time
+        int offset = 0;
+        if (feedType) {
+            buffer = postdb.getPostIds(pageSize, offset);
+        } else {
+            buffer = postdb.getPostIdsforParticularUser(pageSize, offset, userID);
+        }
+        int bufferIndex = 0;
+
+        //Some predifined texts
+        String pageHeader = "REEL";
+        String pageDiscription = "Discover what other Textizens are Posting";
+        String whoPosted = "Reel By: ";
+        String timePosted = "Posted At: ";
+        String content = "Content: ";
+        String like = "Like: ";
+        String comment = "Comment: ";
+        String views = "Views: ";
+        String reShare = "ReShare: ";
+        String options = "Options: ";
+
+        //Length of predifined texts
+        int headerLength = pageHeader.length();
+        int discriptionLength = pageDiscription.length();
+        int whoPostedLength = whoPosted.length();
+        int timePostedLength = timePosted.length();
+        int contentLength = content.length();
+        int likeLength = like.length();
+        int commentLength = comment.length();
+        int viewsLength = views.length();
+        int reShareLength = reShare.length();
+        int optionsLength = options.length();
+
+        //Options sections Texts
+        String option1 = "1)Comment";
+        String option2 = "2)Like";
+        String option3 = "3)ReShare";
+        String option4 = "4)Profile";
+        String option5 = "5)Report";
+        String option6 = "6)Share";
+        String option7 = "7)Previous";
+        String option8 = "8)Next ";
+
+        if (buffer.isEmpty()) {
+            System.out.println("No posts available.");
+            CommonMethods.pressEnterToContinue();
+            return;
+        }
+
+        int postId = buffer.index(bufferIndex);
+
+        //Fetched Data From DataBase
+        String userName = postdb.getPostUsername(postId);
+        String postTime = postdb.getPostTime(postId);
+        String postContent = postdb.getPostContent(postId);
+        int postCommentsCount = postdb.getPostCommentsCount(postId);
+        int postLikesCount = postdb.getPostLikesCount(postId);
+        int postResharesCount = postdb.getPostResharesCount(postId);
+        int postViewCount = postdb.getPostViewCount(postId);
+
+        //Fetched Data Length
+        int userNameLength = userName.length();
+        int postTimeLength = postTime.length();
+        int postContentLength = postContent.length();
+        int postCommentsCountLength = String.valueOf(postCommentsCount).length();
+        int postLikesCountLength = String.valueOf(postLikesCount).length();
+        int postResharesCountLength = String.valueOf(postResharesCount).length();
+        int postViewCountLength = String.valueOf(postViewCount).length();
+
+        //Update View Count
+        postdb.updatePostViewCount(postId);
+
+        // Header Section
+        System.out.println("-".repeat(boxLength));
+        System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader);
+        System.out.println(" ".repeat((boxLength - discriptionLength) / 2) + pageDiscription);
+        System.out.println("-".repeat(boxLength));
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+
+        // User and Post Time
+        int userTimeTotalWidth = whoPostedLength + userNameLength + timePostedLength + postTimeLength;
+        int userTimePadding = spaceLeftForContent - userTimeTotalWidth;
+        int userTimeSeparator = Math.max(1, userTimePadding / 3);
+        System.out.println(border +
+                whoPosted + userName +
+                " ".repeat(userTimeSeparator) +
+                timePosted + postTime +
+                " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) +
+                border
+        );
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
+        System.out.println("-".repeat(boxLength));
+
+        // Post Content
+        System.out.println(border + content + " ".repeat(spaceLeftForContent - contentLength) + border);
+        CommonMethods.paragraphDisplay(postContent, border, spaceLeftForContent);
+        System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+
+        // Likes and Comments
+        int stats1TotalWidth = commentLength + postCommentsCountLength + likeLength + postLikesCountLength;
+        int stats1Padding = spaceLeftForContent - stats1TotalWidth;
+        int stats1Separator = Math.max(1, stats1Padding / 3);
+        System.out.println(border +
+                comment + postCommentsCount +
+                " ".repeat(stats1Separator) +
+                like + postLikesCount +
+                " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) +
+                border
+        );
+
+        // Reshares and Views
+        int stats2TotalWidth = reShareLength + postResharesCountLength + viewsLength + postViewCountLength;
+        int stats2Padding = spaceLeftForContent - stats2TotalWidth;
+        int stats2Separator = Math.max(1, stats2Padding / 3);
+        System.out.println(border +
+                reShare + postResharesCount +
+                " ".repeat(stats2Separator) +
+                views + postViewCount +
+                " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) +
+                border
+        );
+
+        System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+        System.out.println(border + " ".repeat(spaceLeftForContent) + border);
     }
 
 
