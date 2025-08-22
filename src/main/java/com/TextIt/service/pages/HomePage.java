@@ -43,11 +43,10 @@ public class HomePage {
             System.out.println("│  " + YELLOW + "4. " + color("Inbox", BLUE) + createSpacing("4. Inbox", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "5. " + color("Create Post", BLUE) + createSpacing("5. Create Post", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "6. " + color("Career at TextIT", BLUE) + createSpacing("6. Career at TextIT",78 ) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "7. " + color("Logout", BLUE) + createSpacing("7. Logout", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "8. " + color("Setting", BLUE) + createSpacing("8. Setting", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "9. " + color("Chat", BLUE) + createSpacing("9. Chat", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "10. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "11. " + color("Exit", RED) + createSpacing("11. Exit", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "7. " + color("Setting", BLUE) + createSpacing("8. Setting", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "8. " + color("Chat", BLUE) + createSpacing("9. Chat", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "9. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "10. " + color("Exit", RED) + createSpacing("11. Exit", 78) + CYAN + BOLD + "│");
             System.out.println("└────────────────────────────────────────────────────────────────────────────────┘" + RESET);
 
             CommonMethods.printDivider();
@@ -83,18 +82,15 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.CareerPage " + userID);
                     break;
                 case 7:
-                    logout();
-                    break;
-                case 8:
                     CommonMethods.openInNewCMD("com.TextIt.UI.SettingsPage " + userID);
                     break;
-                case 9:
+                case 8:
                     CommonMethods.openInNewCMD("com.TextIt.UI.ChatUI " + userID);
                     break;
-                case 10:
+                case 9:
                     help();
                     break;
-                case 11:
+                case 10:
                     System.out.println(RED + "Exiting TextIT..." + RESET);
                     System.exit(0);
                     break;
@@ -140,18 +136,6 @@ public class HomePage {
         System.out.println(color("for further assistance visit Settings > About & Legal", BLUE));
 
         CommonMethods.pressEnterToContinue();
-    }
-
-
-    private static void logout() {
-        System.out.println(RED + "Logging out..." + RESET);
-        File file = new File("last_session.txt");
-        if(file.delete()){
-            System.out.println(RED + "Last session has been deleted" + RESET);
-        }else {
-            System.out.println(RED + "Last session has not been deleted" + RESET);
-        }
-        System.exit(0);
     }
 
 

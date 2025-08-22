@@ -398,7 +398,7 @@ public class CommonMethods {
                 rs.next();
                 return rs.getInt(1);
             } else if (type.equalsIgnoreCase("like")) {
-                PreparedStatement ps = conn.prepareStatement("select like_id from likes where user_id = ? ");
+                PreparedStatement ps = conn.prepareStatement("select like_id from likes where userid = ? ");
                 ps.setString(1, content);
                 ResultSet rs = ps.executeQuery();
                 rs.next();

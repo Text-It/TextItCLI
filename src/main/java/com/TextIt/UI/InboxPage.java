@@ -74,7 +74,6 @@ public class InboxPage {
                             " your Post at " + rs.getTimestamp("created_at")+RESET);
 
             }
-
         }
 
 

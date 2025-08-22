@@ -7,6 +7,9 @@ import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.pages.SignUpAuth;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 import java.nio.file.*;
 import java.io.BufferedReader;
@@ -762,9 +765,17 @@ public class SettingsPage {
         System.out.println(GREEN + " Successfully logged out!" + RESET);
         System.out.println(CYAN + "Thank you for using TextIt!" + RESET);
         pressEnterToContinue();
+        File file = new File("last_session.txt");
+        if(file.delete()){
+            System.out.println(RED + "Last session has been deleted" + RESET);
+        }else {
+            System.out.println(RED + "Last session has not been deleted" + RESET);
+        }
+        System.exit(0);
     }
 
     private static void deleteAccount() {
+        DataBase dataBase = new DataBase();
         System.out.println(RED + "\n DELETE ACCOUNT " + RESET);
         System.out.println(YELLOW + "This action cannot be undone!" + RESET);
         System.out.println();
@@ -772,6 +783,46 @@ public class SettingsPage {
         String confirmation = sc.nextLine();
 
         if ("DELETE".equals(confirmation)) {
+            try(Connection conn = DriverManager.getConnection(dataBase.getUrl(), dataBase.getUsername(), dataBase.getPassword())){
+
+                PreparedStatement ps1 = conn.prepareStatement("DELETE FROM notifications WHERE by_user_id = ?");
+                ps1.setInt(1, userID);
+                ps1.executeUpdate();
+
+                PreparedStatement ps2 = conn.prepareStatement("DELETE FROM posts WHERE userid = ?");
+                ps2.setInt(1, userID);
+                ps2.executeUpdate();
+
+                PreparedStatement ps3 = conn.prepareStatement("DELETE FROM comments WHERE userid = ?");
+                ps3.setInt(1, userID);
+                ps3.executeUpdate();
+
+                PreparedStatement ps4 = conn.prepareStatement("DELETE FROM likes WHERE userid = ?");
+                ps4.setInt(1, userID);
+                ps4.executeUpdate();
+
+                // finally delete the user
+                PreparedStatement ps5 = conn.prepareStatement("DELETE FROM career_applications WHERE userid = ?");
+                ps5.setInt(1, userID);
+                ps5.executeUpdate();
+
+                PreparedStatement ps6 = conn.prepareStatement("DELETE FROM messages WHERE id = ?");
+                ps6.setInt(1, userID);
+                ps6.executeUpdate();
+
+                PreparedStatement ps7 = conn.prepareStatement("DELETE FROM reshare WHERE userid = ?");
+                ps7.setInt(1, userID);
+                ps7.executeUpdate();
+
+                String query = "delete  from users where userid =? " ;
+                PreparedStatement ps = conn.prepareStatement(query);
+                ps.setInt(1, userID);
+
+                ps.executeUpdate();
+            } catch (Exception e) {
+                System.out.println(RED + "Error deleting account: " + e.getMessage() + RESET);
+                throw  new RuntimeException();
+            }
             System.out.println(RED + "✓ Account deletion confirmed! (Demo)" + RESET);
         } else {
             System.out.println(GREEN + "✓ Account deletion cancelled." + RESET);
