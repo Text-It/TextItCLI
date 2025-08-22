@@ -9,8 +9,10 @@ import com.TextIt.service.pages.SignUpAuth;
 
 import java.util.Scanner;
 import java.nio.file.*;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -473,6 +475,35 @@ public class SettingsPage {
         }
     }
 
+    private static boolean isGitInstalled() {
+        try {
+            Process process = new ProcessBuilder("git", "--version").start();
+            return process.waitFor() == 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static void animateProgress(String message, int seconds, int delay) throws InterruptedException {
+        String[] spinner = new String[] { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" };
+        long startTime = System.currentTimeMillis();
+        int counter = 0;
+        
+        while (System.currentTimeMillis() - startTime < seconds * 1000) {
+            System.out.print("\r" + CYAN + spinner[counter % spinner.length] + " " + RESET + message + " ");
+            Thread.sleep(delay);
+            counter++;
+        }
+        System.out.print("\r" + " ".repeat(message.length() + 10) + "\r");
+    }
+
+    private static void printStatus(String message, boolean success) {
+        System.out.print("\r" + (success ? GREEN + "✓ " : RED + "✗ ") + RESET + message + (success ? " [DONE]" : " [FAILED]"));
+        if (!success) {
+            System.out.println();
+        }
+    }
+
     private static void aboutAndLegal() {
         while (true) {
             clearScreen();
@@ -539,68 +570,109 @@ public class SettingsPage {
                     break;
                 case "7":
                     try {
-                        Path tempFile = Files.createTempFile("TextIt_Update", ".txt");
-                        StringBuilder updateMessage = new StringBuilder("Checking for updates...\n\n");
+                        clearScreen();
+                        displayHeader("CHECK FOR UPDATES");
                         
-                        try {
-                            // Run git fetch to get the latest changes
-                            Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main")
-                                .directory(new File(System.getProperty("user.dir")))
-                                .start();
+                        // Initial check
+                        animateProgress("Initializing update check...", 1, 100);
+                        
+                        // Check if Git is installed
+                        System.out.print("\n" + CYAN + "🔍 " + RESET + "Checking Git installation");
+                        if (!isGitInstalled()) {
+                            printStatus("Git is not installed or not in system PATH", false);
+                            System.out.println(YELLOW + "\n⚠ Git is required for automatic updates." + RESET);
+                            System.out.println("Please install Git from https://git-scm.com/");
+                            pressEnterToContinue();
+                            break;
+                        }
+                        printStatus("Git is installed", true);
+                        
+                        // Fetch updates
+                        System.out.print("\n" + CYAN + "🔄 " + RESET + "Fetching latest changes");
+                        Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main")
+                            .directory(new File(System.getProperty("user.dir")))
+                            .redirectErrorStream(true)
+                            .start();
+                        
+                        // Show progress while waiting
+                        new Thread(() -> {
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(fetchProcess.getInputStream()));
+                                // Consume the output to prevent process from hanging
+                                while (reader.readLine() != null) {}
+                            } catch (IOException e) {
+                                // Ignore
+                            }
+                        }).start();
+                        
+                        int fetchExitCode = fetchProcess.waitFor();
+                        
+                        if (fetchExitCode != 0) {
+                            printStatus("Failed to fetch updates", false);
+                            System.out.println(YELLOW + "\n⚠ Could not connect to update server." + RESET);
+                            System.out.println("Please check your internet connection and try again.");
+                            pressEnterToContinue();
+                            break;
+                        }
+                        printStatus("Fetched latest changes", true);
+                        
+                        // Check for updates
+                        System.out.print("\n" + CYAN + "📡 " + RESET + "Checking for available updates");
+                        Process statusProcess = new ProcessBuilder("git", "status", "-uno")
+                            .directory(new File(System.getProperty("user.dir")))
+                            .redirectErrorStream(true)
+                            .start();
+                        
+                        String statusOutput = new String(statusProcess.getInputStream().readAllBytes());
+                        
+                        if (statusOutput.contains("Your branch is behind")) {
+                            printStatus("Updates available", true);
                             
-                            int fetchExitCode = fetchProcess.waitFor();
+                            System.out.println("\n" + YELLOW + "✨ New updates are available for TextItCLI!" + RESET);
+                            System.out.print("\n" + PURPLE + "Do you want to update now? (y/n): " + RESET);
+                            String confirm = sc.nextLine().trim().toLowerCase();
                             
-                            if (fetchExitCode == 0) {
-                                // Check if there are any updates
-                                Process statusProcess = new ProcessBuilder("git", "status", "-uno")
+                            if (confirm.equals("y") || confirm.equals("yes")) {
+                                System.out.println("\n" + CYAN + "🔄 Updating TextItCLI...");
+                                System.out.println(YELLOW + "$ git pull origin main" + RESET);
+                                
+                                Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main")
                                     .directory(new File(System.getProperty("user.dir")))
+                                    .redirectErrorStream(true)
                                     .start();
                                 
-                                String statusOutput = new String(statusProcess.getInputStream().readAllBytes());
-                                
-                                if (statusOutput.contains("Your branch is behind")) {
-                                    updateMessage.append("⚠ Updates available!\n\n");
-                                    updateMessage.append("Would you like to update now? (y/n): ");
-                                    Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
-                                    displayDocument("CHECK FOR UPDATES", tempFile.toString());
-                                    
-                                    // Get user confirmation
-                                    System.out.print("\n\n" + PURPLE + "Update now? (y/n): " + RESET);
-                                    String confirm = sc.nextLine().trim().toLowerCase();
-                                    
-                                    if (confirm.equals("y") || confirm.equals("yes")) {
-                                        Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main")
-                                            .directory(new File(System.getProperty("user.dir")))
-                                            .start();
-                                            
-                                        int pullExitCode = pullProcess.waitFor();
-                                        
-                                        if (pullExitCode == 0) {
-                                            updateMessage.append("\n\n✓ Update successful! Please restart the application to apply changes.\n");
-                                        } else {
-                                            updateMessage.append("\n\n✗ Failed to update. Please try again later.\n");
-                                        }
-                                    } else {
-                                        updateMessage.append("\n\nUpdate cancelled. You can update later by checking for updates again.\n");
+                                // Show pull output in real-time
+                                try (BufferedReader reader = new BufferedReader(
+                                        new InputStreamReader(pullProcess.getInputStream()))) {
+                                    String line;
+                                    while ((line = reader.readLine()) != null) {
+                                        System.out.println("  " + line);
                                     }
+                                }
+                                
+                                int pullExitCode = pullProcess.waitFor();
+                                
+                                if (pullExitCode == 0) {
+                                    System.out.println("\n" + GREEN + "✓ Update successful!" + RESET);
+                                    System.out.println(YELLOW + "\nPlease restart TextItCLI to apply the updates." + RESET);
                                 } else {
-                                    updateMessage.append("✓ You are using the latest version of TextItCLI\n");
+                                    System.out.println("\n" + RED + "✗ Update failed. Please try again later." + RESET);
                                 }
                             } else {
-                                updateMessage.append("⚠ Could not check for updates. Make sure Git is installed and you have an internet connection.\n");
+                                System.out.println("\n" + YELLOW + "Update cancelled." + RESET);
                             }
-                        } catch (Exception e) {
-                            updateMessage.append("⚠ Error checking for updates: ").append(e.getMessage()).append("\n");
+                        } else {
+                            printStatus("You're up to date", true);
+                            System.out.println("\n" + GREEN + "✓ You are using the latest version of TextItCLI!" + RESET);
                         }
                         
-                        updateMessage.append("\nLast checked: ").append(java.time.LocalDateTime.now()).append("\n\n");
-                        updateMessage.append("For the latest news and updates, please visit our website.");
+                        System.out.println("\n" + CYAN + "Last checked: " + 
+                            java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + 
+                            RESET);
+                        pressEnterToContinue();
                         
-                        Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
-                        displayDocument("CHECK FOR UPDATES", tempFile.toString());
-                        Files.deleteIfExists(tempFile);
-                    } catch (IOException e) {
-                        System.out.println(RED + "Error checking for updates: " + e.getMessage() + RESET);
+                    } catch (Exception e) {
+                        System.out.println(RED + "\n\nError checking for updates: " + e.getMessage() + RESET);
                         pressEnterToContinue();
                     }
                     break;
