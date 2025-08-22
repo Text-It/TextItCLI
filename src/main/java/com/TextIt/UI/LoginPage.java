@@ -4,7 +4,6 @@ import com.TextIt.database.DataBase;
 import com.TextIt.inbox.NotificationListener;
 import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.session.SessionManger;
-import com.TextIt.service.user.UserData;
 
 import java.util.Scanner;
 import static com.TextIt.model.utils.CommonMethods.*;

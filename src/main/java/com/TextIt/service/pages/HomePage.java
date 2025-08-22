@@ -3,7 +3,6 @@ package com.TextIt.service.pages;
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.session.SessionManger;
-
 import java.io.File;
 import java.util.Scanner;
 
@@ -50,7 +49,7 @@ public class HomePage {
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " , String.valueOf(userID));
                     break;
                 case 2:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID));
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID) , "true");
                     break;
                 case 3:
                     CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w" , String.valueOf(userID));
@@ -97,6 +96,7 @@ public class HomePage {
         CommonMethods.pressEnterToContinue();
     }
 
+
     private static void logout() {
         System.out.println(RED + "Logging out..." + RESET);
         File file = new File("last_session.txt");
@@ -108,33 +108,10 @@ public class HomePage {
         System.exit(0);
     }
 
-    private static void career() {
-        System.out.println(color("Career Opportunities at TextIT", PURPLE));
-        System.out.println("1. Software Developer");
-        System.out.println("2. UI/UX Designer");
-        System.out.println("3. Product Manager");
-        CommonMethods.pressEnterToContinue();
-    }
-
-    private static void refreshFeed() {
-        System.out.println(CYAN + BOLD);
-        System.out.println("Refreshing feed..........");
-        System.out.print(RESET);
-        System.out.println(color("Feed has been refreshed successfully.", GREEN));
-    }
 
     private static String color(String text, String color) {
         return color + text + RESET;
     }
 
-    private static void goToNext() {
-        System.out.println(CYAN + " Going to the next screen..." + RESET);
-        CommonMethods.pressEnterToContinue();
-    }
-
-    private static void goToPrevious() {
-        System.out.println(CYAN + "Going back to the previous screen..." + RESET);
-        CommonMethods.pressEnterToContinue();
-    }
 
 }

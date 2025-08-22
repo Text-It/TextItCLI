@@ -4,7 +4,6 @@ import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -24,6 +23,8 @@ public class FeedPage {
 
         //Important Variables
         int userID = Integer.parseInt(args[0]);
+        boolean feedType = Boolean.parseBoolean(args[1]);
+        DoublyLinkedList<Integer> buffer;
         int boxLength = 70;
         String border = "||";
         int spaceLeftForContent = boxLength - border.length() * 2;
@@ -31,7 +32,11 @@ public class FeedPage {
         // pagination variables
         int pageSize = 1;   // show 1 post at a time
         int offset = 0;
-        DoublyLinkedList<Integer> buffer = postdb.getPostIds(pageSize, offset);
+        if (feedType) {
+            buffer = postdb.getPostIds(pageSize, offset);
+        } else {
+            buffer = postdb.getPostIdsforParticularUser(pageSize, offset, userID);
+        }
         int bufferIndex = 0;
 
         //Some predifined texts
@@ -185,7 +190,11 @@ public class FeedPage {
                         bufferIndex--;
                     } else if (offset > 0) {
                         offset -= pageSize;
-                        buffer = postdb.getPostIds(pageSize, offset);
+                        if (feedType) {
+                            buffer = postdb.getPostIds(pageSize, offset);
+                        } else {
+                            buffer = postdb.getPostIdsforParticularUser(pageSize, offset, userID);
+                        }
                         bufferIndex = buffer.size() - 1;
                     } else {
                         System.out.println("Already at the first post.");
@@ -197,7 +206,12 @@ public class FeedPage {
                         bufferIndex++;
                     } else {
                         offset += pageSize;
-                        DoublyLinkedList<Integer> nextBatch = postdb.getPostIds(pageSize, offset);
+                        DoublyLinkedList<Integer> nextBatch;
+                        if (feedType) {
+                            nextBatch = postdb.getPostIds(pageSize, offset);
+                        } else {
+                            nextBatch = postdb.getPostIdsforParticularUser(pageSize, offset, userID);
+                        }
                         if (!nextBatch.isEmpty()) {
                             buffer = nextBatch;
                             bufferIndex = 0;

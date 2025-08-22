@@ -18,15 +18,51 @@ public class CommonMethods {
     public static final String CYAN = "\u001B[36m";
     public static final String BOLD = "\u001B[1m";
 
+    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String BRIGHT_GREEN = "\u001B[92m";
+    public static final String BRIGHT_YELLOW = "\u001B[93m";
+    public static final String BRIGHT_BLUE = "\u001B[94m";
+    public static final String BRIGHT_PURPLE = "\u001B[95m";
+    public static final String BRIGHT_CYAN = "\u001B[96m";
+    public static final String WHITE = "\u001B[37m";
+    public static final String BRIGHT_WHITE = "\u001B[97m";
+    public static final String BLACK = "\u001B[30m";
+    public static final String GRAY = "\u001B[90m";
+
+    // Background colors
     public static final String BG_RED = "\u001B[41m";
+    public static final String BG_GREEN = "\u001B[42m";
+    public static final String BG_YELLOW = "\u001B[43m";
+    public static final String BG_BLUE = "\u001B[44m";
+    public static final String BG_PURPLE = "\u001B[45m";
+    public static final String BG_CYAN = "\u001B[46m";
+    public static final String BG_WHITE = "\u001B[47m";
+    public static final String BG_BLACK = "\u001B[40m";
+
+    // Text effects
+    public static final String ITALIC = "\u001B[3m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String BLINK = "\u001B[5m";
+    public static final String REVERSE = "\u001B[7m";
+    public static final String HIDDEN = "\u001B[8m";
 
     public static final String CLEAR_SCREEN = "\u001B[2J\u001B[H";
+
+
     //Objects
     static Scanner scanner = new Scanner(System.in);
     private static final DataBase db = new DataBase();
     public static final DataBase.UserData userdata =db.new UserData();
     private static final DataBase.Post userpost =db.new Post();
     private static final DataBase.UserFollows userfollows =db.new UserFollows();
+
+    public static void printDivider() {
+        System.out.println(BRIGHT_CYAN + "-".repeat(80) + RESET);
+    }
+    public static void printChoice(int number, String description, String color) {
+        System.out.println(BRIGHT_YELLOW + number + ". " + color + description + RESET);
+    }
+
 
     public static void pressEnterToContinue() {
         System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);
@@ -249,38 +285,40 @@ public class CommonMethods {
                 case 1 -> {
                     System.out.print("Enter new First Name: ");
                     String newFirst = scanner.nextLine();
-                    userdata.updateFirstName(userId, newFirst);
+                    if(userdata.updateFirstName(userId, newFirst)){
                     System.out.println("First name updated!");
+                    }
                 }
                 case 2 -> {
                     System.out.print("Enter new Last Name: ");
                     String newLast = scanner.nextLine();
-                    userdata.updateLastName(userId, newLast);
-                    System.out.println("Last name updated!");
+                    if(userdata.updateLastName(userId, newLast)){
+                    System.out.println("Last name updated!");}
                 }
                 case 3 -> {
                     System.out.print("Enter new Username: ");
                     String newUsername = scanner.nextLine();
-                    userdata.updateUserName(userId, newUsername);
-                    System.out.println("Username updated!");
+                    if (userdata.updateUserName(userId, newUsername)){
+                    System.out.println("Username updated!");}
                 }
                 case 4 -> {
                     System.out.print("Enter new Gender: ");
                     String newGender = scanner.nextLine();
-                    userdata.updateGender(userId, newGender);
-                    System.out.println("Gender updated!");
+                    if(userdata.updateGender(userId, newGender)) {
+                        System.out.println("Gender updated!");
+                    }
                 }
                 case 5 -> {
                     System.out.print("Enter new Location: ");
                     String newLocation = scanner.nextLine();
-                    userdata.updateLocation(userId, newLocation);
-                    System.out.println("Location updated!");
+                    if(userdata.updateLocation(userId, newLocation)){
+                    System.out.println("Location updated!");}
                 }
                 case 6 -> {
                     System.out.print("Enter new Bio: ");
                     String newBio = scanner.nextLine();
-                    userdata.updateBio(userId, newBio);
-                    System.out.println("Bio updated!");
+                    if(userdata.updateBio(userId, newBio)){
+                    System.out.println("Bio updated!");}
                 }
                 case 7 -> {
                     System.out.println("Exiting Edit Profile.");
@@ -293,7 +331,7 @@ public class CommonMethods {
 
     public static int featchIdForNotification(String content , String type) throws SQLException {
         DataBase db = new DataBase();
-        try(Connection conn = DriverManager.getConnection(db.getUrl(),db.getUsername(), db.getPassword())) {
+        try (Connection conn = DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword())) {
             if (type.equalsIgnoreCase("message")) {
                 PreparedStatement ps = conn.prepareStatement("select id from messages where  message= ? ");
                 ps.setString(1, content);
@@ -317,12 +355,10 @@ public class CommonMethods {
                 System.out.println("Unsupported notification type: " + type);
                 return -1;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return -1;
         }
-
-
     }
 
 

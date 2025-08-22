@@ -8,17 +8,19 @@ import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.pages.SignUpAuth;
 
 import java.util.Scanner;
+import java.nio.file.*;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
 import static com.TextIt.model.utils.CommonMethods.*;
-import static com.TextIt.model.utils.CommonMethods.pressEnterToContinue;
 
 public class SettingsPage {
 
-    static Scanner sc = new Scanner(System.in);
     private static final DataBase db = new DataBase();
     private static final DataBase.UserData userdata = db.new UserData();
-    private static final DataBase.AccountManager accountManager = db.new AccountManager();
-    private static final DataBase.Profile profile =db.new Profile();
+    private static final DataBase.Profile profile = db.new Profile();
+    static Scanner sc = new Scanner(System.in);
     private static int userID;
 
     public static void main(String[] args) {
@@ -48,13 +50,9 @@ public class SettingsPage {
             System.out.println();
 
             System.out.println(CYAN + "[1] " + RESET + "Account Management");
-            System.out.println(CYAN + "[2] " + RESET + "Privacy & Security");
-            System.out.println(CYAN + "[3] " + RESET + "Appearance & Themes");
-            System.out.println(CYAN + "[4] " + RESET + "Notification Settings");
-            System.out.println(CYAN + "[5] " + RESET + "App Preferences");
-            System.out.println(CYAN + "[6] " + RESET + "About & Legal");
-            System.out.println(CYAN + "[7] " + RESET + "Session Options");
-            System.out.println(CYAN + "[8] " + RED + "Exit Settings");
+            System.out.println(CYAN + "[2] " + RESET + "Session Options");
+            System.out.println(CYAN + "[3] " + RESET + "About & Legal");
+            System.out.println(CYAN + "[4] " + RED + "Exit Settings");
             System.out.println();
 
             System.out.print(PURPLE + "Enter your choice: " + RESET);
@@ -66,24 +64,12 @@ public class SettingsPage {
                     accountManagement();
                     break;
                 case "2":
-                    privacyAndSecurity();
-                    break;
-                case "3":
-                    appearanceAndThemes();
-                    break;
-                case "4":
-                    notificationSettings();
-                    break;
-                case "5":
-                    appPreferences();
-                    break;
-                case "6":
-                    aboutAndLegal();
-                    break;
-                case "7":
                     sessionOptions();
                     break;
-                case "8":
+                case "3":
+                    aboutAndLegal();
+                    break;
+                case "4":
                     System.out.println(GREEN + "\n Settings saved. Goodbye!" + RESET);
                     return;
                 default:
@@ -191,28 +177,23 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(border + usernameLabel + username +
-                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + usernameLabel + username + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(border + realNameLabel + realName +
-                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + realNameLabel + realName + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(border + emailLabel + email +
-                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + emailLabel + email + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(border + mobileLabel + mobile +
-                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + mobileLabel + mobile + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareCodeLabel + shareCode +
-                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + shareCodeLabel + shareCode + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println("=".repeat(boxLength));
@@ -224,21 +205,21 @@ public class SettingsPage {
         LoginAuth la = new LoginAuth();
         SignUpAuth signup = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String newPassword ="";
-        String conformPassword="";
+        String newPassword = "";
+        String conformPassword = "";
 
         System.out.println(GREEN + "\n═══ CHANGE PASSWORD ═══" + RESET);
 
         System.out.print("Enter current password: ");
         String currentPassword = scanner.nextLine();
 
-        if(la.verifyPassword(currentPassword)){
+        if (la.verifyPassword(currentPassword)) {
             do {
                 System.out.print(YELLOW + "Enter your new password: " + RESET);
                 newPassword = scanner.nextLine();
                 System.out.print(YELLOW + "Enter conformed password: " + RESET);
                 conformPassword = scanner.nextLine();
-                if(!newPassword.equals(conformPassword)){
+                if (!newPassword.equals(conformPassword)) {
                     System.out.println("New password and confirm password must be the same.");
                 }
 
@@ -246,7 +227,7 @@ public class SettingsPage {
 
             String hashedPassword = Hashing.generateHashCode(newPassword);
 
-            if(userdata.updatePassword(userID, hashedPassword)){
+            if (userdata.updatePassword(userID, hashedPassword)) {
                 System.out.println(GREEN + "\nPassword updated successfully" + RESET);
                 CommonMethods.pressEnterToContinue();
             }
@@ -256,16 +237,12 @@ public class SettingsPage {
     }
 
     private static void updateEmail() {
-
         SignUpAuth newUser = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String email ="";
-        String generatedOtp ="";
-
+        String email = "";
+        String generatedOtp = "";
 
         System.out.println(GREEN + "\n═══ UPDATE EMAIL ═══" + RESET);
-
-        String currentEmail = userdata.getEmail(userID);
         System.out.println("Current email: " + CYAN + userdata.getEmail(userID) + RESET);
         System.out.println();
 
@@ -280,15 +257,16 @@ public class SettingsPage {
 
             if (OTPHandler.verifyOTPSend(email, generatedOtp)) {        //verify is otp is sent or not
                 break;
-            }}
-            if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
-                return;
             }
+        }
+        if (!OTPHandler.verifyOTP(generatedOtp, scanner)) {                // verify if otp entered by user is right or wrong
+            return;
+        }
 
-            if(userdata.updateEmail(userID,email)){
-                System.out.println(GREEN + "Email updated successfully" + RESET);
-                CommonMethods.pressEnterToContinue();
-            }
+        if (userdata.updateEmail(userID, email)) {
+            System.out.println(GREEN + "Email updated successfully" + RESET);
+            CommonMethods.pressEnterToContinue();
+        }
 
     }
 
@@ -297,9 +275,8 @@ public class SettingsPage {
 
         SignUpAuth newUser = new SignUpAuth();
         Scanner scanner = new Scanner(System.in);
-        String phoneNumber ="";
+        String phoneNumber = "";
 
-        String currentMobile = userdata.getMobileNumber(userID);
         System.out.println("Current mobile: " + CYAN + userdata.getMobileNumber(userID) + RESET);
         System.out.println();
 
@@ -323,7 +300,7 @@ public class SettingsPage {
 
         // ===== Page Headers =====
         String pageHeader = "Account Information";
-        String pageDescription = "Overview of @" + userdata.getUserName(userId);
+        String pageDescription = "@" + userdata.getUserName(userId);
 
         // ===== Labels =====
         String usernameLabel = "Username: ";
@@ -374,383 +351,288 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(border + usernameLabel + username +
-                " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
+        System.out.println(border + usernameLabel + username + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(border + realNameLabel + realName +
-                " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
+        System.out.println(border + realNameLabel + realName + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(border + emailLabel + email +
-                " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
+        System.out.println(border + emailLabel + email + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(border + mobileLabel + mobile +
-                " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
+        System.out.println(border + mobileLabel + mobile + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Bio
-        System.out.println(border + bioLabel +
-                " ".repeat(spaceLeftForContent - bioLabelLength) + border);
+        System.out.println(border + bioLabel + " ".repeat(spaceLeftForContent - bioLabelLength) + border);
         CommonMethods.paragraphDisplay(bio, border, spaceLeftForContent);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Member Since
-        System.out.println(border + memberSinceLabel + memberSince +
-                " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
+        System.out.println(border + memberSinceLabel + memberSince + " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareCodeLabel + shareCode +
-                " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
+        System.out.println(border + shareCodeLabel + shareCode + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println("=".repeat(boxLength));
-
         pressEnterToContinue();
     }
 
-    static void privacyAndSecurity() {
-        while (true) {
-            clearScreen();
-            System.out.println(GREEN + BOLD + "═══ PRIVACY & SECURITY ═══" + RESET);
-            System.out.println();
+    private static String readFileContent(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path)) {
+                return "Document not found. Please check the documentation directory.";
+            }
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            return "Error reading file: " + e.getMessage();
+        }
+    }
 
-            System.out.println(CYAN + "[1] " + RESET + "Enable/Disable 2FA (Two-Factor Auth)");
-            System.out.println(CYAN + "[2] " + RESET + "Profile Visibility Control");
-            System.out.println(CYAN + "[3] " + RESET + "Block / Unblock Users");
-            System.out.println(CYAN + "[4] " + RESET + "Show/Hide Activity Status");
-            System.out.println(CYAN + "[5] " + RESET + "Data Privacy Settings");
-            System.out.println(CYAN + "[6] " + RED + "Back to Main Settings");
-            System.out.println();
+    private static void displayHeader(String title) {
+        int width = 60;
+        String line = "═".repeat(width);
+        String paddedTitle = " ".repeat((width - title.length() - 2) / 2) + title + " ".repeat((width - title.length() - 1) / 2);
+        
+        System.out.println("╔" + line + "╗");
+        System.out.println("║" + CYAN + BOLD + paddedTitle + RESET + "║");
+        System.out.println("╚" + line + "╝\n");
+    }
 
-            System.out.print(PURPLE + "Enter your choice: " + RESET);
-            String choice = sc.nextLine().trim();
-
-            switch (choice) {
-                case "1":
-                    toggle2FA();
-                    break;
-                case "2":
-                    profileVisibility();
-                    break;
-                case "3":
-                    blockUnblockUsers();
-                    break;
-                case "4":
-                    activityStatus();
-                    break;
-                case "5":
-                    dataPrivacy();
-                    break;
-                case "6":
-                    return;
-                default:
-                    System.out.println(RED + "Invalid option. Please try again." + RESET);
-                    pressEnterToContinue();
+    private static void displayDocument(String title, String filePath) {
+        try {
+            // Create a temporary file to store the content
+            Path tempFile = Files.createTempFile("TextIt_", ".txt");
+            String content = readFileContent(filePath);
+            Files.writeString(tempFile, content, StandardOpenOption.WRITE);
+            
+            // Open the file with the default system editor
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder pb;
+            
+            if (os.contains("win")) {
+                // Windows
+                pb = new ProcessBuilder("notepad.exe", tempFile.toString());
+            } else if (os.contains("mac")) {
+                // macOS
+                pb = new ProcessBuilder("open", "-t", tempFile.toString());
+            } else {
+                // Linux/Unix
+                pb = new ProcessBuilder("xdg-open", tempFile.toString());
+            }
+            
+            // Start the process and wait for it to finish
+            Process process = pb.start();
+            
+            // Wait for the user to close the editor
+            System.out.println(YELLOW + "Opening " + title + " in your default text editor..." + RESET);
+            System.out.println("Please close the text editor when you're done viewing.");
+            process.waitFor();
+            
+            // Clean up the temporary file
+            Files.deleteIfExists(tempFile);
+            
+        } catch (IOException | InterruptedException e) {
+            System.out.println(RED + "Error opening document: " + e.getMessage() + RESET);
+            System.out.println(YELLOW + "Falling back to console display..." + RESET);
+            
+            // Fallback to console display if opening the editor fails
+            try {
+                String content = readFileContent(filePath);
+                clearScreen();
+                displayHeader(title);
+                
+                // Simple word wrap for console output
+                int maxWidth = 78;
+                String[] words = content.split("\\s+");
+                StringBuilder line = new StringBuilder();
+                
+                for (String word : words) {
+                    if (line.length() + word.length() > maxWidth) {
+                        System.out.println(line.toString().trim());
+                        line = new StringBuilder();
+                    }
+                    line.append(word).append(" ");
+                }
+                if (line.length() > 0) {
+                    System.out.println(line.toString().trim());
+                }
+                
+                System.out.println("\n" + CYAN + "Press Enter to return to the previous menu..." + RESET);
+                sc.nextLine();
+            } catch (Exception ex) {
+                System.out.println(RED + "Error displaying document: " + ex.getMessage() + RESET);
+                pressEnterToContinue();
             }
         }
     }
 
-    private static void toggle2FA() {
-        System.out.println(GREEN + "\n═══ TWO-FACTOR AUTHENTICATION ═══" + RESET);
-        System.out.println(YELLOW + "Status: " + GREEN + "Disabled" + RESET + " (Demo mode)");
-        System.out.println();
-        System.out.println("1. Enable 2FA");
-        System.out.println("2. Disable 2FA");
-        System.out.println("3. Back");
+    private static void aboutAndLegal() {
+        while (true) {
+            clearScreen();
+            displayHeader("ABOUT & LEGAL");
+            
+            // System Information
+            System.out.println(BOLD + "TextItCLI - Console Blogging Platform\n" + RESET);
+            System.out.println(CYAN + "Version: " + RESET + "2.0.0 (2025.01.14)");
+            System.out.println(CYAN + "Java Version: " + RESET + System.getProperty("java.version"));
+            System.out.println(CYAN + "OS: " + RESET + System.getProperty("os.name") + " " + System.getProperty("os.version"));
+            System.out.println(CYAN + "Developer: " + RESET + "TextIt Corporation\n");
+            
+            // Main Menu
+            System.out.println(BOLD + "DOCUMENTATION" + RESET);
+            System.out.println(CYAN + "[1] " + RESET + "Terms of Service");
+            System.out.println(CYAN + "[2] " + RESET + "Privacy Policy");
+            System.out.println(CYAN + "[3] " + RESET + "Code of Conduct");
+            System.out.println(CYAN + "[4] " + RESET + "Contributing Guidelines");
+            
+            System.out.println("\n" + BOLD + "SUPPORT" + RESET);
+            System.out.println(CYAN + "[5] " + RESET + "Contact Support");
+            System.out.println(CYAN + "[6] " + RESET + "Security Information");
+            System.out.println(CYAN + "[7] " + RESET + "Check for Updates");
+            
+            System.out.println("\n" + BOLD + "LEGAL" + RESET);
+            System.out.println(CYAN + "[8] " + RESET + "Open Source Licenses");
+            System.out.println(CYAN + "[9] " + RESET + "Trademark Information");
+            System.out.println(CYAN + "[0] " + RESET + "Back to Settings\n");
 
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
+            System.out.print(PURPLE + "Enter your choice: " + RESET);
+            String choice = sc.nextLine();
 
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " 2FA enabled! (Demo )" + RESET);
-                break;
-            case "2":
-                System.out.println(YELLOW + " 2FA disabled! (Demo )" + RESET);
-                break;
+            switch (choice) {
+                case "1":
+                    displayDocument("TERMS OF SERVICE", "docs/TERMS_OF_SERVICE.md");
+                    break;
+                case "2":
+                    displayDocument("PRIVACY POLICY", "docs/PRIVACY_POLICY.md");
+                    break;
+                case "3":
+                    displayDocument("CODE OF CONDUCT", "docs/CODE_OF_CONDUCT.md");
+                    break;
+                case "4":
+                    displayDocument("CONTRIBUTING GUIDELINES", "docs/CONTRIBUTING.md");
+                    break;
+                case "5":
+                    // Create a temporary file for the support information
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Support", ".txt");
+                        String supportInfo = "For support, please contact us at:\n\n" +
+                            "Email: support@textit.com\n" +
+                            "Website: https://www.textit.com/support\n\n" +
+                            "Our support team is available 24/7 to assist you with any questions or issues you may have.";
+                        Files.writeString(tempFile, supportInfo, StandardOpenOption.WRITE);
+                        displayDocument("CONTACT SUPPORT", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error displaying support information: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "6":
+                    displayDocument("SECURITY INFORMATION", "docs/SECURITY.md");
+                    break;
+                case "7":
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Update", ".txt");
+                        StringBuilder updateMessage = new StringBuilder("Checking for updates...\n\n");
+                        
+                        try {
+                            // Run git fetch to get the latest changes
+                            Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main")
+                                .directory(new File(System.getProperty("user.dir")))
+                                .start();
+                            
+                            int fetchExitCode = fetchProcess.waitFor();
+                            
+                            if (fetchExitCode == 0) {
+                                // Check if there are any updates
+                                Process statusProcess = new ProcessBuilder("git", "status", "-uno")
+                                    .directory(new File(System.getProperty("user.dir")))
+                                    .start();
+                                
+                                String statusOutput = new String(statusProcess.getInputStream().readAllBytes());
+                                
+                                if (statusOutput.contains("Your branch is behind")) {
+                                    updateMessage.append("⚠ Updates available!\n\n");
+                                    updateMessage.append("Would you like to update now? (y/n): ");
+                                    Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
+                                    displayDocument("CHECK FOR UPDATES", tempFile.toString());
+                                    
+                                    // Get user confirmation
+                                    System.out.print("\n\n" + PURPLE + "Update now? (y/n): " + RESET);
+                                    String confirm = sc.nextLine().trim().toLowerCase();
+                                    
+                                    if (confirm.equals("y") || confirm.equals("yes")) {
+                                        Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main")
+                                            .directory(new File(System.getProperty("user.dir")))
+                                            .start();
+                                            
+                                        int pullExitCode = pullProcess.waitFor();
+                                        
+                                        if (pullExitCode == 0) {
+                                            updateMessage.append("\n\n✓ Update successful! Please restart the application to apply changes.\n");
+                                        } else {
+                                            updateMessage.append("\n\n✗ Failed to update. Please try again later.\n");
+                                        }
+                                    } else {
+                                        updateMessage.append("\n\nUpdate cancelled. You can update later by checking for updates again.\n");
+                                    }
+                                } else {
+                                    updateMessage.append("✓ You are using the latest version of TextItCLI\n");
+                                }
+                            } else {
+                                updateMessage.append("⚠ Could not check for updates. Make sure Git is installed and you have an internet connection.\n");
+                            }
+                        } catch (Exception e) {
+                            updateMessage.append("⚠ Error checking for updates: ").append(e.getMessage()).append("\n");
+                        }
+                        
+                        updateMessage.append("\nLast checked: ").append(java.time.LocalDateTime.now()).append("\n\n");
+                        updateMessage.append("For the latest news and updates, please visit our website.");
+                        
+                        Files.writeString(tempFile, updateMessage.toString(), StandardOpenOption.WRITE);
+                        displayDocument("CHECK FOR UPDATES", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error checking for updates: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "8":
+                    try {
+                        Path tempFile = Files.createTempFile("TextIt_Licenses", ".txt");
+                        String licenses = "TextItCLI uses the following open source components:\n\n" +
+                            "1. Apache Commons Lang - Apache License 2.0\n" +
+                            "2. SQLite JDBC - MIT License\n" +
+                            "3. JLine - BSD License\n\n" +
+                            "For detailed license information, please visit:\n" +
+                            "https://www.textit.com/licenses";
+                        Files.writeString(tempFile, licenses, StandardOpenOption.WRITE);
+                        displayDocument("OPEN SOURCE LICENSES", tempFile.toString());
+                        Files.deleteIfExists(tempFile);
+                    } catch (IOException e) {
+                        System.out.println(RED + "Error displaying license information: " + e.getMessage() + RESET);
+                        pressEnterToContinue();
+                    }
+                    break;
+                case "9":
+                    displayDocument("TRADEMARK INFORMATION", "docs/TRADEMARK.md");
+                    break;
+                case "0":
+                    return; // Return to settings menu
+                default:
+                    System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    break;
+            }
         }
-
-        if (!choice.equals("3")) {
-            pressEnterToContinue();
-        }
-    }
-
-    private static void profileVisibility() {
-        System.out.println(GREEN + "\n═══ PROFILE VISIBILITY ═══" + RESET);
-        System.out.println("Current Setting: " + CYAN + "Public" + RESET);
-        System.out.println();
-        System.out.println("1. Public - Anyone can see your profile");
-        System.out.println("2. Friends Only - Only followers can see details");
-        System.out.println("3. Private - Only you can see your profile");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choiceInput = sc.nextLine().trim();
-
-        int choice = -1;
-        try {
-            choice = Integer.parseInt(choiceInput);
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-
-        String[] options = {"", "Public", "Friends Only", "Private"};
-
-        if (choice >= 1 && choice <= 3) {
-            System.out.println(GREEN + "✓ Profile visibility set to: " + options[choice] + RESET);
-        } else {
-            System.out.println(RED + "✗ Invalid choice! Please select 1, 2, or 3." + RESET);
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void blockUnblockUsers() {
-        System.out.println(GREEN + "\n═══ BLOCKED USERS ═══" + RESET);
-        System.out.println("Currently blocked users: " + CYAN + "None" + RESET);
-        System.out.println();
-        System.out.println("1. Block a user");
-        System.out.println("2. Unblock a user");
-        System.out.println("3. View blocked list");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.print("Enter username to block: ");
-                String userBlock = sc.nextLine();
-                System.out.println(GREEN + " User '" + userBlock + "' blocked! (Demo mode)" + RESET);
-                break;
-            case "2":
-                System.out.println(YELLOW + "No users currently blocked." + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Blocked users: None" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void activityStatus() {
-        System.out.println(GREEN + "\n═══ ACTIVITY STATUS ═══" + RESET);
-        System.out.println("Current Setting: " + GREEN + "Visible" + RESET);
-        System.out.println();
-        System.out.println("1. Show activity status to everyone");
-        System.out.println("2. Show activity status to friends only");
-        System.out.println("3. Hide activity status completely");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choiceInput = sc.nextLine().trim();
-
-        int choice = -1;
-        try {
-            choice = Integer.parseInt(choiceInput);
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        }
-
-        String[] options = {"", "Everyone", "Friends Only", "Hidden"};
-        if (choice >= 1 && choice <= 3) {
-            System.out.println(GREEN + " Activity status set to: " + options[choice] + RESET);
-        } else {
-            System.out.println(RED + " Invalid choice! Please select 1, 2, or 3." + RESET);
-        }
-
-        pressEnterToContinue();
-    }
-
-    private static void dataPrivacy() {
-        System.out.println(GREEN + "\n═══ DATA PRIVACY ═══" + RESET);
-        System.out.println("1. Download my data");
-        System.out.println("2. Delete my data");
-        System.out.println("3. Data usage analytics");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + "Data export initiated! (Demo )" + RESET);
-                break;
-            case "2":
-                System.out.println(RED + "This will permanently delete your data! (Demo )" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Data usage: 2.5MB storage used (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void appearanceAndThemes() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ APPEARANCE & THEMES ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Current Theme: " + CYAN + "Light Mode" + RESET);
-        System.out.println();
-        System.out.println(CYAN + "[1] " + RESET + "Dark Mode");
-        System.out.println(CYAN + "[2] " + RESET + "Light Mode");
-        System.out.println(CYAN + "[3] " + RESET + "Auto (System)");
-        System.out.println(CYAN + "[4] " + RESET + "Color Customization");
-        System.out.println(CYAN + "[5] " + RESET + "Font Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Switched to Dark Mode! (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(GREEN + " Switched to Light Mode! (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Theme set to Auto! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Color themes: Blue, Green, Purple, Red (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Font sizes: Small, Medium, Large (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void notificationSettings() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ NOTIFICATION SETTINGS ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Current Settings:");
-        System.out.println("  Push Notifications: " + GREEN + "Enabled" + RESET);
-        System.out.println("  Email Alerts: " + YELLOW + "Disabled" + RESET);
-        System.out.println("  Sound: " + GREEN + "Enabled" + RESET);
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Toggle Push Notifications");
-        System.out.println(CYAN + "[2] " + RESET + "Toggle Email Alerts");
-        System.out.println(CYAN + "[3] " + RESET + "Toggle Sound Notifications");
-        System.out.println(CYAN + "[4] " + RESET + "Custom Activity Reminders");
-        System.out.println(CYAN + "[5] " + RESET + "Quiet Hours Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Push notifications toggled! (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(GREEN + " Email alerts toggled! (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Sound notifications toggled! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Reminder options: Daily, Weekly, Custom (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Quiet hours: 10 PM - 8 AM (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void appPreferences() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ APP PREFERENCES ═══" + RESET);
-        System.out.println();
-
-        System.out.println("Storage Used: " + CYAN + "2.5MB" + RESET);
-        System.out.println("Cache Size: " + YELLOW + "0.8MB" + RESET);
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Clear Cache & Temp Files");
-        System.out.println(CYAN + "[2] " + RESET + "Language Settings");
-        System.out.println(CYAN + "[3] " + RESET + "Auto-save Settings");
-        System.out.println(CYAN + "[4] " + RESET + "Backup & Restore");
-        System.out.println(CYAN + "[5] " + RESET + "Performance Settings");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(GREEN + " Cache cleared! Freed 0.8MB (Demo)" + RESET);
-                break;
-            case "2":
-                System.out.println(CYAN + "Available languages: English, Spanish, French (Demo)" + RESET);
-                break;
-            case "3":
-                System.out.println(GREEN + " Auto-save enabled! (Demo)" + RESET);
-                break;
-            case "4":
-                System.out.println(CYAN + "Backup options: Local, Cloud (Demo)" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "Performance: Optimized for speed (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
-
-    static void aboutAndLegal() {
-        clearScreen();
-        System.out.println(GREEN + BOLD + "═══ ABOUT & LEGAL ═══" + RESET);
-        System.out.println();
-
-        System.out.println("╔═══════════════════════════════════════════╗");
-        System.out.println("║               TextItCLI                   ║");
-        System.out.println("║         Console Blogging Platform         ║");
-        System.out.println("╠═══════════════════════════════════════════╣");
-        System.out.println("║  Version: " + CYAN + "2.0.0" + RESET + "   ║");
-        System.out.println("║  Build: " + CYAN + "2025.01.14" + RESET + "║");
-        System.out.println("║  Developer: " + CYAN + "TextIt Corporation" + RESET + "         ║");
-        System.out.println("║  License: " + CYAN + "TCEL-1.0" + RESET + "                     ║");
-        System.out.println("╚═══════════════════════════════════════════╝");
-        System.out.println();
-
-        System.out.println(CYAN + "[1] " + RESET + "Terms of Service");
-        System.out.println(CYAN + "[2] " + RESET + "Privacy Policy");
-        System.out.println(CYAN + "[3] " + RESET + "Contact Developer Support");
-        System.out.println(CYAN + "[4] " + RESET + "Check for Updates");
-        System.out.println(CYAN + "[5] " + RESET + "Open Source Licenses");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                System.out.println(CYAN + "Terms of Service: Please visit www.TextITCorporation.com/terms" + RESET);
-                break;
-            case "2":
-                System.out.println(CYAN + "Privacy Policy: Please visit www.TextITCorporation.com/privacy" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Support: support@TextItCorporation.com | +91 99999-88888" + RESET);
-                break;
-            case "4":
-                System.out.println(GREEN + " You're running the latest version!" + RESET);
-                break;
-            case "5":
-                System.out.println(CYAN + "PostgreSQL, Java OpenJDK, Maven dependencies" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
     }
 
     static void sessionOptions() {
@@ -763,10 +645,9 @@ public class SettingsPage {
             System.out.println("Current Session: " + CYAN + username + RESET);
             System.out.println();
 
-            System.out.println(CYAN + "[1] " + RESET + "Switch Account");
-            System.out.println(CYAN + "[2] " + YELLOW + "Logout");
-            System.out.println(CYAN + "[3] " + RED + "Delete My Account");
-            System.out.println(CYAN + "[4] " + RESET + "Back to Main Settings");
+            System.out.println(CYAN + "[1] " + YELLOW + "Logout");
+            System.out.println(CYAN + "[2] " + RED + "Delete My Account");
+            System.out.println(CYAN + "[3] " + RESET + "Back to Main Settings");
             System.out.println();
 
             System.out.print(PURPLE + "Enter your choice: " + RESET);
@@ -774,15 +655,12 @@ public class SettingsPage {
 
             switch (choice) {
                 case "1":
-                    switchAccount();
-                    break;
-                case "2":
                     logout();
                     return;
-                case "3":
+                case "2":
                     deleteAccount();
                     break;
-                case "4":
+                case "3":
                     return;
                 default:
                     System.out.println(RED + "Invalid option. Please try again." + RESET);
@@ -791,32 +669,6 @@ public class SettingsPage {
         }
     }
 
-    private static void switchAccount() {
-        System.out.println(GREEN + "\n═══ SWITCH ACCOUNT ═══" + RESET);
-        System.out.println(YELLOW + "Available accounts: (Demo)" + RESET);
-        System.out.println("1. GM_VRAJ");
-        System.out.println("2. Dhruv_HARAMI");
-        System.out.println("3. Add new account");
-
-        System.out.print(PURPLE + "Enter your choice: " + RESET);
-        String choice = sc.nextLine();
-
-        switch (choice) {
-            case "1":
-                userID = 1;
-                System.out.println(GREEN + " Switched to GM_VRAJ" + RESET);
-                break;
-            case "2":
-                userID = 2;
-                System.out.println(GREEN + " Switched to Dhruv_HARAMI" + RESET);
-                break;
-            case "3":
-                System.out.println(CYAN + "Redirecting to signup... (Demo)" + RESET);
-                break;
-        }
-
-        pressEnterToContinue();
-    }
 
     private static void logout() {
         System.out.println(YELLOW + "\n Logging out..." + RESET);
@@ -845,10 +697,5 @@ public class SettingsPage {
         for (int i = 0; i < 4; i++) {
             System.out.println();
         }
-    }
-
-    private static void pressEnterToContinue() {
-        System.out.print(YELLOW + "\nPress Enter to continue..." + RESET);
-        sc.nextLine();
     }
 }
