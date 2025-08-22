@@ -46,6 +46,8 @@ public class CommonMethods {
     public static final String REVERSE = "\u001B[7m";
     public static final String HIDDEN = "\u001B[8m";
 
+    public static final String CLEAR_SCREEN = "\u001B[2J\u001B[H";
+
 
     //Objects
     static Scanner scanner = new Scanner(System.in);
@@ -329,24 +331,34 @@ public class CommonMethods {
 
     public static int featchIdForNotification(String content , String type) throws SQLException {
         DataBase db = new DataBase();
-        Connection conn = DriverManager.getConnection(db.getUrl(),db.getUsername(), db.getPassword());
-        if(type.equalsIgnoreCase("message")) {
-            PreparedStatement ps = conn.prepareStatement("select id from messages where  message= ? ");
-            ps.setString(1, content);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        }else if (type.equalsIgnoreCase("Comment")) {
-            PreparedStatement ps = conn.prepareStatement("select c_id from comments where content = ? ");
-            ps.setString(1, content);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        }else{
-            System.out.println("Unsupported notification type: " + type);
+        try (Connection conn = DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword())) {
+            if (type.equalsIgnoreCase("message")) {
+                PreparedStatement ps = conn.prepareStatement("select id from messages where  message= ? ");
+                ps.setString(1, content);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                return rs.getInt(1);
+            } else if (type.equalsIgnoreCase("Comments")) {
+                PreparedStatement ps = conn.prepareStatement("select c_id from comments where content = ? ");
+                ps.setString(1, content);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                return rs.getInt(1);
+            } else if (type.equalsIgnoreCase("like")) {
+                PreparedStatement ps = conn.prepareStatement("select like_id from likes where user_id = ? ");
+                ps.setString(1, content);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                return rs.getInt(1);
+
+            } else {
+                System.out.println("Unsupported notification type: " + type);
+                return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
         }
-
     }
 
 
