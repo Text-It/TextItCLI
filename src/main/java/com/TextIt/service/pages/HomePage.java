@@ -45,7 +45,7 @@ public class HomePage {
             System.out.println("│  " + YELLOW + "6. " + color("Career at TextIT", BLUE) + createSpacing("6. Career at TextIT",78 ) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "7. " + color("Setting", BLUE) + createSpacing("8. Setting", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "8. " + color("Chat", BLUE) + createSpacing("9. Chat", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "9. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "9. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + " │");
             System.out.println("│  " + YELLOW + "10. " + color("Exit", RED) + createSpacing("11. Exit", 78) + CYAN + BOLD + "│");
             System.out.println("└────────────────────────────────────────────────────────────────────────────────┘" + RESET);
 

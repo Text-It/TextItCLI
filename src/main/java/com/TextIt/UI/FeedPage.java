@@ -275,15 +275,9 @@ public class FeedPage {
         System.out.println("Error in resharing post. Please try again later.");
         return false;
     }
-    
- 
     public static void printOptionRow(String option1, int option1Length,
-                                     String option2, int option2Length,
-                                     String border, int spaceLeftForContent) {
-
-    static void printOptionRow(String option1, int option1Length,
-                               String option2, int option2Length,
-                               String border, int spaceLeftForContent) {
+        String option2, int option2Length,
+        String border, int spaceLeftForContent) {
 
         int totalWidth = option1Length + option2Length;
         int padding = spaceLeftForContent - totalWidth;
