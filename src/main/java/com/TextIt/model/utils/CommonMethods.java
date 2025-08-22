@@ -244,6 +244,7 @@ public class CommonMethods {
     }
     public static void editProfile(int userId) {
         boolean editing = true;
+        clearConsole();
 
         while (editing) {
             // Fetch latest values from DB
@@ -323,6 +324,7 @@ public class CommonMethods {
                 case 7 -> {
                     System.out.println("Exiting Edit Profile.");
                     editing = false;
+                    return;
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
