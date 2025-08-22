@@ -819,6 +819,12 @@ public class SettingsPage {
                 ps.setInt(1, userID);
 
                 ps.executeUpdate();
+                File file = new File("last_session.txt");
+                if(file.delete()){
+                    System.out.println(RED + "Last session has been deleted" + RESET);
+                }else {
+                    System.out.println(RED + "Last session has not been deleted" + RESET);
+                }
             } catch (Exception e) {
                 System.out.println(RED + "Error deleting account: " + e.getMessage() + RESET);
                 throw  new RuntimeException();
