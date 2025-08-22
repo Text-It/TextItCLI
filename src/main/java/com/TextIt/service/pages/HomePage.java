@@ -24,23 +24,32 @@ public class HomePage {
                 userID= Integer.parseInt(args[0]);
             }
             System.out.println(CYAN + BOLD);
-            System.out.println("==============================================");
-            System.out.println("             Welcome to TextIT                ");
-            System.out.println("==============================================");
+            System.out.println("=================================================================================");
+            System.out.println("                             Welcome to TextIT                              ");
+            System.out.println(color("                             Hello, " + userdata.getUserName(userID) + "!", YELLOW));
+            System.out.println(color("               Select option to explore the world of TextIT               ", BRIGHT_PURPLE));
+            System.out.println(CYAN+BOLD+"=================================================================================");
             System.out.print(RESET);
-            System.out.println(color("Hello, " + userdata.getUserName(userID) + "!", YELLOW));
-            System.out.println(color("Select option to explore the world of TextIT", GREEN));
-            System.out.println(YELLOW + "1. " + color("Profile", BLUE));
-            System.out.println(YELLOW + "2. " + color("Post", BLUE));
-            System.out.println(YELLOW + "3. " + color("Search", BLUE));
-            System.out.println(YELLOW + "4. " + color("Inbox", BLUE));
-            System.out.println(YELLOW + "5. " + color("Create Post", BLUE));
-            System.out.println(YELLOW + "6. " + color("Career at TextIT", BLUE));
-            System.out.println(YELLOW + "7. " + color("Logout", BLUE));
-            System.out.println(YELLOW + "8. " + color("Setting", BLUE));
-            System.out.println(YELLOW + "9. " + color("Chat", BLUE));
-            System.out.println(YELLOW + "10. " + color("Help", BLUE));
-            System.out.println(YELLOW + "11. " + color("Exit", RED));
+
+            CommonMethods.printDivider();
+
+            System.out.println(CYAN + BOLD + "┌────────────────────────────────────────────────────────────────────────────────┐");
+            System.out.println("│" + color("                              MENU OPTIONS                                ", WHITE) + CYAN + BOLD + "      │");
+            System.out.println("├────────────────────────────────────────────────────────────────────────────────┤");
+            System.out.println("│  " + YELLOW + "1. " + color("Profile", BLUE) + createSpacing("1. Profile", 71) + CYAN + BOLD + "       │");
+            System.out.println("│  " + YELLOW + "2. " + color("Post", BLUE) + createSpacing("2. Post", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "3. " + color("Search", BLUE) + createSpacing("3. Search", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "4. " + color("Inbox", BLUE) + createSpacing("4. Inbox", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "5. " + color("Create Post", BLUE) + createSpacing("5. Create Post", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "6. " + color("Career at TextIT", BLUE) + createSpacing("6. Career at TextIT",78 ) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "7. " + color("Logout", BLUE) + createSpacing("7. Logout", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "8. " + color("Setting", BLUE) + createSpacing("8. Setting", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "9. " + color("Chat", BLUE) + createSpacing("9. Chat", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "10. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "11. " + color("Exit", RED) + createSpacing("11. Exit", 78) + CYAN + BOLD + "│");
+            System.out.println("└────────────────────────────────────────────────────────────────────────────────┘" + RESET);
+
+            CommonMethods.printDivider();
 
             System.out.println(color("Enter your choice: ", GREEN));
             int choice = sc.nextInt();
@@ -111,6 +120,12 @@ public class HomePage {
 
     private static String color(String text, String color) {
         return color + text + RESET;
+    }
+
+    private static String createSpacing(String text, int targetLength) {
+        int spaces = targetLength - text.length();
+        if (spaces <= 0) return " ";
+        return " ".repeat(spaces);
     }
 
 
