@@ -30,22 +30,6 @@ public class CommonMethods {
     public static final String BLACK = "\u001B[30m";
     public static final String GRAY = "\u001B[90m";
 
-    // Background colors
-    public static final String BG_RED = "\u001B[41m";
-    public static final String BG_GREEN = "\u001B[42m";
-    public static final String BG_YELLOW = "\u001B[43m";
-    public static final String BG_BLUE = "\u001B[44m";
-    public static final String BG_PURPLE = "\u001B[45m";
-    public static final String BG_CYAN = "\u001B[46m";
-    public static final String BG_WHITE = "\u001B[47m";
-    public static final String BG_BLACK = "\u001B[40m";
-
-    // Text effects
-    public static final String ITALIC = "\u001B[3m";
-    public static final String UNDERLINE = "\u001B[4m";
-    public static final String BLINK = "\u001B[5m";
-    public static final String REVERSE = "\u001B[7m";
-    public static final String HIDDEN = "\u001B[8m";
 
     public static final String CLEAR_SCREEN = "\u001B[2J\u001B[H";
 
@@ -186,48 +170,75 @@ public class CommonMethods {
 
         // ===== Rendering =====
         CommonMethods.clearConsole();
-        System.out.println("=".repeat(boxLength));
-        System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader);
-        System.out.println(" ".repeat((boxLength - descriptionLength) / 2) + pageDescription);
-        System.out.println("=".repeat(boxLength));
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
+        System.out.println(" ".repeat((boxLength - headerLength) / 2) + BRIGHT_WHITE + BOLD + pageHeader + RESET);
+        System.out.println(" ".repeat((boxLength - descriptionLength) / 2) + BRIGHT_CYAN + pageDescription + RESET);
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name + Username
         String separator = " ".repeat((spaceLeftForContent - realName.length() - username.length() - realNameLength - usernameLength) / 3);
-        System.out.println(border + separator + realNameLabel + realName + separator + usernameLabel + username + separator + border);
+        System.out.println(
+                border + separator +
+                YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET +
+                separator + YELLOW + usernameLabel + RESET + BLUE + username + RESET +
+                separator + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Gender + Location
         separator = " ".repeat((spaceLeftForContent - gender.length() - location.length() - genderLength - locationLength) / 3);
-        System.out.println(border + separator + genderLabel + gender + separator + locationLabel + location + separator + border);
+        System.out.println(
+                border + separator +
+                YELLOW + genderLabel + RESET + BRIGHT_WHITE + gender + RESET +
+                separator + YELLOW + locationLabel + RESET + BRIGHT_WHITE + location + RESET +
+                separator + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Bio
-        System.out.println(border + bioLabel + " ".repeat(spaceLeftForContent - bioLabelLength) + border);
+        System.out.println(border + YELLOW + bioLabel + RESET + " ".repeat(spaceLeftForContent - bioLabelLength) + border);
         CommonMethods.paragraphDisplay(bio, border, spaceLeftForContent);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
-        System.out.println(border + "-".repeat(spaceLeftForContent) + border);
+        System.out.println(border + GRAY + "-".repeat(spaceLeftForContent) + RESET + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Member Since
-        System.out.println(border + memberSinceLabel + memberSince + " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
+        System.out.println(
+                border + YELLOW + memberSinceLabel + RESET + BRIGHT_PURPLE + memberSince + RESET +
+                " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Posts / Following / Followers
         separator = " ".repeat((spaceLeftForContent - posts.length() - following.length() - followers.length() - postsLength - followingLength - followersLength) / 4);
-        System.out.println(border + separator + postsLabel + posts + separator + followingLabel + following + separator + followersLabel + followers + separator + border);
+        System.out.println(
+                border + separator +
+                YELLOW + postsLabel + RESET + GREEN + posts + RESET +
+                separator + YELLOW + followingLabel + RESET + GREEN + following + RESET +
+                separator + YELLOW + followersLabel + RESET + GREEN + followers + RESET +
+                separator + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // XP + Level
         separator = " ".repeat((spaceLeftForContent - xp.length() - level.length() - xpLength - levelLength) / 3);
-        System.out.println(border + separator + xpLabel + xp + separator + levelLabel + level + separator + border);
+        System.out.println(
+                border + separator +
+                YELLOW + xpLabel + RESET + BRIGHT_GREEN + xp + RESET +
+                separator + YELLOW + levelLabel + RESET + BRIGHT_GREEN + level + RESET +
+                separator + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(border + shareLabel + shareCode + " ".repeat(spaceLeftForContent - (shareLength + shareCode.length())) + border);
+        System.out.println(
+                border + YELLOW + shareLabel + RESET + BRIGHT_PURPLE + shareCode + RESET +
+                " ".repeat(spaceLeftForContent - (shareLength + shareCode.length())) + border
+        );
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
-        System.out.println("=".repeat(boxLength));
+        System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
     }
 
 

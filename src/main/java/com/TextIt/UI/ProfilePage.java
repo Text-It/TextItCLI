@@ -16,14 +16,21 @@ public class ProfilePage {
 
         CommonMethods.userProfile(userid);
 
-        int borderLength = 50;
+        int borderLength = 60;
+        System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
         System.out.println(color("OPTIONS", PURPLE));
-        System.out.println("-".repeat(borderLength));
-        System.out.println("[1] View Posts  [2] Edit Profile  [3] Settings");
-        System.out.println("[4] Exit          ");
-        System.out.println("-".repeat(borderLength));
+        System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
+        System.out.println(
+                YELLOW + "1." + RESET + " " + BLUE + "View Posts" + RESET + "    " +
+                YELLOW + "2." + RESET + " " + BLUE + "Edit Profile" + RESET + "    " +
+                YELLOW + "3." + RESET + " " + BLUE + "Settings" + RESET
+        );
+        System.out.println(
+                YELLOW + "4." + RESET + " " + RED + "Exit" + RESET
+        );
+        System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
         while (true) {
-            System.out.println("Enter your choices :");
+            System.out.print(GREEN + "Enter your choice: " + RESET);
             String choice = sc.nextLine();
             switch (choice) {
                 case "1":
