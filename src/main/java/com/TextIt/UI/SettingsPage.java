@@ -511,7 +511,7 @@ public class SettingsPage {
             
             // System Information
             System.out.println(BOLD + "TextItCLI - Console Blogging Platform\n" + RESET);
-            System.out.println(CYAN + "Version: " + RESET + "2.0.0 (2025.01.14)");
+            System.out.println(CYAN + "Version: " + RESET + "3.0.0 (2025.08.17)");
             System.out.println(CYAN + "Java Version: " + RESET + System.getProperty("java.version"));
             System.out.println(CYAN + "OS: " + RESET + System.getProperty("os.name") + " " + System.getProperty("os.version"));
             System.out.println(CYAN + "Developer: " + RESET + "TextIt Corporation\n");
