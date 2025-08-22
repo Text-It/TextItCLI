@@ -275,28 +275,28 @@ public class CommonMethods {
             int headerLength = pageHeader.length();
 
             // Render Profile Edit Menu
-            System.out.println("=".repeat(boxLength));
-            System.out.println(" ".repeat((boxLength - headerLength) / 2) + pageHeader + " ".repeat((boxLength - headerLength) / 2));
-            System.out.println("=".repeat(boxLength));
+            System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
+            System.out.println(" ".repeat((boxLength - headerLength) / 2) + BRIGHT_WHITE + BOLD + pageHeader + RESET + " ".repeat((boxLength - headerLength) / 2));
+            System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
 
-            System.out.println(border + " 1) First Name : " + firstName + " ".repeat(spaceLeftForContent - 15 - firstName.length()) + border);
-            System.out.println(border + " 2) Last Name  : " + lastName + " ".repeat(spaceLeftForContent - 15 - lastName.length()) + border);
-            System.out.println(border + " 3) Username   : " + username + " ".repeat(spaceLeftForContent - 15 - username.length()) + border);
-            System.out.println(border + " 4) Gender     : " + gender + " ".repeat(spaceLeftForContent - 15 - gender.length()) + border);
-            System.out.println(border + " 5) Location   : " + location + " ".repeat(spaceLeftForContent - 15 - location.length()) + border);
-            System.out.println(border + " 6) Bio        : " + bio + " ".repeat(spaceLeftForContent - 15 - bio.length()) + border);
-            System.out.println("-".repeat(boxLength));
-            System.out.println(border + " 7) Exit " + " ".repeat(spaceLeftForContent - 7) + border);
-            System.out.println("=".repeat(boxLength));
+            System.out.println(border + " " + YELLOW + "1)" + RESET + " " + BLUE + "First Name" + RESET + " : " + BRIGHT_WHITE + firstName + RESET + " ".repeat(spaceLeftForContent - 15 - firstName.length()) + border);
+            System.out.println(border + " " + YELLOW + "2)" + RESET + " " + BLUE + "Last Name" + RESET + "  : " + BRIGHT_WHITE + lastName + RESET + " ".repeat(spaceLeftForContent - 15 - lastName.length()) + border);
+            System.out.println(border + " " + YELLOW + "3)" + RESET + " " + BLUE + "Username" + RESET + "   : " + BRIGHT_WHITE + username + RESET + " ".repeat(spaceLeftForContent - 15 - username.length()) + border);
+            System.out.println(border + " " + YELLOW + "4)" + RESET + " " + BLUE + "Gender" + RESET + "     : " + BRIGHT_WHITE + gender + RESET + " ".repeat(spaceLeftForContent - 15 - gender.length()) + border);
+            System.out.println(border + " " + YELLOW + "5)" + RESET + " " + BLUE + "Location" + RESET + "   : " + BRIGHT_WHITE + location + RESET + " ".repeat(spaceLeftForContent - 15 - location.length()) + border);
+            System.out.println(border + " " + YELLOW + "6)" + RESET + " " + BLUE + "Bio" + RESET + "        : " + BRIGHT_WHITE + bio + RESET + " ".repeat(spaceLeftForContent - 15 - bio.length()) + border);
+            System.out.println(GRAY + "-".repeat(boxLength) + RESET);
+            System.out.println(border + " " + YELLOW + "7)" + RESET + " " + RED + "Exit" + RESET + " " + " ".repeat(spaceLeftForContent - 7) + border);
+            System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
 
             // User choice
-            System.out.print("Enter the number of the field you want to edit: ");
+            System.out.print(GREEN + "Enter the number of the field you want to edit: " + RESET);
             int choice;
 
             try {
                 choice = scanner.nextInt();
             }catch (InputMismatchException e){
-                System.out.println("Invalid choice. Please try again.");
+                System.out.println(RED + "Invalid choice. Please try again." + RESET);
                 continue;
             }finally {
                 scanner.nextLine();
@@ -304,49 +304,49 @@ public class CommonMethods {
 
             switch (choice) {
                 case 1 -> {
-                    System.out.print("Enter new First Name: ");
+                    System.out.print(BLUE + "Enter new First Name: " + RESET);
                     String newFirst = scanner.nextLine();
                     if(userdata.updateFirstName(userId, newFirst)){
-                    System.out.println("First name updated!");
+                    System.out.println(GREEN + "First name updated!" + RESET);
                     }
                 }
                 case 2 -> {
-                    System.out.print("Enter new Last Name: ");
+                    System.out.print(BLUE + "Enter new Last Name: " + RESET);
                     String newLast = scanner.nextLine();
                     if(userdata.updateLastName(userId, newLast)){
-                    System.out.println("Last name updated!");}
+                    System.out.println(GREEN + "Last name updated!" + RESET);}
                 }
                 case 3 -> {
-                    System.out.print("Enter new Username: ");
+                    System.out.print(BLUE + "Enter new Username: " + RESET);
                     String newUsername = scanner.nextLine();
                     if (userdata.updateUserName(userId, newUsername)){
-                    System.out.println("Username updated!");}
+                    System.out.println(GREEN + "Username updated!" + RESET);}
                 }
                 case 4 -> {
-                    System.out.print("Enter new Gender: ");
+                    System.out.print(BLUE + "Enter new Gender: " + RESET);
                     String newGender = scanner.nextLine();
                     if(userdata.updateGender(userId, newGender)) {
-                        System.out.println("Gender updated!");
+                        System.out.println(GREEN + "Gender updated!" + RESET);
                     }
                 }
                 case 5 -> {
-                    System.out.print("Enter new Location: ");
+                    System.out.print(BLUE + "Enter new Location: " + RESET);
                     String newLocation = scanner.nextLine();
                     if(userdata.updateLocation(userId, newLocation)){
-                    System.out.println("Location updated!");}
+                    System.out.println(GREEN + "Location updated!" + RESET);}
                 }
                 case 6 -> {
-                    System.out.print("Enter new Bio: ");
+                    System.out.print(BLUE + "Enter new Bio: " + RESET);
                     String newBio = scanner.nextLine();
                     if(userdata.updateBio(userId, newBio)){
-                    System.out.println("Bio updated!");}
+                    System.out.println(GREEN + "Bio updated!" + RESET);}
                 }
                 case 7 -> {
-                    System.out.println("Exiting Edit Profile.");
+                    System.out.println(YELLOW + "Exiting Edit Profile." + RESET);
                     editing = false;
                     return;
                 }
-                default -> System.out.println("Invalid choice. Please try again.");
+                default -> System.out.println(RED + "Invalid choice. Please try again." + RESET);
             }
         }
     }
