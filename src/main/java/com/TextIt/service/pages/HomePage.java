@@ -97,9 +97,6 @@ public class HomePage {
         CommonMethods.pressEnterToContinue();
     }
 
-    private static void settings() {
-    }
-
     private static void logout() {
         System.out.println(RED + "Logging out..." + RESET);
         File file = new File("last_session.txt");
@@ -126,17 +123,9 @@ public class HomePage {
         System.out.println(color("Feed has been refreshed successfully.", GREEN));
     }
 
-    private static void inbox() {
-    }
-
-    private static void reel() {
-
-    }
-
     private static String color(String text, String color) {
         return color + text + RESET;
     }
-
 
     private static void goToNext() {
         System.out.println(CYAN + " Going to the next screen..." + RESET);
