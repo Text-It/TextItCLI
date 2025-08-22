@@ -2,6 +2,7 @@ package com.TextIt.database;
 
 import com.TextIt.model.Message.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
+import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import com.TextIt.service.pages.SignUpAuth;
@@ -216,6 +217,7 @@ public class DataBase {
                 pst.setInt(1, userid);
                 pst.setInt(2, postID);
                 pst.executeUpdate();
+                addNotification(userid,featchIdByPostId(postID),"like", CommonMethods.featchIdForNotification(String.valueOf(userid),"like"));
                 return true;
             } catch (SQLException e) {
                 System.err.println("Can't Like the Post More Than Once");
@@ -1216,109 +1218,7 @@ public class DataBase {
         }
     }
 
-    public class ChatListener implements Runnable {
-        private final Connection conn;
-        private final PGConnection pgConn;
-        private final String username;
-
-        public ChatListener(String username) throws Exception {
-            this.conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
-            // Required for LISTEN to take effect immediately
-            this.conn.setAutoCommit(true);
-
-            this.pgConn = conn.unwrap(PGConnection.class);
-            this.username = username;
-
-            try (Statement stmt = conn.createStatement()) {
-                stmt.execute("LISTEN new_message");
-                System.out.println("[DEBUG] LISTEN registered for 'new_message'");
-            }
-        }
-
-        @Override
-        public void run() {
-            try (Statement stmt = conn.createStatement()) {
-                while (true) {
-                    // force Postgres to deliver pending notifications
-                    stmt.execute("SELECT 1");
-
-                    PGNotification[] notifications = pgConn.getNotifications();
-
-                    if (notifications != null ) {
-                        for (PGNotification n : notifications) {
-
-                            String[] parts = n.getParameter().split(":", 3);
-                            if (parts.length < 3) continue;
-
-                            String receiver = parts[0];
-                            String sender = parts[1];
-                            String msg = parts[2];
-
-                            if (receiver.trim().equalsIgnoreCase(username.trim())) {
-                                System.out.println();
-                                System.out.println(sender + ": " + msg);
-                                System.out.print("> "); // restore prompt
-                            }
-                        }
-                    }
-
-                    Thread.sleep(500);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public class Chats{
-
-        public Chats()  {
-
-        }
-
-        public void send(String sender, String receiver, String msg) throws SQLException {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            String sql = "INSERT INTO messages (sender, receiver, message) VALUES (?, ?, ?)";
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, sender);
-                ps.setString(2, receiver);
-                ps.setString(3, msg);
-                ps.executeUpdate();
-            }
-        }
-
-            // get chat history
-            public List<Messages> getMessages(String user1, String user2) throws SQLException {
-                Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-                List<Messages> messages = new ArrayList<>();
-
-                String sql = "SELECT sender, receiver, message, sent_at " + "FROM messages " + "WHERE (sender = ? AND receiver = ?)  ";
-
-                try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setString(1, user2);
-                    ps.setString(2, user1);
-//                    ps.setString(3, user2);
-//                    ps.setString(4, user1);
-
-                    try (ResultSet rs = ps.executeQuery()) {
-                        while (rs.next()) {
-                            Messages m = new Messages(
-                                    rs.getString("sender"),
-                                    rs.getString("receiver"),
-                                    rs.getString("message"),
-                                    rs.getString("sent_at")
-                            );
-                            messages.add(m);
-                        }
-                    }
-                }
-
-                return messages;
-            }
-        }
-
-        // byUser: You Account And toUser: To another account
+        // byUser: Your Account And toUser: To another account
     public void addNotification(int byUserId,int toUserId ,String type, int refId) throws SQLException {
         String sql = "INSERT INTO notifications (to_user_id,by_user_id, type, ref_id) VALUES (?, ?, ?,?)";
         Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);

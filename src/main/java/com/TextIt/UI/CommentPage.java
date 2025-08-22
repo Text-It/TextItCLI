@@ -56,7 +56,7 @@ public class CommentPage {
                 String text = comment[1];
                 String time = comment[2];
 
-                // ✅ plain text time (no emoji)
+                // plain text time (no emoji)
                 System.out.println(border + " @" + user + "  " + time +
                         " ".repeat(Math.max(0, spaceLeftForContent - (user.length() + time.length() + 3))) + border);
 
@@ -81,7 +81,7 @@ public class CommentPage {
                     System.out.print("Enter your comment: ");
                     String newComment = sc.nextLine();
                     commentdb.addComment(postID, userID, newComment);
-                    db.addNotification(userID,db.featchIdByPostId(postID),"message", CommonMethods.featchIdForNotification(newComment,"message"));
+                    db.addNotification(userID,db.featchIdByPostId(postID),"comments", CommonMethods.featchIdForNotification(newComment,"comments"));
                     // reset pagination after adding new comment
                     offset = 0;
                     buffer = commentdb.getComments(postID, pageSize, offset);
