@@ -4,6 +4,7 @@ import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -157,9 +158,16 @@ public class FeedPage {
             System.out.println("-".repeat(boxLength));
 
             System.out.println("Select an option: ");
-            int option = sc.nextInt();
-            sc.nextLine();
+            int option;
 
+            try {
+                option = sc.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Invalid option, try again!");
+                continue;
+            }finally {
+                sc.nextLine();
+            }
             switch (option) {
                 case 1:
                     CommonMethods.openInNewCMD("com.TextIt.UI.CommentPage " + userID + " " + postId);

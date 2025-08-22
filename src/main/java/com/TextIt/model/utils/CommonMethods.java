@@ -4,6 +4,7 @@ import com.TextIt.database.DataBase;
 
 import java.io.File;
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CommonMethods {
@@ -279,8 +280,16 @@ public class CommonMethods {
 
             // User choice
             System.out.print("Enter the number of the field you want to edit: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            int choice;
+
+            try {
+                choice = scanner.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Invalid choice. Please try again.");
+                continue;
+            }finally {
+                scanner.nextLine();
+            }
 
             switch (choice) {
                 case 1 -> {
