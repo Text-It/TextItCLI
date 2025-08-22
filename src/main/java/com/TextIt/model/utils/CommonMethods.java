@@ -17,12 +17,50 @@ public class CommonMethods {
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN = "\u001B[36m";
     public static final String BOLD = "\u001B[1m";
+
+    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String BRIGHT_GREEN = "\u001B[92m";
+    public static final String BRIGHT_YELLOW = "\u001B[93m";
+    public static final String BRIGHT_BLUE = "\u001B[94m";
+    public static final String BRIGHT_PURPLE = "\u001B[95m";
+    public static final String BRIGHT_CYAN = "\u001B[96m";
+    public static final String WHITE = "\u001B[37m";
+    public static final String BRIGHT_WHITE = "\u001B[97m";
+    public static final String BLACK = "\u001B[30m";
+    public static final String GRAY = "\u001B[90m";
+
+    // Background colors
+    public static final String BG_RED = "\u001B[41m";
+    public static final String BG_GREEN = "\u001B[42m";
+    public static final String BG_YELLOW = "\u001B[43m";
+    public static final String BG_BLUE = "\u001B[44m";
+    public static final String BG_PURPLE = "\u001B[45m";
+    public static final String BG_CYAN = "\u001B[46m";
+    public static final String BG_WHITE = "\u001B[47m";
+    public static final String BG_BLACK = "\u001B[40m";
+
+    // Text effects
+    public static final String ITALIC = "\u001B[3m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String BLINK = "\u001B[5m";
+    public static final String REVERSE = "\u001B[7m";
+    public static final String HIDDEN = "\u001B[8m";
+
+
     //Objects
     static Scanner scanner = new Scanner(System.in);
     private static final DataBase db = new DataBase();
     public static final DataBase.UserData userdata =db.new UserData();
     private static final DataBase.Post userpost =db.new Post();
     private static final DataBase.UserFollows userfollows =db.new UserFollows();
+
+    public static void printDivider() {
+        System.out.println(BRIGHT_CYAN + "-".repeat(80) + RESET);
+    }
+    public static void printChoice(int number, String description, String color) {
+        System.out.println(BRIGHT_YELLOW + number + ". " + color + description + RESET);
+    }
+
 
     public static void pressEnterToContinue() {
         System.out.println(PURPLE + "\nPress Enter to continue..." + RESET);

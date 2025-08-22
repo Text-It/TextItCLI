@@ -19,10 +19,7 @@ public class AuthCLI {
     private final DataBase dataBase = new DataBase();
     private final DataBase.UserData userDb = dataBase.new UserData();
 
-
-
     public void showWelcomeScreen() throws Exception {
-
         while (true) {
             if(sessionManger.autoLogin()){
                 // homePage
@@ -34,41 +31,101 @@ public class AuthCLI {
                 HomePage.main(new String[]{String.valueOf(SessionManger.getUserid())});
                 break;
             }
-            System.out.println(CommonMethods.CYAN + CommonMethods.BOLD + """
-                    ╔════════════════════════════════════════╗
-                    ║           Welcome to TextIt            ║
-                    ╚════════════════════════════════════════╝
-                    """ + RESET);
-            System.out.println(CommonMethods.YELLOW + "1. " + GREEN + "Sign Up");
-            System.out.println(CommonMethods.YELLOW + "2. " + CommonMethods.BLUE + "LoginAuth");
-            System.out.println(CommonMethods.YELLOW + "3. " + RED + "Exit");
-            System.out.print("\n" + CommonMethods.PURPLE + "Enter your choice: " + RESET);
+            clearConsole();
 
+            displayWelcome();
 
-            int choice = 0;
-            try {
-                choice = scanner.nextInt();
-            } catch (InputMismatchException _) {
-            }
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    openInNewCMD("com.TextIt.UI.SignupPage");
-                    break;
-                case 2:
-                    openInNewCMD("com.TextIt.UI.LoginPage");
-                    break;
-                case 3: {
-                    System.out.println(RED + "\nThank you for using TextIt. Goodbye!" + RESET);
-                    System.exit(0);
-                }
-                default: {
-                    System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
-                    pressEnterToContinue();
-                    showWelcomeScreen();
-                }
-            }
+            displayMainMenu();
+            
+            // Get user choice
+            int choice = getUserChoice();
+            
+            // Handle user choice
+            handleUserChoice(choice);
         }
+    }
+    
+    private void displayWelcome() {
+        System.out.println(BRIGHT_CYAN + BOLD + """
+                +==============================================================================+
+                |                                                                              |
+                |     ████████╗███████╗██╗  ██╗ ████████╗ ██╗  ████████╗                       |
+                |     ╚══██╔══╝██╔════╝╚██╗██╔╝ ╚══██╔══╝ ██║  ╚══██╔══╝                       |
+                |        ██║   █████╗   ╚███╔╝     ██║    ██║     ██║                          |
+                |        ██║   ██╔══╝   ██╔██╗     ██║    ██║     ██║                          |
+                |        ██║   ███████╗██╔╝ ██╗    ██║    ██║     ██║                          |
+                |        ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚═╝    ╚═╝     ╚═╝                          |
+                |                                                                              |
+                |                  ✉️   Welcome to TEXTIT - Chat Smarter ✉️                    |
+                |                                                                              |
+                +==============================================================================+
+                """ + RESET);
+
+
+        System.out.println(BRIGHT_WHITE + BOLD + "\n" + " ".repeat(20) + "Connect • Share • Inspire" + RESET);
+        System.out.println(BRIGHT_YELLOW + " ".repeat(18) + "Your Digital Story Starts Here" + RESET);
+        
+        CommonMethods.printDivider();
+    }
+    
+    private void displayMainMenu() {
+        System.out.println(BRIGHT_BLUE + BOLD + "\n🎯 Main Menu - Choose Your Path:" + RESET);
+        System.out.println();
+        
+        CommonMethods.printChoice(1, "🌟 Create New Account", BRIGHT_GREEN);
+        CommonMethods.printChoice(2, "🔐 Login to Your Account", BRIGHT_BLUE);
+        CommonMethods.printChoice(3, "❌ Exit Application", BRIGHT_RED);
+        
+        CommonMethods.printDivider();
+    }
+    
+    private int getUserChoice() {
+        System.out.print(BRIGHT_PURPLE + BOLD + "\n🎮 Enter your choice (1-3): " + RESET);
+        
+        int choice = 0;
+        try {
+            choice = scanner.nextInt();
+        } catch (InputMismatchException _) {
+            // Handle invalid input
+        }
+        scanner.nextLine(); // consume newline
+        
+        return choice;
+    }
+    
+    private void handleUserChoice(int choice) throws Exception {
+        switch (choice) {
+            case 1:
+                openInNewCMD("com.TextIt.UI.SignupPage");
+                break;
+            case 2:
+                openInNewCMD("com.TextIt.UI.LoginPage");
+                break;
+            case 3:
+                displayExitMessage();
+                System.exit(0);
+                break;
+            default:
+                System.out.println(RED + "\nInvalid choice. Please try again." + RESET);
+                pressEnterToContinue();
+                showWelcomeScreen();
+        }
+    }
+    
+    private void displayExitMessage() {
+        clearConsole();
+        System.out.println(BRIGHT_CYAN + BOLD + """
+                +==============================================================================+ 
+                |                                                                                |
+                |                          👋 Thank You for Using TextIt! 👋                     |                                                                                |
+                |                    We hope you enjoyed your experience!                        |
+                |                                                                                |
+                |                        Come back soon for more connections!                    |
+                |                                                                                |
+                +==============================================================================+
+                """ + RESET);
+        
+        System.out.println(BRIGHT_GREEN + "\n" + " ".repeat(30) + "🌟 Have a great day! 🌟" + RESET);
+
     }
 }
