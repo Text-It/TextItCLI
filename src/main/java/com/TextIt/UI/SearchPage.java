@@ -8,8 +8,6 @@ import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import java.sql.*;
 import java.util.Scanner;
 
-import static com.TextIt.UI.FeedPage.printOptionRow;
-
 
 public class SearchPage {
 
@@ -325,10 +323,10 @@ public class SearchPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Option Rows (2 options per row)
-        printOptionRow(option1, option1Length, option2, option2Length, border, spaceLeftForContent);
-        printOptionRow(option3, option3Length, option4, option4Length, border, spaceLeftForContent);
-        printOptionRow(option5, option5Length, option6, option6Length, border, spaceLeftForContent);
-        printOptionRow(option7, option7Length, option8, option8Length, border, spaceLeftForContent);
+        FeedPage.printOptionRow(option1, option1Length, option2, option2Length, border, spaceLeftForContent);
+        FeedPage.printOptionRow(option3, option3Length, option4, option4Length, border, spaceLeftForContent);
+        FeedPage.printOptionRow(option5, option5Length, option6, option6Length, border, spaceLeftForContent);
+        FeedPage.printOptionRow(option7, option7Length, option8, option8Length, border, spaceLeftForContent);
 
         System.out.println("-".repeat(boxLength));
     }
