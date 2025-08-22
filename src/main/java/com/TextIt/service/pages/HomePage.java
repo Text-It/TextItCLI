@@ -4,6 +4,7 @@ import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.session.SessionManger;
 import java.io.File;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -52,7 +53,16 @@ public class HomePage {
             CommonMethods.printDivider();
 
             System.out.println(color("Enter your choice: ", GREEN));
-            int choice = sc.nextInt();
+            int choice;
+            try {
+                choice = sc.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println(RED + "Invalid choice. Please try again." + RESET);
+                continue;
+            }finally {
+                sc.nextLine();
+            }
+
             switch (choice) {
                 case 1:
                     CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " , String.valueOf(userID));
@@ -95,13 +105,40 @@ public class HomePage {
     }
 
     private static void help() {
-        System.out.println(color("TextIT is a social media platform for texting, sharing, and connecting with others.", GREEN));
-        System.out.println(color("To use TextIT, follow these steps:", GREEN));
-        System.out.println("1. Sign up for an account.");
-        System.out.println("2. Connect with friends, family, and colleagues.");
-        System.out.println("3. Send and receive messages.");
-        System.out.println("4. Share your thoughts, experiences, and ideas.");
-        System.out.println("5. Connect with other users based on their interests and skills.");
+        System.out.println(color("TextIT Help", GREEN));
+        System.out.println(color("TextIT is a social network for sharing and discussing ideas, opinions, and creative solutions. ", BLUE));
+        System.out.println(color("TextIT is designed to help people connect, collaborate, and share ideas.", BLUE));
+        System.out.println(color("Here are some tips to get started:", BLUE));
+        System.out.println(color("\n1. Profile (Option 1)", YELLOW));
+        System.out.println(color("   - View and edit your profile information", BLUE));
+        System.out.println(color("   - Check your followers and following", BLUE));
+        System.out.println(color("\n2. Posts (Option 2)", YELLOW));
+        System.out.println(color("   - Browse through posts from other users", BLUE));
+        System.out.println(color("   - Like, comment, and share posts", BLUE));
+        System.out.println(color("\n3. Search (Option 3)", YELLOW));
+        System.out.println(color("   - Find other users and posts", BLUE));
+        System.out.println(color("   - Search by username or keywords", BLUE));
+        System.out.println(color("\n4. Inbox (Option 4)", YELLOW));
+        System.out.println(color("   - View your messages and notifications", BLUE));
+        System.out.println(color("\n5. Create Post (Option 5)", YELLOW));
+        System.out.println(color("   - Share your thoughts and ideas", BLUE));
+        System.out.println(color("   - Add text, links, and formatting", BLUE));
+        System.out.println(color("\n6. Career (Option 6)", YELLOW));
+        System.out.println(color("   - Explore job opportunities at TextIT", BLUE));
+        System.out.println(color("\n7. Settings (Option 8)", YELLOW));
+        System.out.println(color("   - Customize your account preferences", BLUE));
+        System.out.println(color("   - Manage privacy settings", BLUE));
+        System.out.println(color("\n8. Chat (Option 9)", YELLOW));
+        System.out.println(color("   - Start real-time conversations", BLUE));
+        System.out.println(color("   - Connect with other users instantly", BLUE));
+        System.out.println(color("\n9. Help (Option 10)", YELLOW));
+        System.out.println(color("   - Learn more about TextIT and its features", BLUE));
+        System.out.println(color("\n10. Exit (Option 11)", YELLOW));
+        System.out.println(color("   - Close TextIT and return to the previous screen", BLUE));
+        System.out.println(color("\nFor more information, visit our website: https://www.textit.com", BLUE));
+        System.out.println(color("contact us at <support.textit@gmail.com>", BLUE));
+        System.out.println(color("for further assistance visit Settings > About & Legal", BLUE));
+
         CommonMethods.pressEnterToContinue();
     }
 

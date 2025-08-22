@@ -4,6 +4,7 @@ import com.TextIt.database.DataBase;
 
 import java.io.File;
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CommonMethods {
@@ -255,6 +256,7 @@ public class CommonMethods {
     }
     public static void editProfile(int userId) {
         boolean editing = true;
+        clearConsole();
 
         while (editing) {
             // Fetch latest values from DB
@@ -289,8 +291,16 @@ public class CommonMethods {
 
             // User choice
             System.out.print("Enter the number of the field you want to edit: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            int choice;
+
+            try {
+                choice = scanner.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Invalid choice. Please try again.");
+                continue;
+            }finally {
+                scanner.nextLine();
+            }
 
             switch (choice) {
                 case 1 -> {
@@ -334,6 +344,7 @@ public class CommonMethods {
                 case 7 -> {
                     System.out.println("Exiting Edit Profile.");
                     editing = false;
+                    return;
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }

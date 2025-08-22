@@ -1,6 +1,7 @@
 package com.TextIt.UI;
 
 import com.TextIt.model.utils.CommonMethods;
+
 import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
@@ -11,7 +12,7 @@ public class ProfilePage {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-       int userid = Integer.parseInt(args[0]);
+        int userid = Integer.parseInt(args[0]);
 
         CommonMethods.userProfile(userid);
 
@@ -37,7 +38,7 @@ public class ProfilePage {
                     break;
                 case "2":
                     CommonMethods.editProfile(userid);
-                    break;
+                    return;
                 case "3":
                     CommonMethods.openInNewCMD("com.TextIt.UI.SettingsPage " + userid);
                     break;

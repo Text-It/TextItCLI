@@ -5,6 +5,7 @@ import com.TextIt.model.utils.CommonMethods;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -73,8 +74,15 @@ public class CommentPage {
             System.out.println("-".repeat(boxLength));
 
             System.out.print("Select an option: ");
-            int option = sc.nextInt();
-            sc.nextLine();
+            int option;
+            try {
+                option = sc.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Invalid option, try again!");
+                continue;
+            }finally {
+                sc.nextLine();
+            }
 
             switch (option) {
                 case 1 -> {
