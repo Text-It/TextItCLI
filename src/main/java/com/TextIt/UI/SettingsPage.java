@@ -93,7 +93,7 @@ public class SettingsPage {
         System.out.println("╔══════════════════════════════════════════════╗");
         System.out.println("║                 TextIt Settings              ║");
         System.out.println("╠══════════════════════════════════════════════╣");
-        System.out.println("║  User: " + username + " ".repeat(Math.max(1, 37 - username.length())) + "║");
+        System.out.println("║  User: " + username + " ".repeat(Math.max(1, 38 - username.length())) + "║");
         System.out.println("╚══════════════════════════════════════════════╝");
         System.out.println(RESET);
     }
