@@ -63,14 +63,14 @@ public class AuthCLI {
                 """ + RESET);
 
 
-        System.out.println(BRIGHT_WHITE + BOLD + "\n" + " ".repeat(20) + "Connect • Share • Inspire" + RESET);
+        System.out.println(BRIGHT_WHITE + BOLD + "\n" + " ".repeat(20) + "Connect   Share   Inspire" + RESET);
         System.out.println(BRIGHT_YELLOW + " ".repeat(18) + "Your Digital Story Starts Here" + RESET);
 
         CommonMethods.printDivider();
     }
 
     private void displayMainMenu() {
-        System.out.println(BRIGHT_BLUE + BOLD + "\n🎯 Main Menu - Choose Your Path:" + RESET);
+        System.out.println(BRIGHT_BLUE + BOLD + "\n  Main Menu - Choose Your Path:" + RESET);
         System.out.println();
 
         CommonMethods.printChoice(1, " Create New Account", BRIGHT_GREEN);
@@ -127,7 +127,7 @@ public class AuthCLI {
                 +==============================================================================+
                 """ + RESET);
 
-        System.out.println(BRIGHT_GREEN + "\n" + " ".repeat(30) + "🌟 Have a great day! 🌟" + RESET);
+        System.out.println(BRIGHT_GREEN + "\n" + " ".repeat(30) + "  Have a great day!  " + RESET);
 
     }
 }
