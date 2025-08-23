@@ -281,10 +281,6 @@ public class FeedPage {
                                      String option2, int option2Length,
                                      String border, int spaceLeftForContent) {
 
-    static void printOptionRow(String option1, int option1Length,
-                               String option2, int option2Length,
-                               String border, int spaceLeftForContent) {
-
         int totalWidth = option1Length + option2Length;
         int padding = spaceLeftForContent - totalWidth;
         int separator = Math.max(1, padding / 3);
