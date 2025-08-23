@@ -58,8 +58,8 @@ public class OTPHandler {
      *
      * @param email the recipient's email address
      * @param otp   the OTP string to be sent
-     * @throws MessagingException            if the email fails to send
-     * @throws UnsupportedEncodingException  if the sender name uses unsupported encoding
+     * @throws MessagingException           if the email fails to send
+     * @throws UnsupportedEncodingException if the sender name uses unsupported encoding
      */
 
     public static void sendOTP(String email, String otp) throws MessagingException, UnsupportedEncodingException {
@@ -88,15 +88,15 @@ public class OTPHandler {
         Transport.send(message);
     }
 
-    public static boolean verifyOTPSend(String email , String generatedOtp){
+    public static boolean verifyOTPSend(String email, String generatedOtp) {
 
-        System.out.println("🔐 To proceed, we need to verify your email address.");
-        System.out.println("📧 A one-time verification code will be sent to your email.");
-        System.out.println("✅ You have 3 attempts to enter the correct OTP.");
+        System.out.println("To proceed, we need to verify your email address.");
+        System.out.println("A one-time verification code will be sent to your email.");
+        System.out.println("You have 3 attempts to enter the correct OTP.");
         System.out.println("---------------------------------------------------\n");
 
         // Show progress feedback while sending OTP
-        System.out.print("📤 Sending OTP");
+        System.out.print("Sending OTP");
         for (int dots = 0; dots < 3; dots++) {
             try {
                 Thread.sleep(900); // Simulate progress indicator (800 ms delay for each dot)
@@ -108,39 +108,39 @@ public class OTPHandler {
 
         try {
             OTPHandler.sendOTP(email, generatedOtp);
-            System.out.println("✅ OTP sent successfully to " + email);
+            System.out.println("OTP sent successfully to " + email);
             return true;
         } catch (AuthenticationFailedException e) {
-            System.err.println("❌ Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
+            System.err.println("Authentication failed: Invalid email/password. Make sure to use Gmail App Password.");
             return false;
         } catch (SendFailedException e) {
-            System.err.println("❌ Email sending failed: Invalid recipient address or network error.");
+            System.err.println("Email sending failed: Invalid recipient address or network error.");
             return false;
         } catch (MessagingException e) {
-            System.err.println("❌ Messaging error: " + e.getMessage());
+            System.err.println("Messaging error: " + e.getMessage());
             return false;
         } catch (UnsupportedEncodingException e) {
-            System.err.println("❌ Encoding error while setting sender name.");
+            System.err.println("Encoding error while setting sender name.");
             return false;
         } catch (Exception e) {
-            System.err.println("❌ Unexpected error occurred: " + e.getMessage());
+            System.err.println("Unexpected error occurred: " + e.getMessage());
             return false;
         }
     }
 
-    public static boolean verifyOTP(String generatedOtp , Scanner scanner){
+    public static boolean verifyOTP(String generatedOtp, Scanner scanner) {
         for (int i = 1; i <= 3; i++) {
 
             System.out.print("Enter OTP (" + i + "/3): ");
             String userInputOtp = scanner.nextLine();
 
             if (userInputOtp.equals(generatedOtp)) {
-                System.out.println("✅ Email verification successful.");
+                System.out.println("Email verification successful.");
                 return true;
             } else {
-                System.out.println("❌ Incorrect OTP. Please try again.");
-                if (i==3){
-                    System.out.println("❌ You have exceeded the maximum number of attempts. Please try again later.");
+                System.out.println("Incorrect OTP. Please try again.");
+                if (i == 3) {
+                    System.out.println("You have exceeded the maximum number of attempts. Please try again later.");
                     return false;
                 }
                 if (i < 3) {
@@ -160,15 +160,15 @@ public class OTPHandler {
     private static String emailBody(String otp) {
         return """
                 Hello,
-
+                
                 Your One-Time Password (OTP) for verifying your account on TextIT is:
-
+                
                 👉 OTP: %s
-
+                
                 This code is valid for the next 10 minutes. Please do not share it with anyone.
-
+                
                 If you did not request this code, please ignore this email.
-
+                
                 Thanks,
                 Team TextIT
                 TextIT Corporation | Secure & Simple Text Networking

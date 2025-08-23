@@ -14,17 +14,18 @@ import static com.TextIt.model.utils.CommonMethods.*;
 
 public class ChatUI {
     private final static DataBase db = new DataBase();
-    private final static DataBase.UserData  userdb = db.new UserData();
+    private final static DataBase.UserData userdb = db.new UserData();
     private final static DataBase.Profile profiledb = db.new Profile();
     private final static Chats chat = new Chats();
     private final static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
 
 
         while (true) {
-            System.out.println(BOLD+PURPLE+"-------- MESSAGING --------"+RESET);
+            System.out.println(BOLD + PURPLE + "-------- MESSAGING --------" + RESET);
             String sender = userdb.getUserName(Integer.parseInt(args[0]));
-            System.out.print(YELLOW+"Enter Username you want to chat: "+RESET);
+            System.out.print(YELLOW + "Enter Username you want to chat: " + RESET);
             String receiver = sc.nextLine();
             System.out.println();
             if (profiledb.isAvailable("username", receiver)) {
@@ -55,7 +56,7 @@ public class ChatUI {
 
                 }
             } else {
-                System.out.println(RED+"Either invalid username or profile is not available"+RESET);
+                System.out.println(RED + "Either invalid username or profile is not available" + RESET);
                 Thread.sleep(1500);
                 System.out.println(CLEAR_SCREEN);
 

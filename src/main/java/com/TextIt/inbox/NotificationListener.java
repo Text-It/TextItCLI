@@ -8,13 +8,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public  class NotificationListener implements Runnable {
+public class NotificationListener implements Runnable {
+    private static final DataBase DATA_BASE = new DataBase();
     private final PGConnection pgConn;
     private final String username;
-    private static  final DataBase DATA_BASE = new DataBase();
 
-    public NotificationListener( String username) throws Exception {
-        Connection conn = DriverManager.getConnection(DATA_BASE.getUrl() ,DATA_BASE.getUsername() , DATA_BASE.getPassword() );
+    public NotificationListener(String username) throws Exception {
+        Connection conn = DriverManager.getConnection(DATA_BASE.getUrl(), DATA_BASE.getUsername(), DATA_BASE.getPassword());
         this.pgConn = conn.unwrap(PGConnection.class);
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("LISTEN new_message");
@@ -38,9 +38,9 @@ public  class NotificationListener implements Runnable {
 
                         if (receiver.equalsIgnoreCase(username)) {
                             if ("new_message".equals(n.getName())) {
-                                System.out.println("\n📩 New message from " + sender + ": " + content);
+                                System.out.println("\nNew message from " + sender + ": " + content);
                             } else if ("new_comment".equals(n.getName())) {
-                                System.out.println("\n💬 New comment by " + sender + ": " + content);
+                                System.out.println("\nNew comment by " + sender + ": " + content);
                             }
                             System.out.print("> "); // keeps CLI prompt
                         }

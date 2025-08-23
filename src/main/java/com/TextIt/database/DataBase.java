@@ -1,14 +1,11 @@
 package com.TextIt.database;
 
 
-import com.TextIt.model.Message.Messages;
 import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 import com.TextIt.service.pages.SignUpAuth;
-import org.postgresql.PGConnection;
-import org.postgresql.PGNotification;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -233,7 +230,7 @@ public class DataBase {
                 pst.setInt(1, userid);
                 pst.setInt(2, postID);
                 pst.executeUpdate();
-                db.addNotification(userid,db.featchIdByPostId(postID),"like", CommonMethods.featchIdForNotification(String.valueOf(userid),"like"));
+                db.addNotification(userid, db.featchIdByPostId(postID), "like", CommonMethods.featchIdForNotification(String.valueOf(userid), "like"));
                 return true;
             } catch (SQLException e) {
                 System.err.println("Can't Like the Post More Than Once");

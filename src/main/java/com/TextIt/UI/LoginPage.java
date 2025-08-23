@@ -6,6 +6,7 @@ import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.session.SessionManger;
 
 import java.util.Scanner;
+
 import static com.TextIt.model.utils.CommonMethods.*;
 
 
@@ -46,7 +47,7 @@ public class LoginPage {
                     System.out.println(GREEN + BOLD + "\n LoginAuth successful!" + RESET);
                     // start thread for notification lisening
                     String username = userInfo.getUserName(connectivity.featchId(userInput.trim()));
-                    NotificationListener listener = new NotificationListener( username);
+                    NotificationListener listener = new NotificationListener(username);
                     Thread t = new Thread(listener);
                     t.setDaemon(true);
                     t.start();

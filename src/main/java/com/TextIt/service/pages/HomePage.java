@@ -3,7 +3,7 @@ package com.TextIt.service.pages;
 import com.TextIt.database.DataBase;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.service.session.SessionManger;
-import java.io.File;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,24 +12,23 @@ import static com.TextIt.model.utils.CommonMethods.*;
 
 public class HomePage {
 
-    static Scanner sc = new Scanner(System.in);
-    private static  int userID = SessionManger.getUserid();
     private static final DataBase db = new DataBase();
-    private static final DataBase.UserData userdata =db.new UserData();
-
+    private static final DataBase.UserData userdata = db.new UserData();
+    static Scanner sc = new Scanner(System.in);
+    private static int userID = SessionManger.getUserid();
 
     public static void main(String[] args) {
 
         while (true) {
-            if(args[0]!=null){
-                userID= Integer.parseInt(args[0]);
+            if (args[0] != null) {
+                userID = Integer.parseInt(args[0]);
             }
             System.out.println(CYAN + BOLD);
             System.out.println("=================================================================================");
             System.out.println("                             Welcome to TextIT                              ");
             System.out.println(color("                             Hello, " + userdata.getUserName(userID) + "!", YELLOW));
             System.out.println(color("               Select option to explore the world of TextIT               ", BRIGHT_PURPLE));
-            System.out.println(CYAN+BOLD+"=================================================================================");
+            System.out.println(CYAN + BOLD + "=================================================================================");
             System.out.print(RESET);
 
             CommonMethods.printDivider();
@@ -42,7 +41,7 @@ public class HomePage {
             System.out.println("│  " + YELLOW + "3. " + color("Search", BLUE) + createSpacing("3. Search", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "4. " + color("Inbox", BLUE) + createSpacing("4. Inbox", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "5. " + color("Create Post", BLUE) + createSpacing("5. Create Post", 78) + CYAN + BOLD + "│");
-            System.out.println("│  " + YELLOW + "6. " + color("Career at TextIT", BLUE) + createSpacing("6. Career at TextIT",78 ) + CYAN + BOLD + "│");
+            System.out.println("│  " + YELLOW + "6. " + color("Career at TextIT", BLUE) + createSpacing("6. Career at TextIT", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "7. " + color("Setting", BLUE) + createSpacing("8. Setting", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "8. " + color("Chat", BLUE) + createSpacing("9. Chat", 78) + CYAN + BOLD + "│");
             System.out.println("│  " + YELLOW + "9. " + color("Help", BLUE) + createSpacing("10. Help", 78) + CYAN + BOLD + " │");
@@ -55,25 +54,25 @@ public class HomePage {
             int choice;
             try {
                 choice = sc.nextInt();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println(RED + "Invalid choice. Please try again." + RESET);
                 continue;
-            }finally {
+            } finally {
                 sc.nextLine();
             }
 
             switch (choice) {
                 case 1:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage " , String.valueOf(userID));
+                    CommonMethods.openInNewCMD("com.TextIt.UI.ProfilePage ", String.valueOf(userID));
                     break;
                 case 2:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage " , String.valueOf(userID) , "true");
+                    CommonMethods.openInNewCMD("com.TextIt.UI.FeedPage ", String.valueOf(userID), "true");
                     break;
                 case 3:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w" , String.valueOf(userID));
+                    CommonMethods.openInNewCMD("com.TextIt.UI.SearchPage w", String.valueOf(userID));
                     break;
                 case 4:
-                    CommonMethods.openInNewCMD("com.TextIt.UI.InboxPage " , String.valueOf(userID));
+                    CommonMethods.openInNewCMD("com.TextIt.UI.InboxPage ", String.valueOf(userID));
                     break;
                 case 5:
                     CommonMethods.openInNewCMD("com.TextIt.UI.Post " + userID);
@@ -148,6 +147,4 @@ public class HomePage {
         if (spaces <= 0) return " ";
         return " ".repeat(spaces);
     }
-
-
 }

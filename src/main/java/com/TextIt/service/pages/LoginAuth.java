@@ -1,10 +1,10 @@
 package com.TextIt.service.pages;
 
 
-
 import com.TextIt.database.DataBase;
 import com.TextIt.model.auth.Authentication;
-import com.TextIt.model.exceptions.*;
+import com.TextIt.model.exceptions.PasswordNotMatchException;
+import com.TextIt.model.exceptions.UserDetailNotMatchException;
 import com.TextIt.model.utils.CommonMethods;
 import com.TextIt.security.Hashing;
 import com.TextIt.security.OTPHandler;
@@ -16,7 +16,7 @@ import static com.TextIt.model.utils.CommonMethods.*;
 public class LoginAuth implements Authentication {
     //Object of class DataBase
     private final DataBase dataBase = new DataBase();
-    private final DataBase.Profile profile =dataBase.new Profile();
+    private final DataBase.Profile profile = dataBase.new Profile();
 
 
     /**
@@ -38,8 +38,8 @@ public class LoginAuth implements Authentication {
      * @param input user provided detail(name , phone number , email)
      * @return true, if one out of three conditions satisfies else, it returns false
      */
-    public boolean verifyUserDetail(String input){
-        input=input.trim().toLowerCase();
+    public boolean verifyUserDetail(String input) {
+        input = input.trim().toLowerCase();
 
         try {
             if (profile.isAvailable("username", input)) {
@@ -65,7 +65,7 @@ public class LoginAuth implements Authentication {
             } else {
                 throw new UserDetailNotMatchException("Incorrect UserName!!");
             }
-        }catch (UserDetailNotMatchException e) {
+        } catch (UserDetailNotMatchException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -75,14 +75,14 @@ public class LoginAuth implements Authentication {
 
     @Override
     public boolean verifyEmail(String email) {
-        try{
-            if (profile.isAvailable("email", email )) {
+        try {
+            if (profile.isAvailable("email", email)) {
                 return true;
-            }else{
+            } else {
                 throw new UserDetailNotMatchException("Incorrect Email!!");
             }
 
-        }catch (UserDetailNotMatchException e) {
+        } catch (UserDetailNotMatchException e) {
             System.out.println(e.getMessage());
             return false;
         }
@@ -103,20 +103,20 @@ public class LoginAuth implements Authentication {
         }
     }
 
-    public void handleForgotPassword(Scanner scanner){
+    public void handleForgotPassword(Scanner scanner) {
 
         //Object of Signup
         SignUpAuth signup = new SignUpAuth();
 
         //Variables
-        String email, newPassword , conformPassword;
+        String email, newPassword, conformPassword;
 
         System.out.println(CYAN + "\nVerifying your identity..." + RESET);
 
         System.out.print(YELLOW + "Enter your registered email for verification: " + RESET);
         email = scanner.nextLine().toLowerCase();
 
-        if(!verifyUserDetail(email)){
+        if (!verifyUserDetail(email)) {
             return;
         }
 
@@ -135,7 +135,7 @@ public class LoginAuth implements Authentication {
             newPassword = scanner.nextLine();
             System.out.print(YELLOW + "Enter conformed password: " + RESET);
             conformPassword = scanner.nextLine();
-            if(!newPassword.equals(conformPassword)){
+            if (!newPassword.equals(conformPassword)) {
                 System.out.println("New password and confirm password must be the same.");
             }
 
@@ -143,7 +143,7 @@ public class LoginAuth implements Authentication {
 
         String hashedPassword = Hashing.generateHashCode(newPassword);
 
-        if(profile.updateProfile("password_hash" , hashedPassword , "email" , email )){
+        if (profile.updateProfile("password_hash", hashedPassword, "email", email)) {
             System.out.println(GREEN + "\nPassword updated successfully" + RESET);
             CommonMethods.pressEnterToContinue();
         }
@@ -166,9 +166,9 @@ public class LoginAuth implements Authentication {
      * @return true, if the password matches else false
      */
     @Override
-    public boolean verifyPassword(String password){
+    public boolean verifyPassword(String password) {
 
-         String hashedPassword = Hashing.generateHashCode(password);
+        String hashedPassword = Hashing.generateHashCode(password);
 
         try {
             if (profile.isAvailable("password_hash", hashedPassword)) {

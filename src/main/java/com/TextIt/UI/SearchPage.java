@@ -1,8 +1,8 @@
 package com.TextIt.UI;
 
 import com.TextIt.database.DataBase;
-import com.TextIt.service.data_structure.Hash_Map.HashMapp;
 import com.TextIt.model.utils.CommonMethods;
+import com.TextIt.service.data_structure.Hash_Map.HashMapp;
 import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
 import java.sql.*;
@@ -14,6 +14,7 @@ public class SearchPage {
     private final HashMapp<String, String> userData;
     private final DataBase database;
     private final Scanner scanner;
+
     public SearchPage() {
         this.userData = new HashMapp<>();
         this.database = new DataBase();
@@ -21,6 +22,10 @@ public class SearchPage {
         loadUser();
     }
 
+    public static void main(String[] args) {
+        SearchPage sp = new SearchPage();
+        sp.Search();
+    }
 
     private void loadUser() {
         if (!database.isServerReachable()) {
@@ -44,7 +49,7 @@ public class SearchPage {
 
                 String fullName = firstName + " " + lastName;
 
-               userData.put(username, userid);
+                userData.put(username, userid);
                 userCount++;
             }
 
@@ -55,9 +60,8 @@ public class SearchPage {
         }
     }
 
-
     public String searchByUserName(String username) {
-        if (username == null ) {
+        if (username == null) {
             System.out.println(CommonMethods.color("Username cannot be empty.", CommonMethods.RED));
             return null;
         }
@@ -75,14 +79,9 @@ public class SearchPage {
         return foundUser;
     }
 
-
     public void Search() {
         while (true) {
-            System.out.println(CommonMethods.GREEN + CommonMethods.BOLD +
-                    "╔════════════════════════════════════════╗\n" +
-                    "║              Search User               ║\n" +
-                    "╚════════════════════════════════════════╝" +
-                    CommonMethods.RESET);
+            System.out.println(CommonMethods.GREEN + CommonMethods.BOLD + "╔════════════════════════════════════════╗\n" + "║              Search User               ║\n" + "╚════════════════════════════════════════╝" + CommonMethods.RESET);
 
             System.out.println(CommonMethods.color("1. Search by exact username", CommonMethods.GREEN));
             System.out.println(CommonMethods.color("2. Refresh user data", CommonMethods.BLUE));
@@ -113,6 +112,7 @@ public class SearchPage {
             CommonMethods.pressEnterToContinue();
         }
     }
+
     private void searchUser() {
         System.out.print(CommonMethods.color("Enter username to search: ", CommonMethods.BOLD));
         String username = scanner.nextLine().trim();
@@ -125,6 +125,7 @@ public class SearchPage {
         System.out.println(CommonMethods.color(" Searching for user: " + username, CommonMethods.CYAN));
         searchByUserName(username);
     }
+
     private void refresh() {
         System.out.println(CommonMethods.color(" Refreshing user data from database...", CommonMethods.BLUE));
         userData.clear();
@@ -132,28 +133,27 @@ public class SearchPage {
         System.out.println(CommonMethods.color(" User data refreshed successfully!", CommonMethods.GREEN));
     }
 
-
     private void searchByLink() {
         System.out.println("Past Link here");
-        System.out.print(CommonMethods.color("Searching for link: " , CommonMethods.CYAN));
+        System.out.print(CommonMethods.color("Searching for link: ", CommonMethods.CYAN));
         String link = scanner.nextLine().trim();
         if (link.isEmpty()) {
             System.out.println(CommonMethods.color("Link cannot be empty.", CommonMethods.RED));
-        }else {
+        } else {
             try (Connection conn = DriverManager.getConnection(database.getUrl(), database.getUsername(), database.getPassword())) {
                 String query = "select username from users where user_url =  ?";
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setString(1, link);
                 ResultSet rs = ps.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     String username = rs.getString("username");
                     searchByUserName(username);
-                }else{
+                } else {
                     String query1 = "select userid from posts where post_url = ?";
                     PreparedStatement ps1 = conn.prepareStatement(query1);
                     ps1.setString(1, link);
                     ResultSet rs1 = ps1.executeQuery();
-                    if(rs1.next()){
+                    if (rs1.next()) {
                         int userid = rs1.getInt(1);
                         postSearchView(userid);
                     }
@@ -166,7 +166,7 @@ public class SearchPage {
         }
     }
 
-    private void  postSearchView(int userid ) {
+    private void postSearchView(int userid) {
 
         DataBase db = new DataBase();
         DataBase.UserData userdb = db.new UserData();
@@ -280,13 +280,7 @@ public class SearchPage {
         int userTimeTotalWidth = whoPostedLength + userNameLength + timePostedLength + postTimeLength;
         int userTimePadding = spaceLeftForContent - userTimeTotalWidth;
         int userTimeSeparator = Math.max(1, userTimePadding / 3);
-        System.out.println(border +
-                whoPosted + userName +
-                " ".repeat(userTimeSeparator) +
-                timePosted + postTime +
-                " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) +
-                border
-        );
+        System.out.println(border + whoPosted + userName + " ".repeat(userTimeSeparator) + timePosted + postTime + " ".repeat(spaceLeftForContent - userTimeTotalWidth - userTimeSeparator) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
         System.out.println("-".repeat(boxLength));
 
@@ -299,25 +293,13 @@ public class SearchPage {
         int stats1TotalWidth = commentLength + postCommentsCountLength + likeLength + postLikesCountLength;
         int stats1Padding = spaceLeftForContent - stats1TotalWidth;
         int stats1Separator = Math.max(1, stats1Padding / 3);
-        System.out.println(border +
-                comment + postCommentsCount +
-                " ".repeat(stats1Separator) +
-                like + postLikesCount +
-                " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) +
-                border
-        );
+        System.out.println(border + comment + postCommentsCount + " ".repeat(stats1Separator) + like + postLikesCount + " ".repeat(spaceLeftForContent - stats1TotalWidth - stats1Separator) + border);
 
         // Reshares and Views
         int stats2TotalWidth = reShareLength + postResharesCountLength + viewsLength + postViewCountLength;
         int stats2Padding = spaceLeftForContent - stats2TotalWidth;
         int stats2Separator = Math.max(1, stats2Padding / 3);
-        System.out.println(border +
-                reShare + postResharesCount +
-                " ".repeat(stats2Separator) +
-                views + postViewCount +
-                " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) +
-                border
-        );
+        System.out.println(border + reShare + postResharesCount + " ".repeat(stats2Separator) + views + postViewCount + " ".repeat(spaceLeftForContent - stats2TotalWidth - stats2Separator) + border);
 
         System.out.println(border + "-".repeat(spaceLeftForContent) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
@@ -329,12 +311,6 @@ public class SearchPage {
         FeedPage.printOptionRow(option7, option7Length, option8, option8Length, border, spaceLeftForContent);
 
         System.out.println("-".repeat(boxLength));
-    }
-
-
-    public static void main(String[] args) {
-        SearchPage sp = new SearchPage();
-        sp.Search();
     }
 }
 

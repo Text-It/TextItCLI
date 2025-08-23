@@ -20,14 +20,8 @@ public class ProfilePage {
         System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
         System.out.println(color("OPTIONS", PURPLE));
         System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
-        System.out.println(
-                YELLOW + "1." + RESET + " " + BLUE + "View Posts" + RESET + "    " +
-                YELLOW + "2." + RESET + " " + BLUE + "Edit Profile" + RESET + "    " +
-                YELLOW + "3." + RESET + " " + BLUE + "Settings" + RESET
-        );
-        System.out.println(
-                YELLOW + "4." + RESET + " " + RED + "Exit" + RESET
-        );
+        System.out.println(YELLOW + "1." + RESET + " " + BLUE + "View Posts" + RESET + "    " + YELLOW + "2." + RESET + " " + BLUE + "Edit Profile" + RESET + "    " + YELLOW + "3." + RESET + " " + BLUE + "Settings" + RESET);
+        System.out.println(YELLOW + "4." + RESET + " " + RED + "Exit" + RESET);
         System.out.println(BRIGHT_CYAN + BOLD + "-".repeat(borderLength) + RESET);
         while (true) {
             System.out.print(GREEN + "Enter your choice: " + RESET);
