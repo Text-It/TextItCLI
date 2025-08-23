@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Chats{
+public class Chats {
     private final DataBase dataBase = new DataBase();
 
-    public Chats()  {
+    public Chats() {
 
     }
 
@@ -39,12 +39,7 @@ public class Chats{
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Messages m = new Messages(
-                            rs.getString("sender"),
-                            rs.getString("receiver"),
-                            rs.getString("message"),
-                            rs.getString("sent_at")
-                    );
+                    Messages m = new Messages(rs.getString("sender"), rs.getString("receiver"), rs.getString("message"), rs.getString("sent_at"));
                     messages.add(m);
                 }
             }

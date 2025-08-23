@@ -7,16 +7,18 @@ import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.LoginAuth;
 import com.TextIt.service.pages.SignUpAuth;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.util.Scanner;
-import java.nio.file.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
 
 import static com.TextIt.model.utils.CommonMethods.*;
 
@@ -182,38 +184,23 @@ public class SettingsPage {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Username
-        System.out.println(
-            border + YELLOW + usernameLabel + RESET + BLUE + username + RESET + 
-            " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border
-        );
+        System.out.println(border + YELLOW + usernameLabel + RESET + BLUE + username + RESET + " ".repeat(spaceLeftForContent - (usernameLength + username.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Real Name
-        System.out.println(
-            border + YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET + 
-            " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border
-        );
+        System.out.println(border + YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET + " ".repeat(spaceLeftForContent - (realNameLength + realName.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Email
-        System.out.println(
-            border + YELLOW + emailLabel + RESET + BRIGHT_WHITE + email + RESET + 
-            " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border
-        );
+        System.out.println(border + YELLOW + emailLabel + RESET + BRIGHT_WHITE + email + RESET + " ".repeat(spaceLeftForContent - (emailLength + email.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Mobile
-        System.out.println(
-            border + YELLOW + mobileLabel + RESET + BRIGHT_WHITE + mobile + RESET + 
-            " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border
-        );
+        System.out.println(border + YELLOW + mobileLabel + RESET + BRIGHT_WHITE + mobile + RESET + " ".repeat(spaceLeftForContent - (mobileLength + mobile.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(
-            border + YELLOW + shareCodeLabel + RESET + BRIGHT_PURPLE + shareCode + RESET + 
-            " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border
-        );
+        System.out.println(border + YELLOW + shareCodeLabel + RESET + BRIGHT_PURPLE + shareCode + RESET + " ".repeat(spaceLeftForContent - (shareCodeLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
@@ -419,7 +406,7 @@ public class SettingsPage {
         int width = 60;
         String line = "═".repeat(width);
         String paddedTitle = " ".repeat((width - title.length() - 2) / 2) + title + " ".repeat((width - title.length() - 1) / 2);
-        
+
         System.out.println("╔" + line + "╗");
         System.out.println("║" + CYAN + BOLD + paddedTitle + RESET + "║");
         System.out.println("╚" + line + "╝\n");
@@ -431,11 +418,11 @@ public class SettingsPage {
             Path tempFile = Files.createTempFile("TextIt_", ".txt");
             String content = readFileContent(filePath);
             Files.writeString(tempFile, content, StandardOpenOption.WRITE);
-            
+
             // Open the file with the default system editor
             String os = System.getProperty("os.name").toLowerCase();
             ProcessBuilder pb;
-            
+
             if (os.contains("win")) {
                 // Windows
                 pb = new ProcessBuilder("notepad.exe", tempFile.toString());
@@ -446,33 +433,33 @@ public class SettingsPage {
                 // Linux/Unix
                 pb = new ProcessBuilder("xdg-open", tempFile.toString());
             }
-            
+
             // Start the process and wait for it to finish
             Process process = pb.start();
-            
+
             // Wait for the user to close the editor
             System.out.println(YELLOW + "Opening " + title + " in your default text editor..." + RESET);
             System.out.println("Please close the text editor when you're done viewing.");
             process.waitFor();
-            
+
             // Clean up the temporary file
             Files.deleteIfExists(tempFile);
-            
+
         } catch (IOException | InterruptedException e) {
             System.out.println(RED + "Error opening document: " + e.getMessage() + RESET);
             System.out.println(YELLOW + "Falling back to console display..." + RESET);
-            
+
             // Fallback to console display if opening the editor fails
             try {
                 String content = readFileContent(filePath);
                 clearScreen();
                 displayHeader(title);
-                
+
                 // Simple word wrap for console output
                 int maxWidth = 78;
                 String[] words = content.split("\\s+");
                 StringBuilder line = new StringBuilder();
-                
+
                 for (String word : words) {
                     if (line.length() + word.length() > maxWidth) {
                         System.out.println(line.toString().trim());
@@ -483,7 +470,7 @@ public class SettingsPage {
                 if (line.length() > 0) {
                     System.out.println(line.toString().trim());
                 }
-                
+
                 System.out.println("\n" + CYAN + "Press Enter to return to the previous menu..." + RESET);
                 sc.nextLine();
             } catch (Exception ex) {
@@ -503,11 +490,11 @@ public class SettingsPage {
     }
 
     private static void animateProgress(String message, int seconds, int delay) throws InterruptedException {
-        String[] spinner = new String[] { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" };
+        String[] spinner = new String[]{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"};
         long startTime = System.currentTimeMillis();
         int counter = 0;
-        
-        while (System.currentTimeMillis() - startTime < seconds * 1000) {
+
+        while (System.currentTimeMillis() - startTime < seconds * 1000L) {
             System.out.print("\r" + CYAN + spinner[counter % spinner.length] + " " + RESET + message + " ");
             Thread.sleep(delay);
             counter++;
@@ -526,26 +513,26 @@ public class SettingsPage {
         while (true) {
             clearScreen();
             displayHeader("ABOUT & LEGAL");
-            
+
             // System Information
             System.out.println(BRIGHT_PURPLE + "TextItCLI - Console Blogging Platform\n" + RESET);
             System.out.println(CYAN + "Version: " + YELLOW + "3.0.0 (2025.08.17)");
             System.out.println(CYAN + "Java Version: " + YELLOW + System.getProperty("java.version"));
             System.out.println(CYAN + "OS: " + YELLOW + System.getProperty("os.name") + " " + System.getProperty("os.version"));
             System.out.println(CYAN + "Developer: " + YELLOW + "TextIt Corporation\n");
-            
+
             // Main Menu
             System.out.println(BLUE + "DOCUMENTATION" + RESET);
             System.out.println(CYAN + "[1] " + YELLOW + "Terms of Service");
             System.out.println(CYAN + "[2] " + YELLOW + "Privacy Policy");
             System.out.println(CYAN + "[3] " + YELLOW + "Code of Conduct");
             System.out.println(CYAN + "[4] " + YELLOW + "Contributing Guidelines");
-            
+
             System.out.println("\n" + BLUE + "SUPPORT" + RESET);
             System.out.println(CYAN + "[5] " + YELLOW + "Contact Support");
             System.out.println(CYAN + "[6] " + YELLOW + "Security Information");
             System.out.println(CYAN + "[7] " + YELLOW + "Check for Updates");
-            
+
             System.out.println("\n" + BLUE + "LEGAL" + RESET);
             System.out.println(CYAN + "[8] " + YELLOW + "Open Source Licenses");
             System.out.println(CYAN + "[9] " + YELLOW + "Trademark Information");
@@ -571,10 +558,7 @@ public class SettingsPage {
                     // Create a temporary file for the support information
                     try {
                         Path tempFile = Files.createTempFile("TextIt_Support", ".txt");
-                        String supportInfo = "For support, please contact us at:\n\n" +
-                            "Email: support@textit.com\n" +
-                            "Website: https://www.textit.com/support\n\n" +
-                            "Our support team is available 24/7 to assist you with any questions or issues you may have.";
+                        String supportInfo = "For support, please contact us at:\n\n" + "Email: support@textit.com\n" + "Website: https://www.textit.com/support\n\n" + "Our support team is available 24/7 to assist you with any questions or issues you may have.";
                         Files.writeString(tempFile, supportInfo, StandardOpenOption.WRITE);
                         displayDocument("CONTACT SUPPORT", tempFile.toString());
                         Files.deleteIfExists(tempFile);
@@ -590,12 +574,12 @@ public class SettingsPage {
                     try {
                         clearScreen();
                         displayHeader("CHECK FOR UPDATES");
-                        
+
                         // Initial check
                         animateProgress("Initializing update check...", 1, 100);
-                        
+
                         // Check if Git is installed
-                        System.out.print("\n" + CYAN + "🔍 " + RESET + "Checking Git installation");
+                        System.out.print("\n" + CYAN + RESET + "Checking Git installation");
                         if (!isGitInstalled()) {
                             printStatus("Git is not installed or not in system PATH", false);
                             System.out.println(YELLOW + "\n⚠ Git is required for automatic updates." + RESET);
@@ -604,27 +588,25 @@ public class SettingsPage {
                             break;
                         }
                         printStatus("Git is installed", true);
-                        
+
                         // Fetch updates
-                        System.out.print("\n" + CYAN + "🔄 " + RESET + "Fetching latest changes");
-                        Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main")
-                            .directory(new File(System.getProperty("user.dir")))
-                            .redirectErrorStream(true)
-                            .start();
-                        
+                        System.out.print("\n" + CYAN + RESET + "Fetching latest changes");
+                        Process fetchProcess = new ProcessBuilder("git", "fetch", "origin", "main").directory(new File(System.getProperty("user.dir"))).redirectErrorStream(true).start();
+
                         // Show progress while waiting
                         new Thread(() -> {
                             try {
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(fetchProcess.getInputStream()));
                                 // Consume the output to prevent process from hanging
-                                while (reader.readLine() != null) {}
+                                while (reader.readLine() != null) {
+                                }
                             } catch (IOException e) {
                                 // Ignore
                             }
                         }).start();
-                        
+
                         int fetchExitCode = fetchProcess.waitFor();
-                        
+
                         if (fetchExitCode != 0) {
                             printStatus("Failed to fetch updates", false);
                             System.out.println(YELLOW + "\n⚠ Could not connect to update server." + RESET);
@@ -633,43 +615,36 @@ public class SettingsPage {
                             break;
                         }
                         printStatus("Fetched latest changes", true);
-                        
+
                         // Check for updates
-                        System.out.print("\n" + CYAN + "📡 " + RESET + "Checking for available updates");
-                        Process statusProcess = new ProcessBuilder("git", "status", "-uno")
-                            .directory(new File(System.getProperty("user.dir")))
-                            .redirectErrorStream(true)
-                            .start();
-                        
+                        System.out.print("\n" + CYAN + RESET + "Checking for available updates");
+                        Process statusProcess = new ProcessBuilder("git", "status", "-uno").directory(new File(System.getProperty("user.dir"))).redirectErrorStream(true).start();
+
                         String statusOutput = new String(statusProcess.getInputStream().readAllBytes());
-                        
+
                         if (statusOutput.contains("Your branch is behind")) {
                             printStatus("Updates available", true);
-                            
-                            System.out.println("\n" + YELLOW + "✨ New updates are available for TextItCLI!" + RESET);
+
+                            System.out.println("\n" + YELLOW + "New updates are available for TextItCLI!" + RESET);
                             System.out.print("\n" + PURPLE + "Do you want to update now? (y/n): " + RESET);
                             String confirm = sc.nextLine().trim().toLowerCase();
-                            
+
                             if (confirm.equals("y") || confirm.equals("yes")) {
-                                System.out.println("\n" + CYAN + "🔄 Updating TextItCLI...");
+                                System.out.println("\n" + CYAN + "Updating TextItCLI...");
                                 System.out.println(YELLOW + "$ git pull origin main" + RESET);
-                                
-                                Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main")
-                                    .directory(new File(System.getProperty("user.dir")))
-                                    .redirectErrorStream(true)
-                                    .start();
-                                
+
+                                Process pullProcess = new ProcessBuilder("git", "pull", "origin", "main").directory(new File(System.getProperty("user.dir"))).redirectErrorStream(true).start();
+
                                 // Show pull output in real-time
-                                try (BufferedReader reader = new BufferedReader(
-                                        new InputStreamReader(pullProcess.getInputStream()))) {
+                                try (BufferedReader reader = new BufferedReader(new InputStreamReader(pullProcess.getInputStream()))) {
                                     String line;
                                     while ((line = reader.readLine()) != null) {
                                         System.out.println("  " + line);
                                     }
                                 }
-                                
+
                                 int pullExitCode = pullProcess.waitFor();
-                                
+
                                 if (pullExitCode == 0) {
                                     System.out.println("\n" + GREEN + "✓ Update successful!" + RESET);
                                     System.out.println(YELLOW + "\nPlease restart TextItCLI to apply the updates." + RESET);
@@ -683,12 +658,10 @@ public class SettingsPage {
                             printStatus("You're up to date", true);
                             System.out.println("\n" + GREEN + "✓ You are using the latest version of TextItCLI!" + RESET);
                         }
-                        
-                        System.out.println("\n" + CYAN + "Last checked: " + 
-                            java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + 
-                            RESET);
+
+                        System.out.println("\n" + CYAN + "Last checked: " + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + RESET);
                         pressEnterToContinue();
-                        
+
                     } catch (Exception e) {
                         System.out.println(RED + "\n\nError checking for updates: " + e.getMessage() + RESET);
                         pressEnterToContinue();
@@ -697,12 +670,7 @@ public class SettingsPage {
                 case "8":
                     try {
                         Path tempFile = Files.createTempFile("TextIt_Licenses", ".txt");
-                        String licenses = "TextItCLI uses the following open source components:\n\n" +
-                            "1. Apache Commons Lang - Apache License 2.0\n" +
-                            "2. SQLite JDBC - MIT License\n" +
-                            "3. JLine - BSD License\n\n" +
-                            "For detailed license information, please visit:\n" +
-                            "https://www.textit.com/licenses";
+                        String licenses = "TextItCLI uses the following open source components:\n\n" + "1. Apache Commons Lang - Apache License 2.0\n" + "2. SQLite JDBC - MIT License\n" + "3. JLine - BSD License\n\n" + "For detailed license information, please visit:\n" + "https://www.textit.com/licenses";
                         Files.writeString(tempFile, licenses, StandardOpenOption.WRITE);
                         displayDocument("OPEN SOURCE LICENSES", tempFile.toString());
                         Files.deleteIfExists(tempFile);
@@ -766,9 +734,9 @@ public class SettingsPage {
         System.out.println(CYAN + "Thank you for using TextIt!" + RESET);
         pressEnterToContinue();
         File file = new File("last_session.txt");
-        if(file.delete()){
+        if (file.delete()) {
             System.out.println(RED + "Last session has been deleted" + RESET);
-        }else {
+        } else {
             System.out.println(RED + "Last session has not been deleted" + RESET);
         }
         System.exit(0);
@@ -783,7 +751,7 @@ public class SettingsPage {
         String confirmation = sc.nextLine();
 
         if ("DELETE".equals(confirmation)) {
-            try(Connection conn = DriverManager.getConnection(dataBase.getUrl(), dataBase.getUsername(), dataBase.getPassword())){
+            try (Connection conn = DriverManager.getConnection(dataBase.getUrl(), dataBase.getUsername(), dataBase.getPassword())) {
 
                 PreparedStatement ps1 = conn.prepareStatement("DELETE FROM notifications WHERE by_user_id = ?");
                 ps1.setInt(1, userID);
@@ -814,20 +782,20 @@ public class SettingsPage {
                 ps7.setInt(1, userID);
                 ps7.executeUpdate();
 
-                String query = "delete  from users where userid =? " ;
+                String query = "delete  from users where userid =? ";
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setInt(1, userID);
 
                 ps.executeUpdate();
                 File file = new File("last_session.txt");
-                if(file.delete()){
+                if (file.delete()) {
                     System.out.println(RED + "Last session has been deleted" + RESET);
-                }else {
+                } else {
                     System.out.println(RED + "Last session has not been deleted" + RESET);
                 }
             } catch (Exception e) {
                 System.out.println(RED + "Error deleting account: " + e.getMessage() + RESET);
-                throw  new RuntimeException();
+                throw new RuntimeException();
             }
             System.out.println(RED + "✓ Account deletion confirmed! (Demo)" + RESET);
         } else {

@@ -104,15 +104,16 @@ public class DoublyLinkedList<T> {
         }
         return null;
     }
-    public void display(){
-        if(head==null){
+
+    public void display() {
+        if (head == null) {
             System.out.println("The LinkedList is Empty!!");
             return;
         }
         Node<T> temp = head;
-        while (temp!=null){
-            System.out.println(temp.data+"->");
-            temp=temp.next;
+        while (temp != null) {
+            System.out.println(temp.data + "->");
+            temp = temp.next;
         }
     }
 
@@ -143,7 +144,5 @@ public class DoublyLinkedList<T> {
             this.data = data;
         }
     }
-
-
 }
 

@@ -4,7 +4,9 @@ import com.TextIt.database.DataBase;
 import com.TextIt.inbox.NotificationListener;
 import com.TextIt.security.OTPHandler;
 import com.TextIt.service.pages.SignUpAuth;
+
 import java.util.Scanner;
+
 import static com.TextIt.model.utils.CommonMethods.*;
 
 public class SignupPage {
@@ -72,7 +74,7 @@ public class SignupPage {
 
         do {
 
-            System.out.println("\n📄 Terms & Conditions");
+            System.out.println("\n  Terms & Conditions");
             System.out.println("--------------------------------------------------");
             System.out.println("By using TextIT, you agree to the following:");
             System.out.println("1. You are responsible for the content you share.");
@@ -87,15 +89,15 @@ public class SignupPage {
             System.out.println("10. All rights reserved by TextIT Corporation © 2025");
             System.out.println("--------------------------------------------------");
 
-            System.out.print("🔒 Do you accept the Terms & Conditions? (Y/N): ");
+            System.out.print("  Do you accept the Terms & Conditions? (Y/N): ");
             char agreement = scanner.nextLine().toLowerCase().charAt(0);
 
             if (!(agreement == 'y')) {
-                System.out.println("❌ Registration aborted. You must accept the Terms & Conditions to proceed.");
+                System.out.println("  Registration aborted. You must accept the Terms & Conditions to proceed.");
                 pressEnterToContinue();
             } else {
-                System.out.println("✅ Terms accepted. Proceeding with account creation...");
-                NotificationListener listener = new NotificationListener( username);
+                System.out.println("  Terms accepted. Proceeding with account creation...");
+                NotificationListener listener = new NotificationListener(username);
                 Thread t = new Thread(listener);
                 t.setDaemon(true);
                 t.start();
@@ -108,14 +110,14 @@ public class SignupPage {
         {
             DataBase db = new DataBase();
             DataBase.Profile profile = db.new Profile();
-            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email , shareCode)) {
+            if (profile.registerUser(firstName, lastName, username, password, phoneNumber, email, shareCode)) {
                 System.out.println(GREEN + BOLD + "\nSign up successful!" + RESET);
                 openInNewCMD("com.TextIt.service.pages.HomePage " + connectivity.featchId(username));
-            }
-            else {
+            } else {
                 System.out.println(RED + BOLD + "\nSign up failed. Please try again." + RESET);
                 System.out.println("If you have already registered, please login.");
             }
-            pressEnterToContinue();}
+            pressEnterToContinue();
+        }
     }
 }

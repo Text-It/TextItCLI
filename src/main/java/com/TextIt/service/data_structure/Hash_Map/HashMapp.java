@@ -1,6 +1,6 @@
 package com.TextIt.service.data_structure.Hash_Map;
 
-public class HashMapp<K,V> {
+public class HashMapp<K, V> {
     private final int CAPACITY = 16;
     public Entry[] entries = new Entry[CAPACITY];
 
@@ -10,22 +10,12 @@ public class HashMapp<K,V> {
         }
     }
 
-    static class Entry<K,V>{
-        private K key;
-        private V value;
-        Entry<K,V> next;
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
     // Hash Function
-    public int getIndex(K key){
+    public int getIndex(K key) {
         return Math.abs(key.hashCode() % CAPACITY);
     }
 
-    public void put(K key, V value){
+    public void put(K key, V value) {
         int index = getIndex(key);
 
         if (entries[index] == null) {
@@ -48,7 +38,7 @@ public class HashMapp<K,V> {
         prev.next = new Entry<>(key, value); // append new node
     }
 
-    public V get(K key){
+    public V get(K key) {
         int index = getIndex(key);
         Entry<K, V> current = entries[index];
         while (current != null) {
@@ -61,7 +51,7 @@ public class HashMapp<K,V> {
         return null;
     }
 
-    public void remove(K key){
+    public void remove(K key) {
         int index = getIndex(key);
         Entry<K, V> current = entries[index];
         Entry<K, V> prev = null;
@@ -76,6 +66,17 @@ public class HashMapp<K,V> {
             }
             prev = current;
             current = current.next;
+        }
+    }
+
+    static class Entry<K, V> {
+        Entry<K, V> next;
+        private final K key;
+        private V value;
+
+        public Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
         }
     }
 }

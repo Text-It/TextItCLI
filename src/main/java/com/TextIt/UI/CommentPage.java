@@ -43,12 +43,10 @@ public class CommentPage {
             if (buffer.isEmpty()) {
                 if (offset == 0) {
                     // no comments at all
-                    System.out.println(border + " ".repeat((spaceLeftForContent - 14) / 2) + "No Comments Yet" +
-                            " ".repeat((spaceLeftForContent - 14) / 2) + border);
+                    System.out.println(border + " ".repeat((spaceLeftForContent - 14) / 2) + "No Comments Yet" + " ".repeat((spaceLeftForContent - 14) / 2) + border);
                 } else {
                     // reached the end
-                    System.out.println(border + " ".repeat((spaceLeftForContent - 17) / 2) + "No More Comments" +
-                            " ".repeat((spaceLeftForContent - 17) / 2) + border);
+                    System.out.println(border + " ".repeat((spaceLeftForContent - 17) / 2) + "No More Comments" + " ".repeat((spaceLeftForContent - 17) / 2) + border);
                 }
             } else {
                 // Show current comment
@@ -58,8 +56,7 @@ public class CommentPage {
                 String time = comment[2];
 
                 // plain text time (no emoji)
-                System.out.println(border + " @" + user + "  " + time +
-                        " ".repeat(Math.max(0, spaceLeftForContent - (user.length() + time.length() + 3))) + border);
+                System.out.println(border + " @" + user + "  " + time + " ".repeat(Math.max(0, spaceLeftForContent - (user.length() + time.length() + 3))) + border);
 
                 CommonMethods.paragraphDisplay(text, border, spaceLeftForContent);
                 System.out.println(border + "-".repeat(spaceLeftForContent) + border);
@@ -77,10 +74,10 @@ public class CommentPage {
             int option;
             try {
                 option = sc.nextInt();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("Invalid option, try again!");
                 continue;
-            }finally {
+            } finally {
                 sc.nextLine();
             }
 
@@ -89,7 +86,7 @@ public class CommentPage {
                     System.out.print("Enter your comment: ");
                     String newComment = sc.nextLine();
                     commentdb.addComment(postID, userID, newComment);
-                    db.addNotification(userID,db.featchIdByPostId(postID),"comments", CommonMethods.featchIdForNotification(newComment,"comments"));
+                    db.addNotification(userID, db.featchIdByPostId(postID), "comments", CommonMethods.featchIdForNotification(newComment, "comments"));
                     // reset pagination after adding new comment
                     offset = 0;
                     buffer = commentdb.getComments(postID, pageSize, offset);

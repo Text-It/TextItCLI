@@ -28,7 +28,7 @@ public class SessionManger {
         SessionManger.userid = userid;
     }
 
-    public boolean autoLogin(){
+    public boolean autoLogin() {
         File file = new File("last_session.txt");
         if (file.exists()) {
             // Do auto Login()
@@ -38,34 +38,30 @@ public class SessionManger {
             } catch (FileNotFoundException e) {
                 System.out.println("File not found");
             }
-            try(BufferedReader br = new BufferedReader(fr)){
+            try (BufferedReader br = new BufferedReader(fr)) {
                 userid = Integer.parseInt(br.readLine());
 
 
-                    // Formater for the Date
-                    DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    DateTimeFormatter timeformatter = DateTimeFormatter.ofPattern("HH:mm:ss.n");
-                    // fetch Date used in file
-                    LocalDate date = LocalDate.parse(br.readLine(), dateformatter);
-                    // fetch Today Date
-                    LocalDate currentDate = LocalDate.now();
+                // Formater for the Date
+                DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeformatter = DateTimeFormatter.ofPattern("HH:mm:ss.n");
+                // fetch Date used in file
+                LocalDate date = LocalDate.parse(br.readLine(), dateformatter);
+                // fetch Today Date
+                LocalDate currentDate = LocalDate.now();
 
-                    if(date.isBefore(currentDate)){
-                        return  false;
-                    }
-                    // Fetch Time from File
-                    LocalTime time = LocalTime.parse(br.readLine(), timeformatter);
-                    // Fetch CurrentTime
-                    LocalTime currentTime = LocalTime.now();
-                    // Difference between time and currentTime Object
-                    Duration duration = Duration.between(time, currentTime);
-                    // The Session will Last 30 min and Then you have to Login again
-                    if(duration.toMinutes() > 30) {
-                        return false;
-                    }
-
-                return true;
-            }catch (Exception e){
+                if (date.isBefore(currentDate)) {
+                    return false;
+                }
+                // Fetch Time from File
+                LocalTime time = LocalTime.parse(br.readLine(), timeformatter);
+                // Fetch CurrentTime
+                LocalTime currentTime = LocalTime.now();
+                // Difference between time and currentTime Object
+                Duration duration = Duration.between(time, currentTime);
+                // The Session will Last 30 min and Then you have to Login again
+                return duration.toMinutes() <= 30;
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
@@ -77,18 +73,18 @@ public class SessionManger {
     // During First Time Login
     public void manualLogin(int user_id) {
         try {
-                BufferedWriter bw = new BufferedWriter(new FileWriter("last_session.txt"));
-                LocalDate localDate = LocalDate.now();
-                LocalTime localTime = LocalTime.now();
-                bw.write(String.valueOf(user_id));
-                bw.newLine();
-                bw.write(String.valueOf(localDate));
-                bw.newLine();
-                bw.write(String.valueOf(localTime));
-                bw.flush();
-                bw.close();
+            BufferedWriter bw = new BufferedWriter(new FileWriter("last_session.txt"));
+            LocalDate localDate = LocalDate.now();
+            LocalTime localTime = LocalTime.now();
+            bw.write(String.valueOf(user_id));
+            bw.newLine();
+            bw.write(String.valueOf(localDate));
+            bw.newLine();
+            bw.write(String.valueOf(localTime));
+            bw.flush();
+            bw.close();
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error writing to file(last_session.txt) " + e.getMessage());
         }
 

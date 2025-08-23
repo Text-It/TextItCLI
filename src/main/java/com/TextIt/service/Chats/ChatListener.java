@@ -17,7 +17,7 @@ public class ChatListener implements Runnable {
 
     public ChatListener(String username) throws Exception {
         DataBase dataBase = new DataBase();
-        this. conn = DriverManager.getConnection(dataBase.getUrl(), dataBase.getUsername(), dataBase.getPassword());
+        this.conn = DriverManager.getConnection(dataBase.getUrl(), dataBase.getUsername(), dataBase.getPassword());
 
         this.pgConn = conn.unwrap(PGConnection.class);
         this.username = username;
@@ -36,7 +36,7 @@ public class ChatListener implements Runnable {
 
                 PGNotification[] notifications = pgConn.getNotifications();
 
-                if (notifications != null ) {
+                if (notifications != null) {
                     for (PGNotification n : notifications) {
 
                         String[] parts = n.getParameter().split(":", 3);
@@ -47,9 +47,9 @@ public class ChatListener implements Runnable {
                         String msg = parts[2];
 
                         if (receiver.trim().equalsIgnoreCase(username.trim())) {
-                           // System.out.println();
-                            System.out.println(GREEN+sender + ": " + msg+RESET);
-                            System.out.print(CYAN+"> "+RESET); // restore prompt
+                            // System.out.println();
+                            System.out.println(GREEN + sender + ": " + msg + RESET);
+                            System.out.print(CYAN + "> " + RESET); // restore prompt
                         }
                     }
                 }

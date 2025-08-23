@@ -19,7 +19,7 @@ public class InboxPage {
         ps.setInt(1, userId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            System.out.println(RED+"No Notifications found"+RESET);
+            System.out.println(RED + "No Notifications found" + RESET);
             System.exit(0);
         }
         while (rs.next()) {
@@ -32,12 +32,11 @@ public class InboxPage {
 
                 ps.setInt(1, rs.getInt("ref_id"));
                 ps2.setInt(1, rs.getInt("ref_id"));
-                 ps2.executeUpdate();
+                ps2.executeUpdate();
                 ResultSet rs2 = ps.executeQuery();
-                if(rs2.next()) {
-                    System.out.println(RED + "<NOTIFICATION> " + RESET + GREEN + userDb.getUserName(rs.getInt("by_user_id")) + " send " + rs.getString("type") + " '" + rs2.getString("message") +
-                            "' to You at" + rs.getTimestamp("created_at") + RESET);
-                }else {
+                if (rs2.next()) {
+                    System.out.println(RED + "<NOTIFICATION> " + RESET + GREEN + userDb.getUserName(rs.getInt("by_user_id")) + " send " + rs.getString("type") + " '" + rs2.getString("message") + "' to You at" + rs.getTimestamp("created_at") + RESET);
+                } else {
                     System.out.println("no message found");
                     break;
                 }
@@ -48,35 +47,31 @@ public class InboxPage {
                 String query3 = "Update notifications set seen =true where ref_id = ? ";
                 PreparedStatement ps2 = conn.prepareStatement(query3);
                 ps2.setInt(1, rs.getInt("ref_id"));
-                 ps2.executeUpdate();
+                ps2.executeUpdate();
 
                 String query = "Select content from comments where c_id = ? ";
 
-                    ps = conn.prepareStatement(query);
-                    ps.setInt(1, rs.getInt("ref_id"));
-                    ResultSet rs2 = ps.executeQuery();
-                    if(rs2.next()){
-                    System.out.println(RED+"<NOTIFICATION> "+BLUE + userDb.getUserName(rs.getInt("by_user_id")) + " Commented '"+ " " + rs2.getString("content") +
-                            "' on  your Post at" + rs.getTimestamp("created_at")+RESET);
-                    }else{
-                        System.out.println("No comments found");
-                        break;
-                    }
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, rs.getInt("ref_id"));
+                ResultSet rs2 = ps.executeQuery();
+                if (rs2.next()) {
+                    System.out.println(RED + "<NOTIFICATION> " + BLUE + userDb.getUserName(rs.getInt("by_user_id")) + " Commented '" + " " + rs2.getString("content") + "' on  your Post at" + rs.getTimestamp("created_at") + RESET);
+                } else {
+                    System.out.println("No comments found");
+                    break;
+                }
             }
-            if(rs.getString("type").equalsIgnoreCase("like")) {
+            if (rs.getString("type").equalsIgnoreCase("like")) {
 
                 String query3 = "Update notifications set seen =true where ref_id = ? ";
                 PreparedStatement ps2 = conn.prepareStatement(query3);
                 ps2.setInt(1, rs.getInt("ref_id"));
                 ps2.executeUpdate();
 
-                    System.out.println(RED+"<NOTIFICATION> "+YELLOW + userDb.getUserName(rs.getInt("by_user_id")) + " Liked "+
-                            " your Post at " + rs.getTimestamp("created_at")+RESET);
+                System.out.println(RED + "<NOTIFICATION> " + YELLOW + userDb.getUserName(rs.getInt("by_user_id")) + " Liked " + " your Post at " + rs.getTimestamp("created_at") + RESET);
 
             }
         }
-
-
     }
 }
 

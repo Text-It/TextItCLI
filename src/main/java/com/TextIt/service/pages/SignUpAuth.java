@@ -187,7 +187,7 @@ public class SignUpAuth implements Authentication {
         return true;
     }
 
-    public boolean verifyRealName(String input){
+    public boolean verifyRealName(String input) {
         try {
             if (input.isEmpty()) {
                 throw new EmptyInputException("Real Name can't be empty");

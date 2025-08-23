@@ -1,7 +1,6 @@
 package com.TextIt.model.utils;
 
 import com.TextIt.database.DataBase;
-import com.TextIt.service.data_structure.linked_list.DoublyLinkedList;
 
 import java.io.File;
 import java.sql.*;
@@ -33,18 +32,17 @@ public class CommonMethods {
 
 
     public static final String CLEAR_SCREEN = "\u001B[2J\u001B[H";
-
-
+    private static final DataBase db = new DataBase();
+    public static final DataBase.UserData userdata = db.new UserData();
+    private static final DataBase.Post userpost = db.new Post();
+    private static final DataBase.UserFollows userfollows = db.new UserFollows();
     //Objects
     static Scanner scanner = new Scanner(System.in);
-    private static final DataBase db = new DataBase();
-    public static final DataBase.UserData userdata =db.new UserData();
-    private static final DataBase.Post userpost =db.new Post();
-    private static final DataBase.UserFollows userfollows =db.new UserFollows();
 
     public static void printDivider() {
         System.out.println(BRIGHT_CYAN + "-".repeat(80) + RESET);
     }
+
     public static void printChoice(int number, String description, String color) {
         System.out.println(BRIGHT_YELLOW + number + ". " + color + description + RESET);
     }
@@ -88,7 +86,7 @@ public class CommonMethods {
             new ProcessBuilder("cmd", "/c", "start", "cmd", "/k", "title " + className + " && " + command).directory(new File(workingDir)).inheritIO().start();
 
         } catch (Exception e) {
-            System.err.println("❌ Failed to launch " + className);
+            System.err.println("Failed to launch " + className);
             e.printStackTrace();
         }
     }
@@ -106,9 +104,9 @@ public class CommonMethods {
 
         for (String word : words) {
             // If adding this word would exceed the line length, start a new line
-            if (currentLineLength + word.length()  > boxWidth) {
+            if (currentLineLength + word.length() > boxWidth) {
                 // Fill the remaining space with spaces
-                while (currentLineLength -1 < boxWidth) {
+                while (currentLineLength - 1 < boxWidth) {
                     line.append(" ");
                     currentLineLength++;
                 }
@@ -117,7 +115,7 @@ public class CommonMethods {
                 line = new StringBuilder(borderDesign);
                 currentLineLength = borderDesign.length();
             }
-            
+
             // Add the word to the current line
             if (currentLineLength > borderDesign.length()) {
                 line.append(" ");
@@ -129,13 +127,14 @@ public class CommonMethods {
 
         // Handle the last line
         if (currentLineLength > borderDesign.length()) {
-            while (currentLineLength -1 < boxWidth) {
+            while (currentLineLength - 1 < boxWidth) {
                 line.append(" ");
                 currentLineLength++;
             }
             System.out.println(line + borderDesign);
         }
     }
+
     public static void userProfile(int userId) {
         int boxLength = 70;
         String border = "||";
@@ -202,24 +201,14 @@ public class CommonMethods {
         int totalPadding = spaceLeftForContent - totalContentWidth;
         int separatorWidth = Math.max(1, totalPadding / 3);
         String separator = " ".repeat(separatorWidth);
-        System.out.println(
-                border +
-                YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET +
-                separator + YELLOW + usernameLabel + RESET + BLUE + username + RESET +
-                " ".repeat(spaceLeftForContent - totalContentWidth - separatorWidth) + border
-        );
+        System.out.println(border + YELLOW + realNameLabel + RESET + BRIGHT_WHITE + realName + RESET + separator + YELLOW + usernameLabel + RESET + BLUE + username + RESET + " ".repeat(spaceLeftForContent - totalContentWidth - separatorWidth) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Gender + Location
         int genderLocationTotalWidth = genderLabel.length() + gender.length() + locationLabel.length() + location.length();
         int genderLocationPadding = spaceLeftForContent - genderLocationTotalWidth;
         int genderLocationSeparator = Math.max(1, genderLocationPadding / 3);
-        System.out.println(
-                border +
-                YELLOW + genderLabel + RESET + BRIGHT_WHITE + gender + RESET +
-                " ".repeat(genderLocationSeparator) + YELLOW + locationLabel + RESET + BRIGHT_WHITE + location + RESET +
-                " ".repeat(spaceLeftForContent - genderLocationTotalWidth - genderLocationSeparator) + border
-        );
+        System.out.println(border + YELLOW + genderLabel + RESET + BRIGHT_WHITE + gender + RESET + " ".repeat(genderLocationSeparator) + YELLOW + locationLabel + RESET + BRIGHT_WHITE + location + RESET + " ".repeat(spaceLeftForContent - genderLocationTotalWidth - genderLocationSeparator) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Bio
@@ -230,43 +219,25 @@ public class CommonMethods {
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Member Since
-        System.out.println(
-                border + YELLOW + memberSinceLabel + RESET + BRIGHT_PURPLE + memberSince + RESET +
-                " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border
-        );
+        System.out.println(border + YELLOW + memberSinceLabel + RESET + BRIGHT_PURPLE + memberSince + RESET + " ".repeat(spaceLeftForContent - (memberSinceLength + memberSince.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Posts / Following / Followers
-        int statsTotalWidth = postsLabel.length() + posts.length() + followingLabel.length() + 
-                            following.length() + followersLabel.length() + followers.length();
+        int statsTotalWidth = postsLabel.length() + posts.length() + followingLabel.length() + following.length() + followersLabel.length() + followers.length();
         int statsPadding = spaceLeftForContent - statsTotalWidth;
         int statsSeparator = Math.max(1, statsPadding / 4);
-        System.out.println(
-                border +
-                YELLOW + postsLabel + RESET + GREEN + posts + RESET +
-                " ".repeat(statsSeparator) + YELLOW + followingLabel + RESET + GREEN + following + RESET +
-                " ".repeat(statsSeparator) + YELLOW + followersLabel + RESET + GREEN + followers + RESET +
-                " ".repeat(spaceLeftForContent - statsTotalWidth - (2 * statsSeparator)) + border
-        );
+        System.out.println(border + YELLOW + postsLabel + RESET + GREEN + posts + RESET + " ".repeat(statsSeparator) + YELLOW + followingLabel + RESET + GREEN + following + RESET + " ".repeat(statsSeparator) + YELLOW + followersLabel + RESET + GREEN + followers + RESET + " ".repeat(spaceLeftForContent - statsTotalWidth - (2 * statsSeparator)) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // XP + Level
         int xpLevelTotalWidth = xpLabel.length() + xp.length() + levelLabel.length() + level.length();
         int xpLevelPadding = spaceLeftForContent - xpLevelTotalWidth;
         int xpLevelSeparator = Math.max(1, xpLevelPadding / 3);
-        System.out.println(
-                border +
-                YELLOW + xpLabel + RESET + BRIGHT_GREEN + xp + RESET +
-                " ".repeat(xpLevelSeparator) + YELLOW + levelLabel + RESET + BRIGHT_GREEN + level + RESET +
-                " ".repeat(spaceLeftForContent - xpLevelTotalWidth - xpLevelSeparator) + border
-        );
+        System.out.println(border + YELLOW + xpLabel + RESET + BRIGHT_GREEN + xp + RESET + " ".repeat(xpLevelSeparator) + YELLOW + levelLabel + RESET + BRIGHT_GREEN + level + RESET + " ".repeat(spaceLeftForContent - xpLevelTotalWidth - xpLevelSeparator) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         // Share Code
-        System.out.println(
-                border + YELLOW + shareLabel + RESET + BRIGHT_PURPLE + shareCode + RESET +
-                " ".repeat(spaceLeftForContent - (shareLength + shareCode.length())) + border
-        );
+        System.out.println(border + YELLOW + shareLabel + RESET + BRIGHT_PURPLE + shareCode + RESET + " ".repeat(spaceLeftForContent - (shareLength + shareCode.length())) + border);
         System.out.println(border + " ".repeat(spaceLeftForContent) + border);
 
         System.out.println(BRIGHT_CYAN + BOLD + "=".repeat(boxLength) + RESET);
@@ -285,6 +256,7 @@ public class CommonMethods {
             System.out.println("Unable to clear console: " + e.getMessage());
         }
     }
+
     public static void editProfile(int userId) {
         boolean editing = true;
         clearConsole();
@@ -326,10 +298,10 @@ public class CommonMethods {
 
             try {
                 choice = scanner.nextInt();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println(RED + "Invalid choice. Please try again." + RESET);
                 continue;
-            }finally {
+            } finally {
                 scanner.nextLine();
             }
 
@@ -337,40 +309,44 @@ public class CommonMethods {
                 case 1 -> {
                     System.out.print(BLUE + "Enter new First Name: " + RESET);
                     String newFirst = scanner.nextLine();
-                    if(userdata.updateFirstName(userId, newFirst)){
-                    System.out.println(GREEN + "First name updated!" + RESET);
+                    if (userdata.updateFirstName(userId, newFirst)) {
+                        System.out.println(GREEN + "First name updated!" + RESET);
                     }
                 }
                 case 2 -> {
                     System.out.print(BLUE + "Enter new Last Name: " + RESET);
                     String newLast = scanner.nextLine();
-                    if(userdata.updateLastName(userId, newLast)){
-                    System.out.println(GREEN + "Last name updated!" + RESET);}
+                    if (userdata.updateLastName(userId, newLast)) {
+                        System.out.println(GREEN + "Last name updated!" + RESET);
+                    }
                 }
                 case 3 -> {
                     System.out.print(BLUE + "Enter new Username: " + RESET);
                     String newUsername = scanner.nextLine();
-                    if (userdata.updateUserName(userId, newUsername)){
-                    System.out.println(GREEN + "Username updated!" + RESET);}
+                    if (userdata.updateUserName(userId, newUsername)) {
+                        System.out.println(GREEN + "Username updated!" + RESET);
+                    }
                 }
                 case 4 -> {
                     System.out.print(BLUE + "Enter new Gender: " + RESET);
                     String newGender = scanner.nextLine();
-                    if(userdata.updateGender(userId, newGender)) {
+                    if (userdata.updateGender(userId, newGender)) {
                         System.out.println(GREEN + "Gender updated!" + RESET);
                     }
                 }
                 case 5 -> {
                     System.out.print(BLUE + "Enter new Location: " + RESET);
                     String newLocation = scanner.nextLine();
-                    if(userdata.updateLocation(userId, newLocation)){
-                    System.out.println(GREEN + "Location updated!" + RESET);}
+                    if (userdata.updateLocation(userId, newLocation)) {
+                        System.out.println(GREEN + "Location updated!" + RESET);
+                    }
                 }
                 case 6 -> {
                     System.out.print(BLUE + "Enter new Bio: " + RESET);
                     String newBio = scanner.nextLine();
-                    if(userdata.updateBio(userId, newBio)){
-                    System.out.println(GREEN + "Bio updated!" + RESET);}
+                    if (userdata.updateBio(userId, newBio)) {
+                        System.out.println(GREEN + "Bio updated!" + RESET);
+                    }
                 }
                 case 7 -> {
                     System.out.println(YELLOW + "Exiting Edit Profile." + RESET);
@@ -382,7 +358,7 @@ public class CommonMethods {
         }
     }
 
-    public static int featchIdForNotification(String content , String type) throws SQLException {
+    public static int featchIdForNotification(String content, String type) throws SQLException {
         DataBase db = new DataBase();
         try (Connection conn = DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword())) {
             if (type.equalsIgnoreCase("message")) {
